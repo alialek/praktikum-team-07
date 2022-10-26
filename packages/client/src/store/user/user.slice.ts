@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import {
-  signin,
-  signup,
-} from './user.actions'
+import { signin, signup } from './user.actions'
 
 export interface UserState {
   isAuth: boolean
@@ -39,7 +36,7 @@ export const userSlice = createSlice({
     })
     builder.addCase(signup.fulfilled, state => {
       state.loading = false
-    })  
+    })
     builder.addCase(signup.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload as string

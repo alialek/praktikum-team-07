@@ -11,4 +11,3 @@ export interface SignupModel {
   password: string
   phone: string
 }
-
