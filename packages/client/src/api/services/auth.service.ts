@@ -1,11 +1,11 @@
 import { api, ApiResponse } from '../client'
-import { SigninModel, SignupModel } from '@/models/auth.model'
+import { SigninInputModel, SignupInputModel } from '@/models/auth.model'
 
 const AuthService = {
-  signin(data: SigninModel): Promise<ApiResponse> {
+  signin(data: SigninInputModel): Promise<ApiResponse> {
     return api.post('/auth/signin', data)
   },
-  signup(data: SignupModel): Promise<ApiResponse> {
+  signup(data: SignupInputModel): Promise<ApiResponse> {
     return api.post('/auth/signup', data)
   },
 }

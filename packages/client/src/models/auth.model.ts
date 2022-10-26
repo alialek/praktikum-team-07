@@ -1,9 +1,9 @@
-export interface SigninModel {
+export interface SigninInputModel {
   login: string
   password: string
 }
 
-export interface SignupModel {
+export interface SignupInputModel {
   first_name: string
   second_name: string
   login: string
