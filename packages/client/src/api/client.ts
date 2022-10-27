@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-
-const API_URL = 'https://ya-praktikum.tech/api/v2'
+import { API_URL } from '@/сonstants/main'
 
 export type ApiResponse<T = unknown> = AxiosResponse<T>
 
