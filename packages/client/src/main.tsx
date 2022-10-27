@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import CssBaseline from '@mui/material/CssBaseline'
-import App from './components/App'
+import { App } from './components/App'
 import store from './store/store'
 import './index.scss'
 
