@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
-import './App.css'
+import React, { useEffect } from 'react'
+import { HomePage } from '../../pages/HomePage'
+import './App.scss'
 
-function App() {
+export const App: React.FC = () => {
   useEffect(() => {
     const fetchServerData = async () => {
       const url = `http://localhost:${__SERVER_PORT__}`
@@ -12,7 +13,9 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+  return (
+    <div>
+      <HomePage />
+    </div>
+  )
 }
-
-export default App
