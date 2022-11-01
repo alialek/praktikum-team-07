@@ -1,19 +1,19 @@
 export const RootPath = {
-  path: '/',
-}
+    path: '/',
+};
 
 export const SigninPagePath = {
-  path: '/login',
-}
+    path: '/login',
+};
 
 export const SignupPagePath = {
-  path: '/register',
-}
+    path: '/register',
+};
 
 export const ProfilePagePath = {
-  path: '/profile',
-}
+    path: '/profile',
+};
 
 export const ForumPagePath = {
-  path: '/forum',
-}
+    path: '/forum',
+};

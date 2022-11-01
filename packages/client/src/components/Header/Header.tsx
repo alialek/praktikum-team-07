@@ -1,5 +1,3 @@
-import React from 'react'
+import React from 'react';
 
-export const Header: React.FC = () => {
-  return <div>Header</div>
-}
+export const Header: React.FC = () => <div>Header</div>;
