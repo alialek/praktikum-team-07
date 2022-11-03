@@ -1,40 +1,26 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import { SignupPagePath } from '@/router/paths';
+import { SigninInputModel } from '../../models/auth.model'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {Link, Button, TextField, Typography, Card, Box, Grid, Stack, CardContent, CardActions} from '@mui/material'
+import { REQUIRED_VALUE_MESSAGE, EMAIL_VALUE_MESSAGE } from "@/сonstants/main";
 
-// import Image from '../../assets/images/background.png';
 
-
-interface IFormInputs {
-    email: string
-    password: string
-  }
 const schema = yup.object({
-    email: yup.string().email().required(),
+    login: yup.string().email().required(),
     password: yup.string().required(),
   }).required();
 
-// const styles = {
-//   paperContainer: {
-//     backgroundImage: `url(${Image})`,
-    
-//   }
-// };
 
 export const SigninPage: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
+  const { register, handleSubmit, formState: { errors } } = useForm<SigninInputModel>({
     resolver: yupResolver(schema)
   });
-  const onSubmit = (data: IFormInputs) => console.log(data);
+  const onSubmit = (data: SigninInputModel) => console.log(data);
   return (
-    // <Box 
-    // component="div"
-    // style={styles.paperContainer}
-    // sx={{backgroungSize: "cover", backgroundRepeat: "no-repeat"}}>
+
     <Box 
       component="div"
       sx={{maxWidth: 552, ml: 'auto', mr: 'auto'}}
@@ -53,7 +39,8 @@ export const SigninPage: React.FC = () => {
         >
           <Grid item xs={3}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Card sx={{ minWidth: 552, padding: '50px 40px', borderRadius: '10px', }}>
+              <Card sx={{ minWidth: 552, padding: '50px 40px', borderRadius: '10px'}}>
+                
                 <CardContent>
                   <Typography 
                     fontSize={24} 
@@ -65,14 +52,14 @@ export const SigninPage: React.FC = () => {
             
                   <Stack direction="column" spacing={4}>
                     <TextField             
-                      {...register("email")}
+                      {...register("login")}
                       id="email"
                       label="Email"
                       placeholder="Email"
                       autoFocus
                       variant="outlined"
-                      error={!!errors?.email}
-                      helperText={errors.email && "Поле е-mail должно иметь корректное значение"}
+                      error={!!errors?.login}
+                      helperText={errors.login && EMAIL_VALUE_MESSAGE}
                       />
 
                     <TextField
@@ -81,7 +68,7 @@ export const SigninPage: React.FC = () => {
                       label="Пароль"
                       placeholder="Пароль"
                       error={!!errors?.password}
-                      helperText={errors.password && "Поле пароля должно быть заполнено"}
+                      helperText={errors.password && REQUIRED_VALUE_MESSAGE}
                       multiline 
                       
                       {...register("password")}/>
@@ -121,7 +108,7 @@ export const SigninPage: React.FC = () => {
         </Grid>
       </Box>
     </Box>
-  // </Box>
+ 
 
   )
 }
