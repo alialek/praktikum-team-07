@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { SigninPagePath } from '@/router/paths'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { SigninPagePath } from '@/router/paths';
 
 export const SignupPage: React.FC = () => {
   return (
@@ -8,5 +8,5 @@ export const SignupPage: React.FC = () => {
       <div>Signup page</div>
       <Link to={SigninPagePath.path}>Sign in</Link>
     </>
-  )
-}
+  );
+};
