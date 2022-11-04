@@ -7,16 +7,16 @@ dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-        },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    server: {
-        port: Number(process.env.CLIENT_PORT) || 3000,
-    },
-    define: {
-        __SERVER_PORT__: process.env.SERVER_PORT,
-    },
-    plugins: [react()],
+  },
+  server: {
+    port: Number(process.env.CLIENT_PORT) || 3000,
+  },
+  define: {
+    __SERVER_PORT__: process.env.SERVER_PORT,
+  },
+  plugins: [react()],
 });

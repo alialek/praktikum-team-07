@@ -9,10 +9,10 @@ import { store } from '@/store/store';
 import './index.scss';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <RouterProvider router={router} />
-            <CssBaseline />
-        </Provider>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      <CssBaseline />
+    </Provider>
+  </React.StrictMode>,
 );
