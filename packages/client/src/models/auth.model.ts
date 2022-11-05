@@ -11,3 +11,9 @@ export interface SignupInputModel {
   password: string;
   phone: string;
 }
+
+export interface IUser extends Omit<SignupInputModel, 'password'> {
+  id: number;
+  display_name: string;
+  avatar: string;
+}
