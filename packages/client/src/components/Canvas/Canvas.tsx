@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { MutableRefObject, useRef } from 'react';
 import { Button, Grid } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { useEffect } from 'react';
 import { useCanvas } from '@/hooks/useCanvas';
+import { Game } from '@/game/Game';
+import { PLAY_AGAIN } from '@/сonstants/game';
 
-const CanvasComponent = () => {
-  const [canvasRef, isRefreshed, setRefreshed] = useCanvas();
+export const Canvas: React.FC = () => {
+  const [canvasRef, isRunning, setIsRunning] = useCanvas({ gameClass: Game });
 
   const handleRefreshCanvas = () => {
-    setRefreshed(!isRefreshed);
+    setIsRunning(!isRunning);
   };
 
   return (
@@ -19,7 +22,7 @@ const CanvasComponent = () => {
       direction="column"
     >
       <Grid item xs={12}>
-        <canvas ref={canvasRef} width={736} height={472} />
+        <canvas ref={canvasRef} width={1000} height={472} />
       </Grid>
       <Grid item xs={12}>
         <Button
@@ -28,11 +31,9 @@ const CanvasComponent = () => {
           onClick={handleRefreshCanvas}
           startIcon={<ReplayIcon />}
         >
-          Играть еще раз
+          {PLAY_AGAIN}
         </Button>
       </Grid>
     </Grid>
   );
 };
-
-export default CanvasComponent;
