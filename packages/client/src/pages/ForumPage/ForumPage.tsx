@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { RootPath } from '@/router/paths'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { RootPath } from '@/router/paths';
 
 export const ForumPage = () => {
   return (
@@ -8,5 +8,5 @@ export const ForumPage = () => {
       <div>ForumPage</div>
       <Link to={RootPath.path}>Home</Link>
     </>
-  )
-}
+  );
+};
