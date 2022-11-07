@@ -10,5 +10,5 @@ export const HomePage: React.FC = () => {
       <Link to={ForumPagePath.path}>Forum</Link>
       <Link to={SigninPagePath.path}>SignIn</Link>
     </>
-  )
-}
+  );
+};

@@ -1,0 +1,118 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": ["./packages/**/tsconfig.json"]
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "jest": true,
+        "jest/globals": true
+    },
+    "plugins": ["@typescript-eslint", "import", "jest", "react-hooks", "prettier"],
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "airbnb-base",
+        "plugin:import/recommended",
+        "plugin:jest/recommended",
+        "plugin:jest/style",
+        "plugin:react/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "no-underscore-dangle": ["off", { "allow": ["_place"] }],
+        "no-param-reassign": [
+            "error",
+            {
+                "props": true,
+                "ignorePropertyModificationsFor": ["state"]
+            }
+        ],
+        "import/no-unresolved": [0, { "caseSensitive": false }],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": [
+                    "**/*.test.js",
+                    "**/*.spec.js",
+                    "**/*.config.ts",
+                    "**/*.test.tsx",
+                    "**/*.config.js"
+                ]
+            }
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/prop-types": "off",
+        "import/extensions": [
+            "off",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "indent": ["error", 2, { "SwitchCase": 1 }],
+        "import/prefer-default-export": "off",
+        "import/no-duplicates": "off",
+        "no-duplicate-imports": "off",
+        "@typescript-eslint/no-duplicate-imports": ["error"],
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "space-before-function-paren": "off",
+        "no-shadow": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/no-shadow": ["error"],
+        "import/no-named-as-default-member": 0,
+        "no-restricted-syntax": 0,
+        "@typescript-eslint/ban-ts-comment": [
+            "error",
+            {
+                "ts-expect-error": "allow-with-description",
+                "ts-ignore": false,
+                "ts-nocheck": true,
+                "ts-check": false,
+                "minimumDescriptionLength": 5
+            }
+        ],
+        "@typescript-eslint/array-type": [
+            "error",
+            {
+                "default": "array-simple",
+                "readonly": "generic"
+            }
+        ],
+        "@typescript-eslint/ban-types": "error",
+        "no-console": "off"
+    },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.mts", "*.cts", "*.tsx", "*.jsx", "*.js"],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "sourceType": "module",
+                "impliedStrict": true
+            },
+            "rules": {
+                "@typescript-eslint/no-var-requires": "off"
+            }
+        }
+    ],
+    "settings": {
+        "react": {
+            "pragma": "React",
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts", ".tsx"],
+                "moduleDirectory": ["node_modules", "packages/**"]
+            }
+        }
+    }
+}

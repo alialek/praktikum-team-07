@@ -1,18 +1,18 @@
-import { createBrowserRouter } from 'react-router-dom'
-import { ForumPage } from '@/pages/ForumPage'
-import { HomePage } from '@/pages/HomePage'
-import { NotFoundPage } from '@/pages/NotFoundPage'
-import { ProfilePage } from '@/pages/ProfilePage'
-import { SigninPage } from '@/pages/SigninPage'
-import { SignupPage } from '@/pages/SignupPage'
+import { createBrowserRouter } from 'react-router-dom';
+import { ForumPage } from '@/pages/ForumPage';
+import { HomePage } from '@/pages/HomePage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+import { ProfilePage } from '@/pages/ProfilePage';
+import { SigninPage } from '@/pages/SigninPage';
+import { SignupPage } from '@/pages/SignupPage';
 import {
   SigninPagePath,
   SignupPagePath,
   ProfilePagePath,
   ForumPagePath,
   RootPath,
-} from '@/router/paths'
-import { Default } from '@/layouts/Default'
+} from '@/router/paths';
+import { Default } from '@/layouts/Default';
 
 export const router = createBrowserRouter([
   {
@@ -42,4 +42,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
+]);
