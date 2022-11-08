@@ -1,5 +1,5 @@
 export interface SigninInputModel {
-  login: string;
+  email: string;
   password: string;
 }
 
