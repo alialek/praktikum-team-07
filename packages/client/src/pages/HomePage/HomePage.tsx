@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { ForumPagePath, ProfilePagePath, SigninPagePath } from '@/router/paths'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ForumPagePath, ProfilePagePath, SigninPagePath } from '@/router/paths';
 
-export const HomePage: React.FC = () => {
+export const HomePage = () => {
   return (
     <>
       <div>Home page</div>
