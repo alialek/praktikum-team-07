@@ -15,6 +15,7 @@ import {
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath } from '@/router/paths';
 import { signinFormValidationSchema } from '@/utils/formValidation';
+import { LOGIN_TEXT, NO_REGISTRATION_TEXT } from '@/сonstants/text';
 
 export const SigninPage: React.FC = () => {
   const {
@@ -45,7 +46,7 @@ export const SigninPage: React.FC = () => {
         }}
       >
         <Typography fontSize={24} fontWeight="600" padding="0 0 24px 0" align="center">
-          Вход
+          {LOGIN_TEXT}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent>
@@ -73,7 +74,7 @@ export const SigninPage: React.FC = () => {
 
               <Typography variant="caption" fontSize={15} fontWeight={700} align="center">
                 <Link href={SignupPagePath.path} underline="none">
-                  Нет аккаунта? Регистрация
+                  {NO_REGISTRATION_TEXT}
                 </Link>
               </Typography>
             </Stack>
@@ -89,7 +90,7 @@ export const SigninPage: React.FC = () => {
                 borderRadius: '10px',
               }}
             >
-              Войти
+              {LOGIN_TEXT}
             </Button>
           </CardActions>
         </form>

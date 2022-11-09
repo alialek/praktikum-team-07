@@ -4,66 +4,66 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { NavLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { AccountCircle } from '@mui/icons-material';
+import { Link } from '@mui/material';
 import {
   LeadersPagePath,
   ProfilePagePath,
   ForumPagePath,
   SigninPagePath,
 } from '@/router/paths';
+import {
+  FORUM_TEXT,
+  GAME_NAME_TEXT,
+  LEADERS_TEXT,
+  LOGOUT_TEXT,
+  PROFILE_TEXT,
+} from '@/сonstants/text';
+import { headerStyles } from './Styles';
 
 const settings = [
   {
-    title: 'ПРОФИЛЬ',
+    title: PROFILE_TEXT,
     link: ProfilePagePath.path,
   },
   {
-    title: 'ЛИДЕРЫ',
+    title: LEADERS_TEXT,
     link: LeadersPagePath.path,
   },
   {
-    title: 'ФОРУМ',
+    title: FORUM_TEXT,
     link: ForumPagePath.path,
   },
   {
-    title: 'ВЫЙТИ',
+    title: LOGOUT_TEXT,
     link: SigninPagePath.path,
   },
 ];
 
 export const Header: React.FC = () => {
   return (
-    <AppBar
-      position="sticky"
-      sx={{ backgroundColor: '#FAFAFA', boxShadow: '0px -2px 10px black' }}
-    >
+    <AppBar position="sticky" sx={headerStyles.appBar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <NavLink to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/" underline="none" component={RouterLink}>
             <Typography
               color="primary"
               sx={{
                 fontWeight: 600,
               }}
             >
-              ATOMIC CARS
+              {GAME_NAME_TEXT}
             </Typography>
-          </NavLink>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
-          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+          <Box sx={headerStyles.nav}>
             {settings.map(({ title, link }) => (
-              <NavLink to={link} style={{ textDecoration: 'none' }} key={title}>
-                <Typography
-                  color="primary"
-                  sx={{
-                    fontWeight: 600,
-                    mr: 5,
-                  }}
-                >
+              <Link to={link} underline="none" component={RouterLink} key={title}>
+                <Typography color="primary" sx={headerStyles.navItem}>
                   {title}
                 </Typography>
-              </NavLink>
+              </Link>
             ))}
 
             <AccountCircle htmlColor="#bdbdbd" fontSize="large" />
