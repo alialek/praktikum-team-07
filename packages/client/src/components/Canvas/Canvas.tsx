@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Grid } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useCanvas } from '@/hooks/useCanvas';
+import { START_GAME_TEXT } from '@/сonstants/text';
 
 const CanvasComponent = () => {
   const [canvasRef, isRefreshed, setRefreshed] = useCanvas();
@@ -28,7 +29,7 @@ const CanvasComponent = () => {
           onClick={handleRefreshCanvas}
           startIcon={<ReplayIcon />}
         >
-          Играть еще раз
+          {START_GAME_TEXT}
         </Button>
       </Grid>
     </Grid>

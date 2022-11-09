@@ -3,6 +3,13 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import CanvasComponent from '@/components/Canvas/Canvas';
+import {
+  CONTROL_TEXT,
+  PAUSE_GAME_TEXT,
+  START_GAME_TEXT,
+  WELCOME_TEXT,
+} from '@/сonstants/text';
+import { homeStyles } from './Styles';
 
 export const HomePage = () => {
   const [isStarted, setStarted] = useState<boolean>(false);
@@ -10,13 +17,7 @@ export const HomePage = () => {
   const handleStart = () => setStarted(!isStarted);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Box sx={homeStyles.boxWrapper}>
       <Grid
         container
         spacing={2}
@@ -28,24 +29,12 @@ export const HomePage = () => {
           {isStarted ? (
             <CanvasComponent />
           ) : (
-            <Box
-              sx={{
-                width: '736px',
-                height: '472px',
-                borderRadius: '32px',
-                backgroundColor: 'ActiveBorder',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                flexDirection: 'column',
-              }}
-            >
+            <Box sx={homeStyles.welcomeBox}>
               <Typography variant="h5" component="div" gutterBottom>
-                Привет, Игрок 👋
+                {WELCOME_TEXT}
               </Typography>
               <Typography variant="body2" component="div" gutterBottom>
-                Управление на клавиши W и S
+                {CONTROL_TEXT}
               </Typography>
             </Box>
           )}
@@ -58,7 +47,7 @@ export const HomePage = () => {
               onClick={handleStart}
               startIcon={<PauseIcon />}
             >
-              Пауза
+              {PAUSE_GAME_TEXT}
             </Button>
           ) : (
             <Button
@@ -67,7 +56,7 @@ export const HomePage = () => {
               onClick={handleStart}
               startIcon={<PlayArrowIcon />}
             >
-              Погнали
+              {START_GAME_TEXT}
             </Button>
           )}
         </Grid>
