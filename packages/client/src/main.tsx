@@ -8,27 +8,13 @@ import Container from '@mui/material/Container';
 import theme from './theme';
 import { router } from '@/router/router';
 import { store } from '@/store/store';
-
-import bgImg from './assets/images/background.png';
-import colors from '@/colors';
+import { mainStyles } from '../StyleMain';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Container
-          sx={{
-            minWidth: '320px',
-            height: '100%',
-            minHeight: 'calc(100vh)',
-            backgroundColor: colors.main,
-            backgroundImage: `url(${bgImg})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            maxWidth: 'none !important',
-            padding: '0 !important',
-          }}
-        >
+        <Container sx={mainStyles.main}>
           <RouterProvider router={router} />
         </Container>
         <CssBaseline />

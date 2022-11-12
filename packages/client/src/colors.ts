@@ -1,6 +1,6 @@
 export default {
-  black: '#333333',
-  white: 'white',
+  black: '#333',
+  white: '#fff',
   main: '#56CCF2',
   bgInput: '#F4F4F4',
 };

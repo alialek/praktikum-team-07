@@ -23,7 +23,7 @@ import {
 } from '@/сonstants/validationMessages';
 import * as FormValidate from '../../utils/formValidation';
 
-export const SigninPage: React.FC = () => {
+export const SigninPage = () => {
   const {
     register,
     handleSubmit,
