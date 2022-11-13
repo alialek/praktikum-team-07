@@ -4,6 +4,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { endStyles } from '@/pages/EndPage/Styles';
 import CanvasComponent from '@/components/Canvas/Canvas';
+import boomSprite from '../../img/boomSprite.png';
 import {
   PAUSE_GAME_TEXT,
   START_GAME_TEXT,
@@ -31,7 +32,7 @@ export const EndPage = () => {
             {isStarted ? (
               <CanvasComponent />
             ) : (
-              <Box sx={endStyles.welcomeBox}>
+              <Typography sx={endStyles.welcomeBox}>
                 <Box sx={endStyles.wrapperBox}>
                   <Typography variant="h5" component="div" gutterBottom>
                     {COUNT_TEXT}
@@ -43,7 +44,10 @@ export const EndPage = () => {
                 <Typography variant="h3" component="div" gutterBottom>
                   {END_TEXT}
                 </Typography>
-              </Box>
+                <Box style={endStyles.wrapperImg as React.CSSProperties}>
+                  <img style={endStyles.img as React.CSSProperties} src={boomSprite} />
+                </Box>
+              </Typography>
             )}
           </Grid>
           <Grid item xs={12}>
