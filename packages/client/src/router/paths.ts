@@ -21,3 +21,7 @@ export const ForumPagePath = {
 export const LeadersPagePath = {
   path: '/leaders',
 };
+
+export const EndPagePath = {
+  path: '/end',
+};
