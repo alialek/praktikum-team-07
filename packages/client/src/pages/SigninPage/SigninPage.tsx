@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Link } from 'react-router-dom';
 import {
-  Link,
   Button,
   TextField,
   Typography,
@@ -16,7 +16,7 @@ import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath } from '@/router/paths';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 
-export const SigninPage: React.FC = () => {
+export const SigninPage = () => {
   const {
     register,
     handleSubmit,
@@ -55,7 +55,6 @@ export const SigninPage: React.FC = () => {
                 {...register('email')}
                 id="email"
                 label="Email"
-                placeholder="Email"
                 autoFocus
                 error={!!errors?.email}
                 helperText={errors.email?.message}
@@ -65,16 +64,13 @@ export const SigninPage: React.FC = () => {
                 type="password"
                 id="outlined-textarea"
                 label="Пароль"
-                placeholder="Пароль"
                 error={!!errors?.password}
                 helperText={errors.password?.message}
                 {...register('password')}
               />
 
               <Typography variant="caption" fontSize={15} fontWeight={700} align="center">
-                <Link href={SignupPagePath.path} underline="none">
-                  Нет аккаунта? Регистрация
-                </Link>
+                <Link to={SignupPagePath.path}>Нет аккаунта? Регистрация</Link>
               </Typography>
             </Stack>
           </CardContent>

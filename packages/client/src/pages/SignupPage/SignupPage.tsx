@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   TextField,
   Typography,
   Grid,
-  Link,
   Card,
   CardContent,
   CardActions,
@@ -128,9 +128,7 @@ export const SignupPage: React.FC = () => {
               </Button>
 
               <Typography fontSize={15} fontWeight={700} align="center">
-                <Link href={SigninPagePath.path} underline="none">
-                  Войти
-                </Link>
+                <Link to={SigninPagePath.path}>Войти</Link>
               </Typography>
             </Stack>
           </CardActions>
