@@ -7,7 +7,7 @@ import {
   SigninPagePath,
 } from '@/router/paths';
 
-export const HomePage: React.FC = () => {
+export const HomePage = () => {
   return (
     <>
       <div>Home page</div>
