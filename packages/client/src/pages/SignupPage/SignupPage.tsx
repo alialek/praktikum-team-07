@@ -15,6 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { signupFormValidationSchema } from '@/utils/formValidation';
 import { SigninPagePath } from '@/router/paths';
 import { SignupInputModel } from '@/models/auth.model';
+import { LOGIN_TEXT, REGISTRATION_TEXT } from '@/сonstants/text';
 
 export const SignupPage: React.FC = () => {
   const {
@@ -51,7 +52,7 @@ export const SignupPage: React.FC = () => {
         }}
       >
         <Typography variant="h1" fontSize="24px" align="center" mb={2} fontWeight="600">
-          Регистрация
+          {REGISTRATION_TEXT}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent>
@@ -124,12 +125,12 @@ export const SignupPage: React.FC = () => {
                   borderRadius: '10px',
                 }}
               >
-                Регистрация
+                {REGISTRATION_TEXT}
               </Button>
 
               <Typography fontSize={15} fontWeight={700} align="center">
                 <Link href={SigninPagePath.path} underline="none">
-                  Войти
+                  {LOGIN_TEXT}
                 </Link>
               </Typography>
             </Stack>

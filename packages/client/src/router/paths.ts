@@ -17,3 +17,7 @@ export const ProfilePagePath = {
 export const ForumPagePath = {
   path: '/forum',
 };
+
+export const LeadersPagePath = {
+  path: '/leaders',
+};
