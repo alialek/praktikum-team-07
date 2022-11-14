@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import { useLocation } from 'react-router-dom';
 import CanvasComponent from '@/components/Canvas/Canvas';
 import {
   CONTROL_TEXT,
@@ -12,7 +13,13 @@ import {
 import { homeStyles } from './Styles';
 
 export const HomePage = () => {
-  const [isStarted, setStarted] = useState<boolean>(false);
+  const { state } = useLocation();
+  const [isStarted, setStarted] = useState(() => {
+    if (state?.previousPath === '/end') {
+      return true;
+    }
+    return false;
+  });
 
   const handleStart = () => setStarted(!isStarted);
 

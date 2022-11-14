@@ -30,6 +30,7 @@ export const endStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> 
     width: '736px',
     display: 'flex',
     flexDirection: 'column',
+    padding: '15px',
   },
   wrapperCount: {
     display: 'flex',
