@@ -1,1 +1,1 @@
-export { ToggleColorMode } from './ToggleColorMode';
+export { ToggleColorMode, ColorModeContext } from './ToggleColorMode';

@@ -1,11 +1,12 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
+import colors from '@/colors';
 
 type ClassName = 'appBar' | 'nav' | 'navItem';
 
 export const headerStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   appBar: {
-    backgroundColor: '#FAFAFA',
+    backgroundColor: colors.bgForm,
     boxShadow: '0px -2px 10px black',
   },
   nav: {

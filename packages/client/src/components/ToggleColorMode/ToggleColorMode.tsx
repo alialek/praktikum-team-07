@@ -13,7 +13,7 @@ interface IProp {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const ColorModeContext = createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 function ToggleColorMode(props: PropsWithChildren<IProp>) {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
