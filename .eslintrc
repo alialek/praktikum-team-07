@@ -1,4 +1,10 @@
 {
+    "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+    ],
     "root": true,
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
