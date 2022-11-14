@@ -1,5 +1,10 @@
 import React, { useState, useMemo, createContext, PropsWithChildren } from 'react';
-import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles';
+import {
+  StyledEngineProvider,
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from '@mui/material/styles';
 import { Shadows } from '@mui/material/styles/shadows';
 import colors from '@/colors';
 
@@ -112,9 +117,11 @@ function ToggleColorMode(props: PropsWithChildren<IProp>) {
   );
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
-    </ColorModeContext.Provider>
+    <StyledEngineProvider injectFirst>
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+      </ColorModeContext.Provider>
+    </StyledEngineProvider>
   );
 }
 
