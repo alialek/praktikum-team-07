@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { HomePage } from '../../pages/HomePage';
-import './App.scss';
+import { HomePage } from '@/pages/HomePage';
 
 export const App: React.FC = () => {
   useEffect(() => {
