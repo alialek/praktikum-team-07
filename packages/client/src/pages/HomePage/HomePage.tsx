@@ -11,7 +11,7 @@ import {
 } from '@/сonstants/text';
 import { homeStyles } from './Styles';
 
-export const HomePage: React.FC = () => {
+export const HomePage = () => {
   const [isStarted, setStarted] = useState<boolean>(false);
 
   const handleStart = () => setStarted(!isStarted);
