@@ -8,15 +8,12 @@ export const LOGIN_TEXT = 'Войти';
 // Main text
 export const GAME_NAME_TEXT = 'ATOMIC CARS';
 export const WELCOME_TEXT = 'Привет, Игрок 👋';
-export const CONTROL_TEXT = 'Управление на клавиши W и S';
-export const PAUSE_GAME_TEXT = 'Пауза';
+export const CONTROL_TEXT = 'Управление на клавиши вверх и вниз';
 
 export const NO_REGISTRATION_TEXT = 'Нет аккаунта? Регистрация';
 export const REGISTRATION_TEXT = 'Регистрация';
-export const START_GAME_TEXT = 'Играть еще раз';
 
 // auth
-
 export const AUTH_TITLE = 'Вход';
 export const AUTH_LINK_TEXT = 'Нет аккаунта? Регистрация';
 export const AUTH_BUTTON_TEXT = 'Войти';

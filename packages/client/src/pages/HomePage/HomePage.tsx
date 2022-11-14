@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import CanvasComponent from '@/components/Canvas/Canvas';
-import {
-  CONTROL_TEXT,
-  PAUSE_GAME_TEXT,
-  START_GAME_TEXT,
-  WELCOME_TEXT,
-} from '@/сonstants/text';
+import { PlayArrow } from '@mui/icons-material';
+import { Canvas } from '@/components/Canvas';
+import { PLAY_GAME } from '@/сonstants/game';
+import { CONTROL_TEXT, WELCOME_TEXT } from '@/сonstants/text';
 import { homeStyles } from './Styles';
 
 export const HomePage = () => {
   const [isStarted, setStarted] = useState<boolean>(false);
 
-  const handleStart = () => setStarted(!isStarted);
+  const handleStart = () => {
+    setStarted(!isStarted);
+  };
 
   return (
     <Box sx={homeStyles.boxWrapper}>
@@ -27,7 +24,7 @@ export const HomePage = () => {
       >
         <Grid item xs={12}>
           {isStarted ? (
-            <CanvasComponent />
+            <Canvas onStop={handleStart} />
           ) : (
             <Box sx={homeStyles.welcomeBox}>
               <Typography variant="h5" component="div" gutterBottom>
@@ -40,25 +37,16 @@ export const HomePage = () => {
           )}
         </Grid>
         <Grid item xs={12}>
-          {isStarted ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleStart}
-              startIcon={<PauseIcon />}
-            >
-              {PAUSE_GAME_TEXT}
-            </Button>
-          ) : (
+          {!isStarted ? (
             <Button
               variant="contained"
               color="primary"
               onClick={handleStart}
-              startIcon={<PlayArrowIcon />}
+              startIcon={<PlayArrow />}
             >
-              {START_GAME_TEXT}
+              {PLAY_GAME}
             </Button>
-          )}
+          ) : null}
         </Grid>
       </Grid>
     </Box>
