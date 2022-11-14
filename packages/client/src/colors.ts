@@ -4,6 +4,7 @@ export default {
   main: '#56CCF2',
   bgInput: '#F4F4F4',
   bgForm: '#FAFAFA',
+  avaBG: '#bdbdbd',
   // Success
   mainSuccess: '#66bb6a',
   lightSuccess: '#81c784',
