@@ -11,6 +11,7 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
 import { AccountCircle } from '@mui/icons-material';
 import { Link } from '@mui/material';
+import colors from '@/colors';
 import {
   LeadersPagePath,
   ProfilePagePath,
@@ -51,7 +52,7 @@ export const Header = () => {
   const colorMode = React.useContext(ColorModeContext);
 
   return (
-    <AppBar position="sticky" sx={headerStyles.appBar}>
+    <AppBar position="sticky" sx={headerStyles.appBar} color="inherit">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to="/" underline="none" component={RouterLink}>
@@ -73,7 +74,7 @@ export const Header = () => {
                 </Typography>
               </Link>
             ))}
-            <AccountCircle htmlColor="#bdbdbd" fontSize="large" />
+            <AccountCircle htmlColor={colors.avaBG} fontSize="large" />
             <IconButton
               sx={{ ml: 1 }}
               onClick={colorMode.toggleColorMode}
