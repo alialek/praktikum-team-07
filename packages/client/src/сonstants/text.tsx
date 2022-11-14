@@ -34,3 +34,11 @@ export const EMAIL_FIELD_LABEL = 'Email';
 export const PHONE_FIELD_LABEL = 'Телефон';
 export const LOGIN_FIELD_LABEL = 'Логин';
 export const PASSWORD_FIELD_LABEL = 'Пароль';
+
+// Forum page
+export const TITLE_FORUMS = 'Форумы';
+export const TITLE_THREADS = 'Темы';
+export const TITLE_ANSWER = 'Ответы';
+
+// Back Button
+export const BACK_TEXT = 'Назад';
