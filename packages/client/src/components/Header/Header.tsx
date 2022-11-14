@@ -1,6 +1,10 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -21,6 +25,7 @@ import {
   PROFILE_TEXT,
 } from '@/сonstants/text';
 import { headerStyles } from './Styles';
+import { ColorModeContext } from '@/components/ToggleColorMode';
 
 const settings = [
   {
@@ -41,7 +46,10 @@ const settings = [
   },
 ];
 
-export const Header: React.FC = () => {
+export const Header = () => {
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
+
   return (
     <AppBar position="sticky" sx={headerStyles.appBar}>
       <Container maxWidth="xl">
@@ -65,8 +73,14 @@ export const Header: React.FC = () => {
                 </Typography>
               </Link>
             ))}
-
             <AccountCircle htmlColor="#bdbdbd" fontSize="large" />
+            <IconButton
+              sx={{ ml: 1 }}
+              onClick={colorMode.toggleColorMode}
+              color="inherit"
+            >
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>
