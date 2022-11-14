@@ -6,36 +6,36 @@ const theme = responsiveFontSizes(
   createTheme({
     palette: {
       primary: {
-        main: '#56CCF2',
+        main: colors.main,
         light: '',
         dark: '',
         contrastText: '',
       },
       secondary: {
-        main: '#FFFFFF',
+        main: colors.white,
         light: '',
         dark: '',
         contrastText: '',
       },
       success: {
-        main: '#66bb6a',
-        light: '#81c784',
-        dark: '#388e3c',
+        main: colors.mainSuccess,
+        light: colors.lightSuccess,
+        dark: colors.darkSuccess,
       },
       error: {
-        main: '#f44336',
-        light: '#e57373',
-        dark: '#d32f2f',
+        main: colors.mainError,
+        light: colors.lightError,
+        dark: colors.darkError,
       },
       warning: {
-        main: '#ffa726',
-        light: '#ffb74d',
-        dark: '#f57c00',
+        main: colors.mainWarning,
+        light: colors.lightWarning,
+        dark: colors.darkWarning,
       },
       info: {
-        main: '#29b6f6',
-        light: '#4fc3f7',
-        dark: '#0288d1',
+        main: colors.mainInfo,
+        light: colors.lightInfo,
+        dark: colors.darkInfo,
       },
     },
     typography: {
