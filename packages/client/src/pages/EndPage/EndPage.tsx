@@ -4,7 +4,6 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { endStyles } from '@/pages/EndPage/Styles';
 import CanvasComponent from '@/components/Canvas/Canvas';
-import boomSprite from '../../img/boomSprite.png';
 import {
   PAUSE_GAME_TEXT,
   START_GAME_TEXT,
@@ -14,9 +13,17 @@ import {
 } from '@/сonstants/text';
 
 export const EndPage = () => {
+  const [isInitial, removeInitial] = useState<boolean>(true);
   const [isStarted, setStarted] = useState<boolean>(false);
 
-  const handleStart = () => setStarted(!isStarted);
+  function handleStartButtonClick() {
+    setStarted(!isStarted);
+    removeInitial(isInitial);
+  }
+
+  const handleStart = () => {
+    setStarted(!isStarted);
+  };
 
   return (
     <>
@@ -29,25 +36,25 @@ export const EndPage = () => {
           direction="column"
         >
           <Grid item xs={12}>
-            {isStarted ? (
-              <CanvasComponent />
+            {isInitial ? (
+              <Box sx={endStyles.welcomeBox}>
+                <Grid sx={endStyles.wrapperCount}>
+                  <Typography variant="h5">
+                    {COUNT_TEXT} {}
+                  </Typography>
+                  <Typography variant="h5">
+                    {RECORD_TEXT} {}
+                  </Typography>
+                </Grid>
+                <Grid sx={endStyles.wrapperTitle}>
+                  <Typography sx={endStyles.title} variant="h3">
+                    {END_TEXT}
+                    <Box sx={endStyles.img as React.CSSProperties} />
+                  </Typography>
+                </Grid>
+              </Box>
             ) : (
-              <Typography sx={endStyles.welcomeBox}>
-                <Box sx={endStyles.wrapperBox}>
-                  <Typography variant="h5" component="div" gutterBottom>
-                    {COUNT_TEXT}
-                  </Typography>
-                  <Typography variant="h5" component="div" gutterBottom>
-                    {RECORD_TEXT}
-                  </Typography>
-                </Box>
-                <Typography variant="h3" component="div" gutterBottom>
-                  {END_TEXT}
-                </Typography>
-                <Box style={endStyles.wrapperImg as React.CSSProperties}>
-                  <img style={endStyles.img as React.CSSProperties} src={boomSprite} />
-                </Box>
-              </Typography>
+              <CanvasComponent></CanvasComponent>
             )}
           </Grid>
           <Grid item xs={12}>
@@ -64,7 +71,7 @@ export const EndPage = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleStart}
+                onClick={handleStartButtonClick}
                 startIcon={<PlayArrowIcon />}
               >
                 {START_GAME_TEXT}

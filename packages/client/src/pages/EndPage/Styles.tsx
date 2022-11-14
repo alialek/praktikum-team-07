@@ -1,19 +1,20 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
-// import { keyframes } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import boomSprite from '../../img/boomSprite.png';
 
-type ClassName = 'boxWrapper' | 'welcomeBox' | 'wrapperBox' | 'img' | 'wrapperImg';
+type ClassName =
+  | 'boxWrapper'
+  | 'welcomeBox'
+  | 'wrapperCount'
+  | 'img'
+  | 'title'
+  | 'wrapperTitle';
 
-// const play = keyframes`
-//   100% {
-//     background-position: -1135px;
-// }`;
-//
-// const step = keyframes`
-//   100% {
-//     left: 100%;
-// }`;
+const play = keyframes`
+  100% {
+    background-position: -1135px;
+}`;
 
 export const endStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   boxWrapper: {
@@ -23,29 +24,39 @@ export const endStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> 
     height: '100vh',
   },
   welcomeBox: {
-    width: '80%',
     height: '472px',
     borderRadius: '32px',
     backgroundColor: '#1976D2',
-  },
-  wrapperBox: {
+    width: '736px',
     display: 'flex',
-    justifyContent: 'spaceAround',
+    flexDirection: 'column',
+  },
+  wrapperCount: {
+    display: 'flex',
+    justifyContent: 'space-around',
   },
   img: {
-    height: 'auto',
-    width: 'auto',
+    height: '100px',
+    width: '95px',
     position: 'absolute',
     backgroundImage: `url(${boomSprite})`,
-    backgroundPosition: '0px 0px',
-    // animation: 'play 0.8s steps(16) infinite,
-    //            step 10s linear infinite,
-    left: '0',
+    backgroundPosition: '-15px 0px',
+    animation: `${play} 0.9s steps(12) infinite`,
+    right: '0',
+    top: '-40px',
   },
-  wrapperImg: {
-    width: '80px',
-    height: '80px',
+  wrapperTitle: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
     position: 'relative',
-    overflow: 'hidden',
+  },
+  title: {
+    textAlign: 'center',
+    paddingRight: '95px',
+    position: 'relative',
+    display: 'flex',
   },
 };
