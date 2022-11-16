@@ -5,14 +5,10 @@ import { ArrowBackIos } from '@mui/icons-material';
 import { BACK_TEXT } from '@/сonstants/text';
 
 export const BackButton = (props: { color: any }) => (
-  <Link
-    to="/"
-    underline="none"
-    component={LinkBack}
-  >
+  <Link to="/" underline="none" component={LinkBack}>
     <Button
       variant="text"
-      color={props.color ? props.color : "secondary"}
+      color={props.color ? props.color : 'secondary'}
       startIcon={<ArrowBackIos />}
       style={{ textTransform: 'capitalize' }}
     >
