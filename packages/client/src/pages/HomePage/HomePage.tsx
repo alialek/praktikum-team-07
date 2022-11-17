@@ -3,23 +3,21 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { useLocation } from 'react-router-dom';
+import { EndGamePagePath } from '@/router/paths';
 import CanvasComponent from '@/components/Canvas/Canvas';
 import {
   CONTROL_TEXT,
   PAUSE_GAME_TEXT,
   START_GAME_TEXT,
   WELCOME_TEXT,
-} from '@/сonstants/text';
+} from '@/сonstants/game';
 import { homeStyles } from './Styles';
 
 export const HomePage = () => {
-  const { state } = useLocation();
-  const [isStarted, setStarted] = useState(() => {
-    if (state?.previousPath === '/end') {
-      return true;
-    }
-    return false;
-  });
+  const { state: locationState } = useLocation();
+  const [isStarted, setStarted] = useState(
+    locationState?.previousPath === EndGamePagePath.path,
+  );
 
   const handleStart = () => setStarted(!isStarted);
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Grid } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useCanvas } from '@/hooks/useCanvas';
-import { START_GAME_TEXT } from '@/сonstants/text';
+import { START_GAME_TEXT } from '@/сonstants/game';
 
 const CanvasComponent = () => {
   const [canvasRef, isRefreshed, setRefreshed] = useCanvas();

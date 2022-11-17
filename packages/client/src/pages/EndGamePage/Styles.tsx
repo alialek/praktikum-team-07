@@ -16,7 +16,7 @@ const play = keyframes`
     background-position: -1135px;
 }`;
 
-export const endStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
+export const endGameStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   boxWrapper: {
     display: 'flex',
     justifyContent: 'center',

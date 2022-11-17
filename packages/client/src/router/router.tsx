@@ -5,13 +5,13 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { SigninPage } from '@/pages/SigninPage';
 import { SignupPage } from '@/pages/SignupPage';
-import { EndPage } from '@/pages/EndPage';
+import { EndGamePage } from '@/pages/EndGamePage';
 import {
   SigninPagePath,
   SignupPagePath,
   ProfilePagePath,
   ForumPagePath,
-  EndPagePath,
+  EndGamePagePath,
   RootPath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
@@ -43,8 +43,8 @@ export const router = createBrowserRouter([
         element: <ForumPage />,
       },
       {
-        path: EndPagePath.path,
-        element: <EndPage />,
+        path: EndGamePagePath.path,
+        element: <EndGamePage />,
       },
     ],
   },

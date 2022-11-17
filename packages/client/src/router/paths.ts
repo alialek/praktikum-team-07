@@ -22,6 +22,6 @@ export const LeadersPagePath = {
   path: '/leaders',
 };
 
-export const EndPagePath = {
+export const EndGamePagePath = {
   path: '/end',
 };
