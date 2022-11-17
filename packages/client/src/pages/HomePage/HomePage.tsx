@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
 import { Canvas } from '@/components/Canvas';
 import { PLAY_GAME } from '@/сonstants/game';
 import { CONTROL_TEXT, WELCOME_TEXT } from '@/сonstants/text';
+import { EndGamePagePath } from '@/router/paths';
 import { homeStyles } from './Styles';
 
 export const HomePage = () => {
-  const [isStarted, setStarted] = useState<boolean>(false);
+  const { state: locationState } = useLocation();
+  const [isStarted, setStarted] = useState(
+    locationState?.previousPath === EndGamePagePath.path,
+  );
 
-  const handleStart = () => {
-    setStarted(!isStarted);
-  };
+  const handleStart = () => setStarted(!isStarted);
 
   return (
     <Box sx={homeStyles.boxWrapper}>
