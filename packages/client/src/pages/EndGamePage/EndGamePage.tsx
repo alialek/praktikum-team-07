@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { RootPath } from '@/router/paths';
 import { endGameStyles } from '@/pages/EndGamePage/Styles';
-import { START_GAME_TEXT, END_TEXT, RECORD_TEXT, COUNT_TEXT } from '@/сonstants/game';
+import { PLAY_GAME_AGAIN, END_TEXT, RECORD_TEXT, COUNT_TEXT } from '@/сonstants/game';
 
 export const EndGamePage = () => {
   const { pathname } = useLocation();
@@ -39,7 +39,7 @@ export const EndGamePage = () => {
             to={RootPath.path}
             state={{ previousPath: pathname }}
           >
-            {START_GAME_TEXT}
+            {PLAY_GAME_AGAIN}
           </Button>
         </Grid>
       </Grid>

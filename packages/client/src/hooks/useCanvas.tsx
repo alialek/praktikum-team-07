@@ -6,34 +6,42 @@ import {
   SetStateAction,
   Dispatch,
 } from 'react';
-// import draw from '../Game/game'; Основной движок игры
+import { GameType } from '@/game/Game';
 
-export const useCanvas = () => {
+interface UseCanvasProps {
+  GameClass: GameType;
+}
+
+export const useCanvas = ({ GameClass }: UseCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(
     null,
   ) as MutableRefObject<HTMLCanvasElement>;
-  const [isRefreshed, setRefreshed] = useState<boolean>(false);
+  const [isRunning, setIsRunning] = useState<boolean>(true);
 
   const { requestAnimationFrame, cancelAnimationFrame } = window;
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const context = canvas.getContext('2d');
 
     let animationFrameId = 0;
 
-    const render = () => {
-      // draw(context as CanvasRenderingContext2D, isRefreshed, setRefreshed);
-      // Разблокировать как появится движок
-      animationFrameId = requestAnimationFrame(render);
-    };
-    render();
+    if (context && isRunning) {
+      const game = new GameClass({ context, setIsRunning });
+
+      const render = () => {
+        game.draw();
+        game.update();
+
+        animationFrameId = requestAnimationFrame(render);
+      };
+      render();
+    }
 
     return () => cancelAnimationFrame(animationFrameId);
-  });
+  }, [isRunning, GameClass, requestAnimationFrame, cancelAnimationFrame]);
 
-  return [canvasRef, isRefreshed, setRefreshed] as [
+  return [canvasRef, isRunning, setIsRunning] as [
     MutableRefObject<HTMLCanvasElement>,
     boolean,
     Dispatch<SetStateAction<boolean>>,
