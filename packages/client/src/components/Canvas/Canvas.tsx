@@ -1,14 +1,27 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
-import ReplayIcon from '@mui/icons-material/Replay';
+import { Pause, Replay, Stop } from '@mui/icons-material';
+import { Game } from '@/game/Game';
 import { useCanvas } from '@/hooks/useCanvas';
-import { START_GAME_TEXT } from '@/сonstants/text';
+import { PAUSE_GAME, PLAY_GAME_AGAIN, STOP_GAME } from '@/сonstants/game';
 
-const CanvasComponent = () => {
-  const [canvasRef, isRefreshed, setRefreshed] = useCanvas();
+interface CanvasProps {
+  onStop: () => void;
+}
 
-  const handleRefreshCanvas = () => {
-    setRefreshed(!isRefreshed);
+export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
+  const [canvasRef, isRunning, setIsRunning] = useCanvas({ GameClass: Game });
+
+  const handlePause = () => {
+    setIsRunning(!isRunning);
+  };
+
+  const handlePlayAgain = () => {
+    setIsRunning(false);
+
+    setTimeout(() => {
+      setIsRunning(true);
+    }, 0);
   };
 
   return (
@@ -20,20 +33,36 @@ const CanvasComponent = () => {
       direction="column"
     >
       <Grid item xs={12}>
-        <canvas ref={canvasRef} width={736} height={472} />
+        <canvas ref={canvasRef} width={1000} height={472} />
       </Grid>
       <Grid item xs={12}>
         <Button
           variant="outlined"
           color="secondary"
-          onClick={handleRefreshCanvas}
-          startIcon={<ReplayIcon />}
+          onClick={handlePause}
+          startIcon={<Pause />}
         >
-          {START_GAME_TEXT}
+          {PAUSE_GAME}
+        </Button>
+
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handlePlayAgain}
+          startIcon={<Replay />}
+        >
+          {PLAY_GAME_AGAIN}
+        </Button>
+
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={onStop}
+          startIcon={<Stop />}
+        >
+          {STOP_GAME}
         </Button>
       </Grid>
     </Grid>
   );
 };
-
-export default CanvasComponent;
