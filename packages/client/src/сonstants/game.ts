@@ -8,3 +8,8 @@ export const PLAY_GAME = 'Играть';
 export const PLAY_GAME_AGAIN = 'Играть еще раз';
 export const PAUSE_GAME = 'Пауза';
 export const STOP_GAME = 'Стоп';
+
+// EndGamePage
+export const END_TEXT = 'Игра окончена';
+export const COUNT_TEXT = 'Счет игры: ';
+export const RECORD_TEXT = 'Личный рекорд: ';
