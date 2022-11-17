@@ -8,14 +8,14 @@ import {
 import { Shadows } from '@mui/material/styles/shadows';
 import colors from '@/colors';
 
-interface IProp {
+interface ToggleColorModeProps {
   children: React.ReactNode;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
-function ToggleColorMode(props: PropsWithChildren<IProp>) {
+export const ToggleColorMode = (props: PropsWithChildren<ToggleColorModeProps>) => {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
   const colorMode = useMemo(
     () => ({
@@ -123,6 +123,4 @@ function ToggleColorMode(props: PropsWithChildren<IProp>) {
       </ColorModeContext.Provider>
     </StyledEngineProvider>
   );
-}
-
-export { ToggleColorMode };
+};
