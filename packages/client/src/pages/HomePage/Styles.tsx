@@ -10,7 +10,7 @@ export const homeStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties>
     alignItems: 'center',
   },
   welcomeBox: {
-    width: '736px',
+    width: '1000px',
     height: '472px',
     borderRadius: '32px',
     backgroundColor: '#1976D2',
