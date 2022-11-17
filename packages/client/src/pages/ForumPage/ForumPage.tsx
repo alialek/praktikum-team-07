@@ -1,7 +1,8 @@
 import { Typography, Card, Divider, Grid } from '@mui/material';
 import { Forum } from '../../components/Forum/Forum';
 import { BackButton } from '@/components/BackButton';
-import { FORUM_TEXT, TITLE_FORUMS, TITLE_ANSWER, TITLE_THREADS } from '@/сonstants/text';
+import { FORUM_TEXT } from '@/сonstants/text';
+import { TITLE_FORUMS, TITLE_ANSWER, TITLE_THREADS } from '@/сonstants/forumPageText';
 
 export const ForumPage = () => {
   const forumsList = [
