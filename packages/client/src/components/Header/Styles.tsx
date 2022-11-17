@@ -7,7 +7,7 @@ type ClassName = 'appBar' | 'nav' | 'navItem';
 export const headerStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   appBar: {
     backgroundColor: white,
-    boxShadow: '0px -2px 10px black',
+    boxShadow: '0px -2px 10px #fff',
   },
   nav: {
     flexGrow: 0,
