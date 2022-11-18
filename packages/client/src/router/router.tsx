@@ -6,6 +6,7 @@ import { ProfilePage } from '@/pages/ProfilePage';
 import { SigninPage } from '@/pages/SigninPage';
 import { SignupPage } from '@/pages/SignupPage';
 import { EndGamePage } from '@/pages/EndGamePage';
+import { LeadersPage } from '@/pages/LeadersPage';
 import {
   SigninPagePath,
   SignupPagePath,
@@ -13,6 +14,7 @@ import {
   ForumPagePath,
   EndGamePagePath,
   RootPath,
+  LeadersPagePath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
 
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: EndGamePagePath.path,
         element: <EndGamePage />,
+      },
+      {
+        path: LeadersPagePath.path,
+        element: <LeadersPage />,
       },
     ],
   },

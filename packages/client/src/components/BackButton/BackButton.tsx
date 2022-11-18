@@ -5,7 +5,7 @@ import { ArrowBackIos } from '@mui/icons-material';
 import { RootPath } from '@/router/paths';
 import { BACK_TEXT } from '@/сonstants/text';
 
-export const BackButton = (props: { color: any }) => (
+export const BackButton = (props: { color?: any }) => (
   <Link to={RootPath.path} style={{ textDecoration: 'none' }}>
     <Button
       variant="text"
