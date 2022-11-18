@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Paper, SxProps, Theme } from '@mui/material';
 import { BackButton } from '@/components/BackButton';
 
-export interface PageWithBackButtonProps {
+interface PageWithBackButtonProps {
   children: React.ReactNode | React.ReactNode[];
   paperSxProps?: SxProps<Theme>;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Table,
@@ -42,11 +42,13 @@ const users: User[] = [
   { id: 3, avatar: '', name: 'Andrey', score: 5000 },
 ];
 
-export const Leaderboard: React.FC = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const usersPerPage = [10, 25, 100];
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+export const Leaderboard: React.FC = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (_: any, newPage: number) => {
     setPage(newPage);
   };
 
@@ -92,7 +94,7 @@ export const Leaderboard: React.FC = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={usersPerPage}
         component="div"
         count={users.length}
         rowsPerPage={rowsPerPage}
