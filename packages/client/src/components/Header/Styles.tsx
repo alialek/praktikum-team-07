@@ -1,11 +1,13 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
+import white from '@/colors';
 
 type ClassName = 'appBar' | 'nav' | 'navItem';
 
 export const headerStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   appBar: {
-    backgroundColor: '#FAFAFA',
+    backgroundColor: white,
+    // При передаче цвета в виде hex, перестает работать правильная отрисовка тени в даркмоде
     boxShadow: '0px -2px 10px black',
   },
   nav: {
