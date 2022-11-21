@@ -1,10 +1,10 @@
 import { PageWithBackButton } from '@/components/PageWithBackButton';
-import { Leaderboard } from './components/Leaderboard';
+import { LeaderBoard } from '@/components/LeaderBoard';
 
 export const LeadersPage = () => {
   return (
     <PageWithBackButton>
-      <Leaderboard />
+      <LeaderBoard />
     </PageWithBackButton>
   );
 };

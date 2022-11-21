@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, SxProps, Theme } from '@mui/material';
+import { Container, Paper, SxProps, Theme } from '@mui/material';
 import { BackButton } from '@/components/BackButton';
 
 interface PageWithBackButtonProps {
@@ -12,7 +12,7 @@ export const PageWithBackButton: React.FC<PageWithBackButtonProps> = ({
   paperSxProps,
 }) => {
   return (
-    <Box>
+    <Container maxWidth="lg" sx={{ py: 6 }}>
       <BackButton />
       <Paper
         sx={{
@@ -23,6 +23,6 @@ export const PageWithBackButton: React.FC<PageWithBackButtonProps> = ({
       >
         {children}
       </Paper>
-    </Box>
+    </Container>
   );
 };
