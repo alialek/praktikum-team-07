@@ -77,7 +77,7 @@ export const Profile = () => {
               <TextField
                 variant="filled"
                 type="text"
-                id="registrationFirstName"
+                id="profileFirstName"
                 label={FIRST_NAME_FIELD_LABEL}
                 {...register('first_name')}
                 error={!!errors?.first_name}
@@ -89,7 +89,7 @@ export const Profile = () => {
               <TextField
                 variant="filled"
                 type="text"
-                id="registrationSecondName"
+                id="profileSecondName"
                 label={SECOND_NAME_FIELD_LABEL}
                 {...register('second_name')}
                 error={!!errors.second_name}
@@ -100,7 +100,7 @@ export const Profile = () => {
               <TextField
                 variant="filled"
                 type="text"
-                id="registrationEmail"
+                id="profileEmail"
                 label={EMAIL_FIELD_LABEL}
                 {...register('email')}
                 error={!!errors.email}
@@ -111,7 +111,7 @@ export const Profile = () => {
               <TextField
                 variant="filled"
                 type="text"
-                id="registrationPhone"
+                id="profilePhone"
                 label={PHONE_FIELD_LABEL}
                 {...register('phone')}
                 error={!!errors.phone}
@@ -122,7 +122,7 @@ export const Profile = () => {
               <TextField
                 variant="filled"
                 type="text"
-                id="registrationLogin"
+                id="profileLogin"
                 label={LOGIN_FIELD_LABEL}
                 {...register('login')}
                 error={!!errors.login}
@@ -133,7 +133,7 @@ export const Profile = () => {
               <TextField
                 variant="filled"
                 type="password"
-                id="registrationPassword"
+                id="profilePassword"
                 label={PASSWORD_FIELD_LABEL}
                 fullWidth
                 {...register('password')}
