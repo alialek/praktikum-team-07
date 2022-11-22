@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ForumPage } from '@/pages/ForumPage';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -16,10 +16,10 @@ import {
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
 
-export const router = createBrowserRouter([
+export const router = (isLoggedIn: boolean) => [
   {
     path: RootPath.path,
-    element: <Default />,
+    element: isLoggedIn ? <Default /> : <Navigate to={SigninPagePath.path} />,
     errorElement: <NotFoundPage />,
     children: [
       {
@@ -48,4 +48,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];

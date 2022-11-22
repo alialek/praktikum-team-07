@@ -1,22 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import CssBaseline from '@mui/material/CssBaseline';
+import { useRoutes, BrowserRouter } from 'react-router-dom';
+import { Provider, useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import { ToggleColorMode } from '@/components/ToggleColorMode';
 import { router } from '@/router/router';
 import { store } from '@/store/store';
 import { mainStyles } from '../StyleMain';
 
+function App() {
+  // @ts-ignore
+  const { isLoggedIn } = useSelector((state) => state.user.isAuth);
+
+  const routing = useRoutes(router(isLoggedIn));
+
+  return routing;
+}
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ToggleColorMode>
         <Container sx={mainStyles.main}>
-          <RouterProvider router={router} />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </Container>
-        <CssBaseline />
       </ToggleColorMode>
     </Provider>
   </React.StrictMode>,
