@@ -20,6 +20,9 @@ export const REGISTRATION_TITLE = 'Регистрация';
 export const REGISTRATION_LINK_TEXT = 'Войти';
 export const REGISTRATION_BUTTON_TEXT = 'Регистрация';
 
+// profile
+export const PROFILE_CHANGE_DATA = 'Изменить данные';
+
 // login fields
 export const FIRST_NAME_FIELD_LABEL = 'Имя';
 export const SECOND_NAME_FIELD_LABEL = 'Фамилия';
