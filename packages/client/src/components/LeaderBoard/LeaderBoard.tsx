@@ -20,7 +20,7 @@ import {
 import { LeaderBoardTableHead } from './LeaderBoardTableHead';
 import { LeaderBoardTableRow } from './LeaderBoardTableRow';
 
-export const LeaderBoard: React.FC = () => {
+export const LeaderBoard = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROW_PER_PAGE);
 
