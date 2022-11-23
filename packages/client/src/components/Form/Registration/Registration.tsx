@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, CardContent, CardActions, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupFormValidationSchema } from '@/utils/formValidation';
-import { SigninPagePath } from '@/router/paths';
+import { RootPath, SigninPagePath } from '@/router/paths';
 import { SignupInputModel } from '@/models/auth.model';
 import {
   REGISTRATION_LINK_TEXT,
@@ -16,8 +17,12 @@ import {
   PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
+import { setIsLoggedIn } from '@/store/user/user.slice';
 
 export const Registration = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -28,7 +33,9 @@ export const Registration = () => {
   });
 
   const onSubmit = (data: SignupInputModel) => {
-    console.log(JSON.stringify(data, null, 2));
+    dispatch(setIsLoggedIn());
+    console.log(JSON.stringify(data));
+    navigate(RootPath.path, { replace: true });
   };
 
   return (

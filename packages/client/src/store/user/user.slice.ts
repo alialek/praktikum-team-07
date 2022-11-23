@@ -17,7 +17,11 @@ const initialState: UserState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setIsLoggedIn: (state) => {
+      state.isAuth = true;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(signin.pending, (state) => {
       state.loading = true;
@@ -44,4 +48,5 @@ export const userSlice = createSlice({
   },
 });
 
+export const { setIsLoggedIn } = userSlice.actions;
 export default userSlice.reducer;

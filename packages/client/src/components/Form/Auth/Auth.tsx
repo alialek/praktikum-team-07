@@ -1,11 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
-// import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SigninInputModel } from '@/models/auth.model';
-import { SignupPagePath } from '@/router/paths';
+import { SignupPagePath, RootPath } from '@/router/paths';
 import {
   AUTH_LINK_TEXT,
   AUTH_BUTTON_TEXT,
@@ -14,12 +13,11 @@ import {
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { signin } from '@/store/user/user.actions';
+import { setIsLoggedIn } from '@/store/user/user.slice';
 
 export const Auth = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  // const [isLoggedIn, setIsLoggedIn] = useState(user?.isAuth);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,8 +29,9 @@ export const Auth = () => {
   });
 
   const onSubmit = (data: SigninInputModel) => {
-    dispatch(signin(JSON.stringify(data)));
-    console.log(user);
+    dispatch(setIsLoggedIn());
+    console.log(JSON.stringify(data));
+    navigate(RootPath.path, { replace: true });
   };
 
   return (
