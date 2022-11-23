@@ -1,21 +1,15 @@
 import React from 'react';
 import { Avatar, TableCell, TableRow } from '@mui/material';
-
-export interface Row {
-  id: number;
-  avatar: string;
-  name: string;
-  score: number;
-}
+import { LeaderBoardRow } from './types';
 
 interface LeaderBoardTableRowProps {
-  rows: Row[];
+  rows: LeaderBoardRow[];
 }
 
 export const LeaderBoardTableRow: React.FC<LeaderBoardTableRowProps> = ({ rows }) => {
   return (
     <>
-      {rows.map((row: Row) => {
+      {rows.map((row: LeaderBoardRow) => {
         return (
           <TableRow hover key={row.id}>
             <TableCell>

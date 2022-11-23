@@ -32,7 +32,7 @@ export const LeaderBoard: React.FC = () => {
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(Number(event.target.value));
     setPage(0);
   };
   return (
