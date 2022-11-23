@@ -13,6 +13,7 @@ import {
   ForumPagePath,
   EndGamePagePath,
   RootPath,
+  AuthPath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
 
@@ -27,14 +28,6 @@ export const router = (isLoggedIn: boolean) => [
         element: <HomePage />,
       },
       {
-        path: SigninPagePath.path,
-        element: <SigninPage />,
-      },
-      {
-        path: SignupPagePath.path,
-        element: <SignupPage />,
-      },
-      {
         path: ProfilePagePath.path,
         element: <ProfilePage />,
       },
@@ -45,6 +38,21 @@ export const router = (isLoggedIn: boolean) => [
       {
         path: EndGamePagePath.path,
         element: <EndGamePage />,
+      },
+    ],
+  },
+  {
+    path: AuthPath.path,
+    element: !isLoggedIn ? <Default /> : <Navigate to={RootPath.path} />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: SigninPagePath.path,
+        element: <SigninPage />,
+      },
+      {
+        path: SignupPagePath.path,
+        element: <SignupPage />,
       },
     ],
   },

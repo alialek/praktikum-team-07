@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
+// import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath } from '@/router/paths';
 import {
@@ -12,8 +14,13 @@ import {
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
+import { signin } from '@/store/user/user.actions';
 
 export const Auth = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  // const [isLoggedIn, setIsLoggedIn] = useState(user?.isAuth);
+
   const {
     register,
     handleSubmit,
@@ -22,7 +29,12 @@ export const Auth = () => {
     resolver: yupResolver(signinFormValidationSchema),
     mode: 'onChange',
   });
-  const onSubmit = (data: SigninInputModel) => console.log(data);
+
+  const onSubmit = (data: SigninInputModel) => {
+    dispatch(signin(JSON.stringify(data)));
+    console.log(user);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent>
