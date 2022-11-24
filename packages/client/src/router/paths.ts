@@ -18,10 +18,10 @@ export const ForumPagePath = {
   path: '/forum',
 };
 
-export const LeadersPagePath = {
-  path: '/leaders',
-};
-
 export const EndGamePagePath = {
   path: '/end',
+};
+
+export const LeadersPagePath = {
+  path: '/leaders',
 };

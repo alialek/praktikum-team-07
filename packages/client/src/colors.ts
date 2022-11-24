@@ -1,3 +1,12 @@
+export type MuiColor =
+  | 'secondary'
+  | 'inherit'
+  | 'primary'
+  | 'success'
+  | 'error'
+  | 'info'
+  | 'warning';
+
 export default {
   black: '#333',
   white: '#fff',
