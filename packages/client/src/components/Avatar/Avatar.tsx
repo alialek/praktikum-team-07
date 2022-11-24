@@ -6,7 +6,7 @@ import { GET_AVATAR_URL } from '@/сonstants/main';
 import emptyAvatarImg from '../../img/emptyAvatar.svg';
 import { avatarStyles } from './Styles';
 
-type CallbackFunction = (...args: unknown[]) => void;
+type CallbackFunction = (event: React.ChangeEvent<HTMLInputElement>) => void;
 interface IProps {
   avatar: string;
   onChangeAvatar: CallbackFunction;
