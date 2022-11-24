@@ -17,3 +17,10 @@ export interface IUser extends Omit<SignupInputModel, 'password'> {
   display_name: string;
   avatar: string;
 }
+
+export interface IProfile extends SignupInputModel {
+  id: number;
+  display_name: string;
+  avatar: string;
+  passwordRepeat: string;
+}

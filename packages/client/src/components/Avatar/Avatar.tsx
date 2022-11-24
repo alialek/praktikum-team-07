@@ -4,16 +4,15 @@ import { Box } from '@mui/material';
 import { GET_AVATAR_URL } from '@/сonstants/main';
 
 import emptyAvatarImg from '../../img/emptyAvatar.svg';
-import { IUser } from '@/models/auth.model';
 import { avatarStyles } from './Styles';
 
 type CallbackFunction = (...args: unknown[]) => void;
 interface IProps {
-  data: IUser;
+  avatar: string;
   onChangeAvatar: CallbackFunction;
 }
 
-export const Avatar = ({ data: { avatar }, onChangeAvatar }: IProps): ReactJSXElement => {
+export const Avatar: React.FC<IProps> = ({ avatar, onChangeAvatar }): ReactJSXElement => {
   return (
     <Box sx={avatarStyles.boxWrapper}>
       <Box sx={avatarStyles.boxInner}>

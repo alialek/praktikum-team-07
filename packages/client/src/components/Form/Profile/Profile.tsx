@@ -11,9 +11,9 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react';
-import { signupFormValidationSchema } from '@/utils/formValidation';
+import { profileValidationSchema } from '@/utils/formValidation';
 import { RootPath } from '@/router/paths';
-import { SignupInputModel } from '@/models/auth.model';
+import { IProfile } from '@/models/auth.model';
 import {
   FIRST_NAME_FIELD_LABEL,
   SECOND_NAME_FIELD_LABEL,
@@ -34,12 +34,12 @@ export const Profile = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<SignupInputModel>({
-    resolver: yupResolver(signupFormValidationSchema),
+  } = useForm<IProfile>({
+    resolver: yupResolver(profileValidationSchema),
     mode: 'onChange',
   });
 
-  const onSubmit = (data: SignupInputModel) => {
+  const onSubmit = (data: IProfile) => {
     console.log(JSON.stringify(data, null, 2), selectedFile);
   };
 
@@ -47,16 +47,7 @@ export const Profile = () => {
     <Box sx={profileStyles.boxWrapper}>
       <Card sx={profileStyles.card}>
         <Avatar
-          data={{
-            display_name: '',
-            avatar: '',
-            id: 1,
-            first_name: '',
-            second_name: '',
-            login: '',
-            email: '',
-            phone: '',
-          }}
+          avatar=""
           onChangeAvatar={(event) => {
             const { files }: { files: FileList | null } = (
               event as React.ChangeEvent<HTMLInputElement>
@@ -71,7 +62,7 @@ export const Profile = () => {
             setSelectedFile(file);
           }}
         />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <CardContent>
             <Stack direction="column" spacing={2}>
               <TextField
@@ -140,11 +131,22 @@ export const Profile = () => {
                 error={!!errors.password}
                 helperText={errors.password?.message}
               />
+
+              <TextField
+                variant="filled"
+                type="password"
+                id="passwordRepeat"
+                label={PASSWORD_FIELD_LABEL}
+                fullWidth
+                {...register('passwordRepeat')}
+                error={!!errors.passwordRepeat}
+                helperText={errors.passwordRepeat?.message}
+              />
             </Stack>
           </CardContent>
           <CardActions>
             <Stack sx={profileStyles.btnBlock} direction="column" width="100%">
-              <Button disabled={isValid} sx={profileStyles.button}>
+              <Button disabled={!isValid} sx={profileStyles.button}>
                 {PROFILE_CHANGE_DATA}
               </Button>
 
