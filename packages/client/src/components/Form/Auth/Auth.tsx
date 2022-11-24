@@ -28,9 +28,8 @@ export const Auth = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (data: SigninInputModel) => {
+  const onSubmit = () => {
     dispatch(setIsLoggedIn());
-    console.log(JSON.stringify(data));
     navigate(RootPath.path, { replace: true });
   };
 

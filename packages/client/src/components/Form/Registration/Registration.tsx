@@ -32,9 +32,8 @@ export const Registration = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (data: SignupInputModel) => {
+  const onSubmit = () => {
     dispatch(setIsLoggedIn());
-    console.log(JSON.stringify(data));
     navigate(RootPath.path, { replace: true });
   };
 
