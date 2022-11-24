@@ -4,7 +4,7 @@ import bgForm from '../../colors';
 
 type ClassName = 'boxWrapper' | 'card' | 'title';
 
-export const formWrapperStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> =
+export const authWrapperStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> =
   {
     boxWrapper: {
       display: 'flex',
