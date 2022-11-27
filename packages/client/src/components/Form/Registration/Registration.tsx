@@ -30,7 +30,7 @@ export const Registration = () => {
   });
 
   const onSubmit = () => {
-    navigate(SigninPagePath.path, { replace: true });
+    navigate(SigninPagePath.path);
   };
 
   return (

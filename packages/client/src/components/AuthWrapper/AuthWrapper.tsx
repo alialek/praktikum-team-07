@@ -1,13 +1,13 @@
+import React from 'react';
 import { Typography, Card, Box } from '@mui/material';
-import { ReactNode } from 'react';
 import { authWrapperStyles } from '@/components/AuthWrapper/Styles';
 
-type Props = {
+interface AuthWrapperProps {
   title: string;
-  children: ReactNode;
-};
+  children: React.ReactNode | React.ReactNode[];
+}
 
-export const AuthWrapper = ({ title, children }: Props) => {
+export const AuthWrapper: React.FC<AuthWrapperProps> = ({ title, children }) => {
   return (
     <Box sx={authWrapperStyles.boxWrapper}>
       <Card sx={authWrapperStyles.card}>

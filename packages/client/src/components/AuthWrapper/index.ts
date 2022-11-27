@@ -1,1 +1,1 @@
-export { AuthWrapper } from './FormWrapper';
+export { AuthWrapper } from './AuthWrapper';
