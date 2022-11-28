@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ForumPage } from '@/pages/ForumPage';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -15,26 +15,19 @@ import {
   EndGamePagePath,
   RootPath,
   LeadersPagePath,
+  AuthPath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
 
-export const router = createBrowserRouter([
+export const router = (isLoggedIn: boolean) => [
   {
     path: RootPath.path,
-    element: <Default />,
+    element: isLoggedIn ? <Default /> : <Navigate to={SigninPagePath.path} />,
     errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
         element: <HomePage />,
-      },
-      {
-        path: SigninPagePath.path,
-        element: <SigninPage />,
-      },
-      {
-        path: SignupPagePath.path,
-        element: <SignupPage />,
       },
       {
         path: ProfilePagePath.path,
@@ -54,4 +47,19 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+  {
+    path: AuthPath.path,
+    element: !isLoggedIn ? <Default /> : <Navigate to={RootPath.path} />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: SigninPagePath.path,
+        element: <SigninPage />,
+      },
+      {
+        path: SignupPagePath.path,
+        element: <SignupPage />,
+      },
+    ],
+  },
+];

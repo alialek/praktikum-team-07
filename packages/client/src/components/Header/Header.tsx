@@ -77,7 +77,7 @@ export const Header = () => {
             <AccountCircle htmlColor={colors.avaBG} fontSize="large" />
             <IconButton
               sx={{ ml: 1 }}
-              onClick={colorMode.toggleColorMode}
+              onClick={colorMode?.toggleColorMode as () => void}
               color="inherit"
             >
               {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

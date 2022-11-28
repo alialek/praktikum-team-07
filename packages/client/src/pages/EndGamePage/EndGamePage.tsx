@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { PlayArrow } from '@mui/icons-material';
 import { RootPath } from '@/router/paths';
 import { endGameStyles } from '@/pages/EndGamePage/Styles';
 import { PLAY_GAME_AGAIN, END_TEXT, RECORD_TEXT, COUNT_TEXT } from '@/сonstants/game';
@@ -34,7 +34,7 @@ export const EndGamePage = () => {
           <Button
             variant="contained"
             color="primary"
-            startIcon={<PlayArrowIcon />}
+            startIcon={<PlayArrow />}
             component={Link}
             to={RootPath.path}
             state={{ previousPath: pathname }}
