@@ -1,0 +1,1 @@
+export { WelcomeBox } from './WelcomeBox';

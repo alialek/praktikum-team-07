@@ -3,26 +3,12 @@ import { SxProps, Theme } from '@mui/material';
 import { keyframes } from '@emotion/react';
 import boomSprite from '../../img/boomSprite.png';
 
-type ClassName =
-  | 'boxWrapper'
-  | 'welcomeBox'
-  | 'wrapperCount'
-  | 'img'
-  | 'title'
-  | 'wrapperTitle';
-
 const play = keyframes`
   100% {
     background-position: -1135px;
 }`;
 
-export const endGameStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
-  boxWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-  },
+export const endGameStyles: Record<string, SxProps<Theme> | React.CSSProperties> = {
   welcomeBox: {
     height: '472px',
     borderRadius: '32px',
