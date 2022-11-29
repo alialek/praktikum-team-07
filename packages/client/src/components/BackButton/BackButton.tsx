@@ -4,18 +4,17 @@ import { Button } from '@mui/material';
 import { ArrowBackIos } from '@mui/icons-material';
 import { RootPath } from '@/router/paths';
 import { BACK_TEXT, BACK_TEXT_ERROR } from '@/сonstants/text';
-
-interface ButtonProps {
-  color: any;
-  isNotArrow?: boolean;
-}
 import { MuiColor } from '@/colors';
 
 interface BackButtonProps {
   color?: MuiColor;
+  isNotArrow?: boolean;
 }
 
-export const BackButton: React.FC<BackButtonProps> = ({ color = 'secondary' }) => (
+export const BackButton: React.FC<BackButtonProps> = ({
+  color = 'secondary',
+  isNotArrow = false,
+}) => (
   <Link to={RootPath.path} style={{ textDecoration: 'none' }}>
     <Button
       variant="text"

@@ -21,7 +21,7 @@ export const Forum = (props: { items: any }) => {
         <List>
           {props.items.map((value: any) => (
             <>
-              <ListItem>
+              <ListItem key={value.id}>
                 <Grid item md={1}>
                   <ListItemAvatar>
                     <Avatar>

@@ -6,10 +6,34 @@ import { TITLE_FORUMS, TITLE_ANSWER, TITLE_THREADS } from '@/сonstants/forumPag
 
 export const ForumPageCard = () => {
   const forumsList = [
-    { title: '123', description: 'sun shine reggae', threads: 100, total_answer: 10 },
-    { title: '231', description: 'sun shine reggae', threads: 101, total_answer: 11 },
-    { title: '321', description: 'sun shine reggae', threads: 100, total_answer: 10 },
-    { title: '421', description: 'sun shine reggae', threads: 105, total_answer: 100 },
+    {
+      id: 1,
+      title: '123',
+      description: 'sun shine reggae',
+      threads: 100,
+      total_answer: 10,
+    },
+    {
+      id: 1,
+      title: '231',
+      description: 'sun shine reggae',
+      threads: 101,
+      total_answer: 11,
+    },
+    {
+      id: 1,
+      title: '321',
+      description: 'sun shine reggae',
+      threads: 100,
+      total_answer: 10,
+    },
+    {
+      id: 1,
+      title: '421',
+      description: 'sun shine reggae',
+      threads: 105,
+      total_answer: 100,
+    },
   ];
   return (
     <Box>
