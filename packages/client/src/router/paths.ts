@@ -2,12 +2,16 @@ export const RootPath = {
   path: '/',
 };
 
+export const AuthPath = {
+  path: '/auth',
+};
+
 export const SigninPagePath = {
-  path: '/login',
+  path: '/auth/login',
 };
 
 export const SignupPagePath = {
-  path: '/register',
+  path: '/auth/register',
 };
 
 export const ProfilePagePath = {
@@ -18,10 +22,10 @@ export const ForumPagePath = {
   path: '/forum',
 };
 
-export const LeadersPagePath = {
-  path: '/leaders',
-};
-
 export const EndGamePagePath = {
   path: '/end',
+};
+
+export const LeadersPagePath = {
+  path: '/leaders',
 };

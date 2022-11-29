@@ -8,6 +8,7 @@ export const homeStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties>
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100vh',
   },
   welcomeBox: {
     width: '1000px',

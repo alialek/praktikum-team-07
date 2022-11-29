@@ -21,7 +21,6 @@ export const REGISTRATION_LINK_TEXT = 'Войти';
 export const REGISTRATION_BUTTON_TEXT = 'Регистрация';
 
 // login fields
-
 export const FIRST_NAME_FIELD_LABEL = 'Имя';
 export const SECOND_NAME_FIELD_LABEL = 'Фамилия';
 export const EMAIL_FIELD_LABEL = 'Email';

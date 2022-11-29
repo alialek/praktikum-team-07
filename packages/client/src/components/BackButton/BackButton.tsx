@@ -9,8 +9,13 @@ interface ButtonProps {
   color: any;
   isNotArrow?: boolean;
 }
+import { MuiColor } from '@/colors';
 
-export const BackButton = ({ color, isNotArrow }: ButtonProps) => (
+interface BackButtonProps {
+  color?: MuiColor;
+}
+
+export const BackButton: React.FC<BackButtonProps> = ({ color = 'secondary' }) => (
   <Link to={RootPath.path} style={{ textDecoration: 'none' }}>
     <Button
       variant="text"
