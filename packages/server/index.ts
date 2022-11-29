@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import cors from 'cors';
-
+// import path from "path";
+// import fs from "fs";
 import express from 'express';
 import { createClientAndConnect } from './db';
 
@@ -15,6 +16,11 @@ createClientAndConnect();
 app.get('/', (_, res) => {
   res.json('👋 Howdy from the server :)');
 });
+
+// app.get('/', (_, res) => {
+//   const result = render()
+//   const template =
+// });
 
 app.listen(port, () => {
   console.log(`  ➜ 🎸 Server is listening on port: ${port}`);

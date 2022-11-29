@@ -15,7 +15,8 @@ function App() {
   return routing;
 }
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+// @ts-ignore
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ToggleColorMode>
