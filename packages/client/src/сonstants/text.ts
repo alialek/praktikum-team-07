@@ -31,3 +31,4 @@ export const PASSWORD_FIELD_LABEL = 'Пароль';
 
 // Back Button
 export const BACK_TEXT = 'Назад';
+export const BACK_TEXT_ERROR = 'Вернуться назад';

@@ -3,17 +3,22 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { ArrowBackIos } from '@mui/icons-material';
 import { RootPath } from '@/router/paths';
-import { BACK_TEXT } from '@/сonstants/text';
+import { BACK_TEXT, BACK_TEXT_ERROR } from '@/сonstants/text';
 
-export const BackButton = (props: { color: any }) => (
+interface ButtonProps {
+  color: any;
+  isNotArrow?: boolean;
+}
+
+export const BackButton = ({ color, isNotArrow }: ButtonProps) => (
   <Link to={RootPath.path} style={{ textDecoration: 'none' }}>
     <Button
       variant="text"
-      color={props.color ? props.color : 'secondary'}
-      startIcon={<ArrowBackIos />}
-      style={{ textTransform: 'capitalize' }}
+      color={color || 'secondary'}
+      startIcon={isNotArrow ? '' : <ArrowBackIos />}
+      style={{ textTransform: 'none' }}
     >
-      {BACK_TEXT}
+      {isNotArrow ? BACK_TEXT_ERROR : BACK_TEXT}
     </Button>
   </Link>
 );
