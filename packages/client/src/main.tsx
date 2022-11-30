@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { Provider, useSelector } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,8 +15,8 @@ function App() {
   return routing;
 }
 
-// @ts-ignore
-ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement).render(
+hydrateRoot(
+  document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <Provider store={store}>
       <ToggleColorMode>
