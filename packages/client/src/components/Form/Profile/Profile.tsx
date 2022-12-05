@@ -22,7 +22,7 @@ import { Avatar } from '@/components/Avatar';
 
 export const Profile = () => {
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource | null>();
-  const [edit, setEdit] = useState<boolean>(true);
+  const [edit, setEdit] = useState<boolean>(false);
 
   const {
     register,
@@ -50,7 +50,7 @@ export const Profile = () => {
   };
 
   const handleEditProfile = () => {
-    setEdit(false);
+    setEdit(true);
   };
 
   return (
@@ -60,7 +60,7 @@ export const Profile = () => {
         <CardContent>
           <Stack direction="column" spacing={2}>
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="profileFirstName"
@@ -73,7 +73,7 @@ export const Profile = () => {
             />
 
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="profileSecondName"
@@ -86,7 +86,7 @@ export const Profile = () => {
             />
 
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="profileEmail"
@@ -99,7 +99,7 @@ export const Profile = () => {
             />
 
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="profilePhone"
@@ -112,7 +112,7 @@ export const Profile = () => {
             />
 
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="profileLogin"
@@ -125,7 +125,7 @@ export const Profile = () => {
             />
 
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="profileLogin"
@@ -138,7 +138,7 @@ export const Profile = () => {
             />
 
             <TextField
-              disabled={edit}
+              disabled={!edit}
               variant="filled"
               type="text"
               id="display_name"
