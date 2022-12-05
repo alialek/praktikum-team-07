@@ -58,6 +58,10 @@ export const profileValidationSchema = Yup.object({
   phone: Yup.string()
     .required(REQUIRED_VALUE_MESSAGE)
     .matches(PHONE_REGEX, PHONE_VALUE_MESSAGE),
+  display_name: Yup.string()
+    .required(REQUIRED_VALUE_MESSAGE)
+    .min(2, `${MIN_MESSAGE}2`)
+    .max(20, `${MAX_MESSAGE}20`),
   password: Yup.string()
     .required(REQUIRED_VALUE_MESSAGE)
     .min(6, `${MIN_MESSAGE}6`)

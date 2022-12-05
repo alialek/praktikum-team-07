@@ -1,5 +1,4 @@
 import React from 'react';
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { Box } from '@mui/material';
 import { GET_AVATAR_URL } from '@/сonstants/main';
 
@@ -7,12 +6,12 @@ import emptyAvatarImg from '../../img/emptyAvatar.svg';
 import { avatarStyles } from './Styles';
 
 type CallbackFunction = (event: React.ChangeEvent<HTMLInputElement>) => void;
-interface IProps {
+interface AvatarProps {
   avatar: string;
   onChangeAvatar: CallbackFunction;
 }
 
-export const Avatar: React.FC<IProps> = ({ avatar, onChangeAvatar }): ReactJSXElement => {
+export const Avatar = ({ avatar, onChangeAvatar }: AvatarProps) => {
   return (
     <Box sx={avatarStyles.boxWrapper}>
       <Box sx={avatarStyles.boxInner}>

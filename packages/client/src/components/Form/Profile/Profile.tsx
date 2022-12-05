@@ -5,33 +5,35 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react';
 import { profileValidationSchema } from '@/utils/formValidation';
 import { RootPath } from '@/router/paths';
-import { IProfile } from '@/models/auth.model';
+import { UserModel } from '@/models/user.model';
 import {
   FIRST_NAME_FIELD_LABEL,
   SECOND_NAME_FIELD_LABEL,
   EMAIL_FIELD_LABEL,
   PHONE_FIELD_LABEL,
   LOGIN_FIELD_LABEL,
-  PASSWORD_FIELD_LABEL,
   PROFILE_CHANGE_DATA,
   BACK_TEXT,
+  DISPLAY_NAME_FIELD_LABEL,
+  EDIT_CHANGE_DATA,
 } from '@/сonstants/text';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 
 export const Profile = () => {
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource | null>();
+  const [edit, setEdit] = useState<boolean>(true);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<IProfile>({
+  } = useForm<UserModel>({
     resolver: yupResolver(profileValidationSchema),
     mode: 'onChange',
   });
 
-  const onSubmit = (data: IProfile) => {
+  const onSubmit = (data: UserModel) => {
     console.log(JSON.stringify(data, null, 2), selectedFile);
   };
 
@@ -47,6 +49,10 @@ export const Profile = () => {
     setSelectedFile(file);
   };
 
+  const handleEditProfile = () => {
+    setEdit(false);
+  };
+
   return (
     <Card sx={profileStyles.card}>
       <Avatar avatar="" onChangeAvatar={handleChangeAvatar} />
@@ -54,6 +60,7 @@ export const Profile = () => {
         <CardContent>
           <Stack direction="column" spacing={2}>
             <TextField
+              disabled={edit}
               variant="filled"
               type="text"
               id="profileFirstName"
@@ -61,11 +68,12 @@ export const Profile = () => {
               {...register('first_name')}
               error={!!errors?.first_name}
               helperText={errors.first_name?.message}
+              defaultValue="Иван"
               fullWidth
-              autoFocus
             />
 
             <TextField
+              disabled={edit}
               variant="filled"
               type="text"
               id="profileSecondName"
@@ -73,10 +81,12 @@ export const Profile = () => {
               {...register('second_name')}
               error={!!errors.second_name}
               helperText={errors.second_name?.message}
+              defaultValue="Иванов"
               fullWidth
             />
 
             <TextField
+              disabled={edit}
               variant="filled"
               type="text"
               id="profileEmail"
@@ -84,10 +94,12 @@ export const Profile = () => {
               {...register('email')}
               error={!!errors.email}
               helperText={errors.email?.message}
+              defaultValue="iivanov@ya.ru"
               fullWidth
             />
 
             <TextField
+              disabled={edit}
               variant="filled"
               type="text"
               id="profilePhone"
@@ -95,10 +107,12 @@ export const Profile = () => {
               {...register('phone')}
               error={!!errors.phone}
               helperText={errors.phone?.message}
+              defaultValue="+79036742614"
               fullWidth
             />
 
             <TextField
+              disabled={edit}
               variant="filled"
               type="text"
               id="profileLogin"
@@ -106,29 +120,34 @@ export const Profile = () => {
               {...register('login')}
               error={!!errors.login}
               helperText={errors.login?.message}
+              defaultValue="iivanov"
               fullWidth
             />
 
             <TextField
+              disabled={edit}
               variant="filled"
-              type="password"
-              id="profilePassword"
-              label={PASSWORD_FIELD_LABEL}
+              type="text"
+              id="profileLogin"
+              label={LOGIN_FIELD_LABEL}
+              {...register('login')}
+              error={!!errors.login}
+              helperText={errors.login?.message}
+              defaultValue="iivanov"
               fullWidth
-              {...register('password')}
-              error={!!errors.password}
-              helperText={errors.password?.message}
             />
 
             <TextField
+              disabled={edit}
               variant="filled"
-              type="password"
-              id="passwordRepeat"
-              label={PASSWORD_FIELD_LABEL}
+              type="text"
+              id="display_name"
+              label={DISPLAY_NAME_FIELD_LABEL}
+              {...register('display_name')}
+              error={!!errors.display_name}
+              helperText={errors.display_name?.message}
+              defaultValue="otvertka2022"
               fullWidth
-              {...register('passwordRepeat')}
-              error={!!errors.passwordRepeat}
-              helperText={errors.passwordRepeat?.message}
             />
           </Stack>
         </CardContent>
@@ -136,6 +155,10 @@ export const Profile = () => {
           <Stack sx={profileStyles.btnBlock} direction="column" width="100%">
             <Button disabled={!isValid} sx={profileStyles.button}>
               {PROFILE_CHANGE_DATA}
+            </Button>
+
+            <Button onClick={handleEditProfile} sx={profileStyles.link}>
+              {EDIT_CHANGE_DATA}
             </Button>
 
             <Button component={Link} to={RootPath.path} sx={profileStyles.link}>
