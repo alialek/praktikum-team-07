@@ -1,19 +1,9 @@
-export interface SigninInputModel {
-  email: string;
+import { UserModel } from './user.model';
+
+export interface SigninInputModel extends Pick<UserModel, 'email'> {
   password: string;
 }
 
-export interface SignupInputModel {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
+export interface SignupInputModel extends UserModel {
   password: string;
-  phone: string;
-}
-
-export interface IUser extends Omit<SignupInputModel, 'password'> {
-  id: number;
-  display_name: string;
-  avatar: string;
 }
