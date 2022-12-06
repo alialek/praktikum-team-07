@@ -29,3 +29,7 @@ export const EndGamePagePath = {
 export const LeadersPagePath = {
   path: '/leaders',
 };
+
+export const NoneExistPath = {
+  path: '*',
+};

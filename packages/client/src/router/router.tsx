@@ -16,6 +16,7 @@ import {
   RootPath,
   LeadersPagePath,
   AuthPath,
+  NoneExistPath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
 
@@ -59,6 +60,16 @@ export const router = (isLoggedIn: boolean) => [
       {
         path: SignupPagePath.path,
         element: <SignupPage />,
+      },
+    ],
+  },
+  {
+    path: NoneExistPath.path,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: NoneExistPath.path,
+        element: <NotFoundPage />,
       },
     ],
   },

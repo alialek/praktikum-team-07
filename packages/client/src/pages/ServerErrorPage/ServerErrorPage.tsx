@@ -1,12 +1,12 @@
 import React from 'react';
 import { Error } from '@/components/Error';
-import notFoundImage from '../../assets/images/Error_404.png';
+import serverErrorImage from '../../assets/images/Error_500.png';
 import { ErrorLayout } from '@/components/Error/ErrorLayout/ErrorLayout';
 
-export const NotFoundPage = () => {
+export const ServerErrorPage = () => {
   return (
     <ErrorLayout>
-      <Error image={notFoundImage} />
+      <Error image={serverErrorImage} />
     </ErrorLayout>
   );
 };

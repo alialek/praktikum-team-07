@@ -13,7 +13,7 @@ export const PageWithBackButton: React.FC<PageWithBackButtonProps> = ({
 }) => {
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
-      <BackButton />
+      <BackButton color="secondary" />
       <Paper
         sx={{
           borderRadius: '10px',
