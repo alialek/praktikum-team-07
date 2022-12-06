@@ -12,13 +12,13 @@ interface BackButtonProps {
 }
 
 export const BackButton: React.FC<BackButtonProps> = ({
-  color = 'secondary',
-  isNotArrow = false,
-}) => (
+  color,
+  isNotArrow,
+}: BackButtonProps) => (
   <Link to={RootPath.path} style={{ textDecoration: 'none' }}>
     <Button
       variant="text"
-      color={color || 'secondary'}
+      color={color}
       startIcon={isNotArrow ? '' : <ArrowBackIos />}
       style={{ textTransform: 'none' }}
     >

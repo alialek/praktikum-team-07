@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box } from '@mui/material';
 import { Error } from '@/components/Error';
 import serverErrorImage from '../../assets/images/Error_500.png';
+import { ErrorLayout } from '@/components/Error/ErrorLayout/ErrorLayout';
 
-export const ServerErrorPage = () => (
-  <Box sx={{ p: 4, background: 'white' }}>
-    <Error image={serverErrorImage} />
-  </Box>
-);
+export const ServerErrorPage = () => {
+  return (
+    <ErrorLayout>
+      <Error image={serverErrorImage} />
+    </ErrorLayout>
+  );
+};
