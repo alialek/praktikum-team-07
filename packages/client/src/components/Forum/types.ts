@@ -1,4 +1,4 @@
-export interface ForumItems {
+export interface ForumItem {
   id: number;
   title: string;
   description: string;

@@ -13,10 +13,10 @@ import {
 } from '@mui/material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { AccountCircle } from '@mui/icons-material';
-import { ForumItems } from './types';
+import { ForumItem } from './types';
 
 interface ForumItemsProps {
-  items: ForumItems[];
+  items: ForumItem[];
 }
 
 export const Forum: React.FC<ForumItemsProps> = ({ items }) => {
@@ -24,7 +24,7 @@ export const Forum: React.FC<ForumItemsProps> = ({ items }) => {
     <Grid container spacing={2}>
       <Grid item md={12}>
         <List>
-          {items.map((value: ForumItems) => (
+          {items.map((value: ForumItem) => (
             <>
               <ListItem key={value.id}>
                 <Grid item md={1}>
