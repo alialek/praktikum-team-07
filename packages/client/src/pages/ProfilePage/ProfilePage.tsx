@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { SigninPagePath } from '@/router/paths';
+import { Box } from '@mui/material';
+import { Profile } from '@/components/Form/Profile';
+import { profileStyles } from '@/components/Form/Styles';
 
 export const ProfilePage = () => {
   return (
-    <>
-      <div>ProfilePage</div>
-      <Link to={SigninPagePath.path}>Sign out</Link>
-    </>
+    <Box sx={profileStyles.boxWrapper}>
+      <Profile />
+    </Box>
   );
 };

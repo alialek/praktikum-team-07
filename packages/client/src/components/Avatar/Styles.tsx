@@ -18,8 +18,8 @@ export const avatarStyles: Record<ClassName, SxProps<Theme> | React.CSSPropertie
     display: 'block',
     cursor: 'pointer',
     margin: 'auto',
-    width: 256,
-    height: 256,
+    width: 153,
+    height: 153,
     borderRadius: 65,
     ':hover:after': {
       position: 'absolute',
@@ -40,8 +40,8 @@ export const avatarStyles: Record<ClassName, SxProps<Theme> | React.CSSPropertie
   },
   avatarInput: {
     overflow: 'hidden',
-    width: 256,
-    height: 256,
+    width: 153,
+    height: 153,
     zIndex: 2,
     cursor: 'pointer',
     position: 'absolute',

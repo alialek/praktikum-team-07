@@ -20,12 +20,17 @@ export const REGISTRATION_TITLE = 'Регистрация';
 export const REGISTRATION_LINK_TEXT = 'Войти';
 export const REGISTRATION_BUTTON_TEXT = 'Регистрация';
 
+// profile
+export const PROFILE_CHANGE_DATA = 'Изменить данные';
+export const EDIT_CHANGE_DATA = 'Редактировать данные';
+
 // login fields
 export const FIRST_NAME_FIELD_LABEL = 'Имя';
 export const SECOND_NAME_FIELD_LABEL = 'Фамилия';
 export const EMAIL_FIELD_LABEL = 'Email';
 export const PHONE_FIELD_LABEL = 'Телефон';
 export const LOGIN_FIELD_LABEL = 'Логин';
+export const DISPLAY_NAME_FIELD_LABEL = 'Отображаемое имя';
 export const PASSWORD_FIELD_LABEL = 'Пароль';
 
 // Back Button
