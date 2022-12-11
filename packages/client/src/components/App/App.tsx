@@ -1,21 +1,29 @@
-import React, { useEffect } from 'react';
-import { HomePage } from '@/pages/HomePage';
+import React from 'react';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
+import { Provider, useSelector } from 'react-redux';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import { ToggleColorMode } from '@/components/ToggleColorMode';
+import { router } from '@/router/router';
+import { RootState, store } from '@/store/store';
+import { mainStyles } from '../../../StyleMain';
 
-export const App: React.FC = () => {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      // eslint-disable-next-line no-undef
-      const url = `http://localhost:${__SERVER_PORT__}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-    };
-
-    fetchServerData();
-  }, []);
+function Main() {
+  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
+  const routing = useRoutes(router(isLoggedIn));
+  return routing;
+}
+export const App = () => {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <Provider store={store}>
+      <ToggleColorMode>
+        <Container sx={mainStyles.main}>
+          <BrowserRouter>
+            <Main />
+          </BrowserRouter>
+        </Container>
+        <CssBaseline />
+      </ToggleColorMode>
+    </Provider>
   );
 };
