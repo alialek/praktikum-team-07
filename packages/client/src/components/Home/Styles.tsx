@@ -13,4 +13,9 @@ export const homeStyles: Record<string, SxProps<Theme> | React.CSSProperties> = 
     flexWrap: 'wrap',
     flexDirection: 'column',
   },
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '16px',
+  },
 };

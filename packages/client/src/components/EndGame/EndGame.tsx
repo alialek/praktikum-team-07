@@ -5,13 +5,12 @@ import { PlayArrow } from '@mui/icons-material';
 import { RootPath } from '@/router/paths';
 import { endGameStyles } from './Styles';
 import { PLAY_GAME_AGAIN, END_TEXT, RECORD_TEXT, COUNT_TEXT } from '@/сonstants/game';
-import { WelcomeBox } from '../WelcomeBox';
 
 export const EndGame = () => {
   const { pathname } = useLocation();
 
   return (
-    <WelcomeBox>
+    <Box>
       <Box sx={endGameStyles.welcomeBox}>
         <Grid sx={endGameStyles.wrapperCount}>
           <Typography variant="h6">{COUNT_TEXT}</Typography>
@@ -24,7 +23,7 @@ export const EndGame = () => {
           </Typography>
         </Grid>
       </Box>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={endGameStyles.buttonWrapper}>
         <Button
           variant="contained"
           color="primary"
@@ -36,6 +35,6 @@ export const EndGame = () => {
           {PLAY_GAME_AGAIN}
         </Button>
       </Grid>
-    </WelcomeBox>
+    </Box>
   );
 };

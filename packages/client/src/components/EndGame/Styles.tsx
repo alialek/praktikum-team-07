@@ -46,4 +46,9 @@ export const endGameStyles: Record<string, SxProps<Theme> | React.CSSProperties>
     position: 'relative',
     display: 'flex',
   },
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '16px',
+  },
 };

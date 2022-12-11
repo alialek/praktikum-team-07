@@ -7,7 +7,6 @@ import { PLAY_GAME } from '@/сonstants/game';
 import { CONTROL_TEXT, WELCOME_TEXT } from '@/сonstants/text';
 import { EndGamePagePath } from '@/router/paths';
 import { homeStyles } from './Styles';
-import { WelcomeBox } from '@/components/WelcomeBox';
 
 export const Home = () => {
   const { state: locationState } = useLocation();
@@ -18,7 +17,7 @@ export const Home = () => {
   const handleStart = () => setStarted(!isStarted);
 
   return (
-    <WelcomeBox>
+    <Box>
       <Grid item xs={12}>
         {isStarted ? (
           <Canvas onStop={handleStart} />
@@ -33,7 +32,7 @@ export const Home = () => {
           </Box>
         )}
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={homeStyles.buttonWrapper}>
         {!isStarted ? (
           <Button
             variant="contained"
@@ -45,6 +44,6 @@ export const Home = () => {
           </Button>
         ) : null}
       </Grid>
-    </WelcomeBox>
+    </Box>
   );
 };
