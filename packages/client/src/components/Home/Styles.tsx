@@ -1,15 +1,7 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
 
-type ClassName = 'boxWrapper' | 'welcomeBox';
-
-export const homeStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
-  boxWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-  },
+export const homeStyles: Record<string, SxProps<Theme> | React.CSSProperties> = {
   welcomeBox: {
     width: '1000px',
     height: '472px',
@@ -20,5 +12,10 @@ export const homeStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties>
     alignItems: 'center',
     flexWrap: 'wrap',
     flexDirection: 'column',
+  },
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '16px',
   },
 };
