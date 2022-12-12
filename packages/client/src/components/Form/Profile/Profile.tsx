@@ -1,10 +1,20 @@
 import { Link } from 'react-router-dom';
-import { Button, TextField, Card, CardContent, CardActions, Stack } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Card,
+  CardContent,
+  CardActions,
+  Stack,
+  Box,
+  CardMedia,
+  Typography,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { profileValidationSchema } from '@/utils/formValidation';
-import { RootPath } from '@/router/paths';
+import { ChangePasswordPagePath, RootPath } from '@/router/paths';
 import { UserModel } from '@/models/user.model';
 import {
   FIRST_NAME_FIELD_LABEL,
@@ -16,13 +26,25 @@ import {
   BACK_TEXT,
   DISPLAY_NAME_FIELD_LABEL,
   EDIT_CHANGE_DATA,
+  AVATAR_TEXT,
 } from '@/сonstants/text';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
+import { ProfileService } from '@/api/services/profile';
+
+type TAvatar = {
+  lastModified: number;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+};
 
 export const Profile = () => {
-  const [selectedFile, setSelectedFile] = useState<Blob | MediaSource | null>();
+  const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
   const [edit, setEdit] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<TAvatar | null>(null);
+  const [preview, setPreview] = useState<string | undefined>();
 
   const {
     register,
@@ -33,8 +55,26 @@ export const Profile = () => {
     mode: 'onChange',
   });
 
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // eslint-disable-next-line consistent-return
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
   const onSubmit = (data: UserModel) => {
     console.log(JSON.stringify(data, null, 2), selectedFile);
+
+    const formData = new FormData();
+    formData.append('avatar', selectedFile as Blob);
+
+    ProfileService.avatar(formData);
   };
 
   const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +85,7 @@ export const Profile = () => {
     }
 
     const [file] = files;
-
+    setAvatar(file);
     setSelectedFile(file);
   };
 
@@ -56,6 +96,26 @@ export const Profile = () => {
   return (
     <Card sx={profileStyles.card}>
       <Avatar avatar="" onChangeAvatar={handleChangeAvatar} />
+      <Box sx={profileStyles.avatarBlock}>
+        {avatar ? (
+          <Card variant="outlined">
+            <CardMedia
+              component="img"
+              height="140"
+              src={preview as string}
+              alt="Новый аватар"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {AVATAR_TEXT}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {`${avatar.name} - ${(avatar.size / 1024 ** 2).toFixed(2)} MB`}
+              </Typography>
+            </CardContent>
+          </Card>
+        ) : null}
+      </Box>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <CardContent>
           <Stack direction="column" spacing={2}>
@@ -128,19 +188,6 @@ export const Profile = () => {
               disabled={!edit}
               variant="filled"
               type="text"
-              id="profileLogin"
-              label={LOGIN_FIELD_LABEL}
-              {...register('login')}
-              error={!!errors.login}
-              helperText={errors.login?.message}
-              defaultValue="iivanov"
-              fullWidth
-            />
-
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
               id="display_name"
               label={DISPLAY_NAME_FIELD_LABEL}
               {...register('display_name')}
@@ -153,12 +200,20 @@ export const Profile = () => {
         </CardContent>
         <CardActions>
           <Stack sx={profileStyles.btnBlock} direction="column" width="100%">
-            <Button disabled={!isValid} sx={profileStyles.button}>
+            <Button onClick={handleEditProfile} sx={profileStyles.link}>
+              {EDIT_CHANGE_DATA}
+            </Button>
+
+            <Button type="submit" disabled={!isValid} sx={profileStyles.button}>
               {PROFILE_CHANGE_DATA}
             </Button>
 
-            <Button onClick={handleEditProfile} sx={profileStyles.link}>
-              {EDIT_CHANGE_DATA}
+            <Button
+              component={Link}
+              to={ChangePasswordPagePath.path}
+              sx={profileStyles.button}
+            >
+              Изменить пароль
             </Button>
 
             <Button component={Link} to={RootPath.path} sx={profileStyles.link}>

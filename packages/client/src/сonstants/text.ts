@@ -23,6 +23,12 @@ export const REGISTRATION_BUTTON_TEXT = 'Регистрация';
 // profile
 export const PROFILE_CHANGE_DATA = 'Изменить данные';
 export const EDIT_CHANGE_DATA = 'Редактировать данные';
+export const AVATAR_TEXT = 'Загружаемый аватар';
+
+// change password
+export const FIRST_PASSWORD_FIELD_LABEL = 'Старый пароль';
+export const SECOND_PASSWORD_FIELD_LABEL = 'Новый пароль';
+export const REPEAT_PASSWORD_FIELD_LABEL = 'Повторите новый пароль';
 
 // login fields
 export const FIRST_NAME_FIELD_LABEL = 'Имя';
