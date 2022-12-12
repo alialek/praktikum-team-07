@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { ToggleColorMode } from '@/components/ToggleColorMode';
+import { useAppSelector } from '@/hooks';
 import { router } from '@/router/router';
 import { RootState, store } from '@/store/store';
 import { mainStyles } from '../StyleMain';
 
 function App() {
-  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
+  const isLoggedIn = useAppSelector((state: RootState) => state.user.isAuth);
+
   const routing = useRoutes(router(isLoggedIn));
+
   return routing;
 }
 

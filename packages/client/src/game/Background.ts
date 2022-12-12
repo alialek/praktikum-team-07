@@ -17,15 +17,25 @@ export class Background {
 
   backgroundFrame: number;
 
-  constructor(game: Game, backgroundImageSrc: string) {
+  constructor({
+    game,
+    backgroundImageSrc,
+    width,
+    height,
+  }: {
+    game: Game;
+    backgroundImageSrc: string;
+    width: number;
+    height: number;
+  }) {
     this.game = game;
     this.ctx = this.game.context;
     this.image = new Image();
     this.image.src = backgroundImageSrc;
     this.x = 0;
     this.y = 0;
-    this.width = 8390;
-    this.height = 472;
+    this.width = width;
+    this.height = height;
     this.backgroundFrame = 0;
   }
 

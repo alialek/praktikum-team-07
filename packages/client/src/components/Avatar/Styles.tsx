@@ -1,6 +1,6 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
-import editAvatarIcon from '@/img/edit.svg';
+import editAvatarIcon from '@/assets/images/edit.svg';
 
 type ClassName = 'boxWrapper' | 'boxInner' | 'avatarInput' | 'img';
 

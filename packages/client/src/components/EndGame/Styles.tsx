@@ -1,7 +1,7 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
 import { keyframes } from '@emotion/react';
-import boomSprite from '../../img/boomSprite.png';
+import boomSprite from '@/assets/images/gameCollision.png';
 
 const play = keyframes`
   100% {

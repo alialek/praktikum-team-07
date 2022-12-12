@@ -13,3 +13,16 @@ export const STOP_GAME = 'Стоп';
 export const END_TEXT = 'Игра окончена';
 export const COUNT_TEXT = 'Счет игры: ';
 export const RECORD_TEXT = 'Личный рекорд: ';
+
+export const BACKGROUND_SPRITE_WIDTH = 8390;
+export const BACKGROUND_SPRITE_HEIGHT = 472;
+
+export const PLAYER_SPRITE_WIDTH = 244;
+export const PLAYER_SPRITE_HEIGHT = 205;
+
+export const ENEMY_SPRITE_WIDTH = 244;
+export const ENEMY_SPRITE_HEIGHT = 208;
+
+export const COLLISION_SPRITE_WIDTH = 96;
+export const COLLISION_SPRITE_HEIGHT = 96;
+export const COLLISION_MAX_FRAME = 12;

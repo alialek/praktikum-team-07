@@ -2,16 +2,17 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { GET_AVATAR_URL } from '@/сonstants/main';
 
-import emptyAvatarImg from '../../img/emptyAvatar.svg';
+import emptyAvatarImg from '@/assets/images/emptyAvatar.svg';
 import { avatarStyles } from './Styles';
 
 type CallbackFunction = (event: React.ChangeEvent<HTMLInputElement>) => void;
+
 interface AvatarProps {
   avatar: string;
   onChangeAvatar: CallbackFunction;
 }
 
-export const Avatar = ({ avatar, onChangeAvatar }: AvatarProps) => {
+export const Avatar: React.FC<AvatarProps> = ({ avatar, onChangeAvatar }) => {
   return (
     <Box sx={avatarStyles.boxWrapper}>
       <Box sx={avatarStyles.boxInner}>

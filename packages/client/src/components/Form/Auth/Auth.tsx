@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/hooks';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
 import {
@@ -16,7 +16,7 @@ import { loginFormStyles } from '@/components/Form/Styles';
 import { setIsLoggedIn } from '@/store/user/user.slice';
 
 export const Auth = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const {
