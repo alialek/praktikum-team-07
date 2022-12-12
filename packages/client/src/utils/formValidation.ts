@@ -7,8 +7,6 @@ import {
   PHONE_VALUE_MESSAGE,
   REPEATE_PASSWORD_MESSAGE,
   NOTMUTCH_PASSWORD_MESSAGE,
-  // REPEATE_PASSWORD_MESSAGE,
-  // NOTMUTCH_PASSWORD_MESSAGE,
 } from '@/сonstants/validationMessages';
 import { PHONE_REGEX } from '@/сonstants/main';
 

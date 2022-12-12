@@ -1,4 +1,4 @@
-import { ChangePasswordModel } from '@/models/auth.model';
+import { ChangePasswordModel } from '@/models/user.model';
 import { CHANGE_PASSWORD, UPDATE_AVATAR } from '@/сonstants/main';
 import { api, ApiResponse } from '../client';
 

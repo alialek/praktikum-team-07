@@ -12,8 +12,9 @@ import {
   REPEAT_PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { changePasswordStyles } from '@/components/Form/Styles';
-import { ChangePasswordModel } from '@/models/auth.model';
+
 import { ProfileService } from '@/api/services/profile';
+import { ChangePasswordModel } from '@/models/user.model';
 
 export const ChangePassword = () => {
   const {

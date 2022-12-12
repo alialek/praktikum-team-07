@@ -7,9 +7,3 @@ export interface SigninInputModel extends Pick<UserModel, 'email'> {
 export interface SignupInputModel extends UserModel {
   password: string;
 }
-
-export interface ChangePasswordModel {
-  oldPassword: string;
-  newPassword: string;
-  newPasswordRepeat?: string;
-}

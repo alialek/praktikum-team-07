@@ -15,7 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { profileValidationSchema } from '@/utils/formValidation';
 import { ChangePasswordPagePath, RootPath } from '@/router/paths';
-import { UserModel } from '@/models/user.model';
+import { AvatarModel, UserModel } from '@/models/user.model';
 import {
   FIRST_NAME_FIELD_LABEL,
   SECOND_NAME_FIELD_LABEL,
@@ -27,23 +27,16 @@ import {
   DISPLAY_NAME_FIELD_LABEL,
   EDIT_CHANGE_DATA,
   AVATAR_TEXT,
+  CHANGE_PASSWORD_TEXT,
 } from '@/сonstants/text';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 import { ProfileService } from '@/api/services/profile';
 
-type TAvatar = {
-  lastModified: number;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-};
-
 export const Profile = () => {
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
   const [edit, setEdit] = useState<boolean>(false);
-  const [avatar, setAvatar] = useState<TAvatar | null>(null);
+  const [avatar, setAvatar] = useState<AvatarModel | null>(null);
   const [preview, setPreview] = useState<string | undefined>();
 
   const {
@@ -213,7 +206,7 @@ export const Profile = () => {
               to={ChangePasswordPagePath.path}
               sx={profileStyles.button}
             >
-              Изменить пароль
+              {CHANGE_PASSWORD_TEXT}
             </Button>
 
             <Button component={Link} to={RootPath.path} sx={profileStyles.link}>
