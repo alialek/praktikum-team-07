@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { ForumPage } from '@/pages/ForumPage';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -22,7 +22,7 @@ import { Default } from '@/layouts/Default';
 export const router = (isLoggedIn: boolean) => [
   {
     path: RootPath.path,
-    element: isLoggedIn ? <Default /> : <Navigate to={SigninPagePath.path} />,
+    element: isLoggedIn ? <Default /> : redirect(SigninPagePath.path),
     errorElement: <NotFoundPage />,
     children: [
       {
@@ -49,7 +49,7 @@ export const router = (isLoggedIn: boolean) => [
   },
   {
     path: AuthPath.path,
-    element: !isLoggedIn ? <Default /> : <Navigate to={RootPath.path} />,
+    element: !isLoggedIn ? <Default /> : redirect(RootPath.path),
     errorElement: <NotFoundPage />,
     children: [
       {
