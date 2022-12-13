@@ -1,10 +1,10 @@
 import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
-import { App } from '@/components/App';
+import { ClientApp } from '@/components/App/App';
 
 hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <React.StrictMode>
-    <App />
+    <ClientApp />
   </React.StrictMode>,
 );

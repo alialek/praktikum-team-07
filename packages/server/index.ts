@@ -16,13 +16,13 @@ const port = Number(process.env.SERVER_PORT) || 3001;
 
 app.get('/', (req, res) => {
   const result = render(req);
-  const template = path.resolve(__dirname, '../client/dist/client/index.html');
+  const template = path.resolve(__dirname, '../client/dist/index.html');
   const htmlString = fs.readFileSync(template, 'utf-8');
   const newString = htmlString.replace('<!--ssr-outlet-->', result);
   res.send(newString);
 });
 
-app.use(express.static(path.resolve(__dirname, '../client/dist/client')));
+app.use(express.static(path.resolve(__dirname, '../client/dist')));
 
 app.listen(port, () => {
   console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
