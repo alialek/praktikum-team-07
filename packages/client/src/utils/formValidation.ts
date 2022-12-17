@@ -62,11 +62,18 @@ export const profileValidationSchema = Yup.object({
     .required(REQUIRED_VALUE_MESSAGE)
     .min(2, `${MIN_MESSAGE}2`)
     .max(20, `${MAX_MESSAGE}20`),
-  password: Yup.string()
+});
+
+export const passwordValidationSchema = Yup.object({
+  oldPassword: Yup.string()
     .required(REQUIRED_VALUE_MESSAGE)
     .min(6, `${MIN_MESSAGE}6`)
     .max(40, `${MAX_MESSAGE}40`),
-  passwordRepeat: Yup.string()
+  newPassword: Yup.string()
+    .required(REQUIRED_VALUE_MESSAGE)
+    .min(6, `${MIN_MESSAGE}6`)
+    .max(40, `${MAX_MESSAGE}40`),
+  newPasswordRepeat: Yup.string()
     .required(REPEATE_PASSWORD_MESSAGE)
-    .oneOf([Yup.ref('password')], NOTMUTCH_PASSWORD_MESSAGE),
+    .oneOf([Yup.ref('newPassword')], NOTMUTCH_PASSWORD_MESSAGE),
 });

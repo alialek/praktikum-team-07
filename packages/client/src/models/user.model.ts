@@ -6,3 +6,17 @@ export interface UserModel {
   email: string;
   phone: string;
 }
+
+export interface AvatarModel {
+  lastModified: number;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+}
+
+export interface ChangePasswordModel {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordRepeat?: string;
+}

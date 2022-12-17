@@ -17,8 +17,10 @@ import {
   LeadersPagePath,
   AuthPath,
   NoneExistPath,
+  ChangePasswordPagePath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
+import { ChangePasswordPage } from '@/pages/ChangePasswordPage';
 
 export const router = (isLoggedIn: boolean) => [
   {
@@ -45,6 +47,10 @@ export const router = (isLoggedIn: boolean) => [
       {
         path: LeadersPagePath.path,
         element: <LeadersPage />,
+      },
+      {
+        path: ChangePasswordPagePath.path,
+        element: <ChangePasswordPage />,
       },
     ],
   },
