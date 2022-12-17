@@ -17,6 +17,10 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
     null,
   ) as MutableRefObject<HTMLCanvasElement>;
   const [isRunning, setIsRunning] = useState<boolean>(true);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10);
+  const gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10);
+  const gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10);
 
   const { requestAnimationFrame, cancelAnimationFrame } = window;
 
@@ -27,7 +31,14 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
     let animationFrameId = 0;
 
     if (context && isRunning) {
-      const game = new GameClass({ context, setIsRunning });
+      const game = new GameClass({
+        context,
+        setIsRunning,
+        isPaused,
+        gameSpeed,
+        gameScore,
+        gameFrame,
+      });
 
       const render = () => {
         game.draw();
@@ -39,11 +50,21 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
     }
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isRunning, GameClass, requestAnimationFrame, cancelAnimationFrame]);
+  }, [
+    isRunning,
+    GameClass,
+    requestAnimationFrame,
+    cancelAnimationFrame,
+    gameFrame,
+    gameSpeed,
+    gameScore,
+    isPaused,
+  ]);
 
-  return [canvasRef, isRunning, setIsRunning] as [
+  return [canvasRef, isRunning, setIsRunning, setIsPaused] as [
     MutableRefObject<HTMLCanvasElement>,
     boolean,
+    Dispatch<SetStateAction<boolean>>,
     Dispatch<SetStateAction<boolean>>,
   ];
 };

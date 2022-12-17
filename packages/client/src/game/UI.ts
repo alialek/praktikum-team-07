@@ -21,6 +21,6 @@ export class UI {
     this.game.context.textAlign = 'left';
     this.game.context.fillStyle = this.fontColor;
 
-    this.game.context.fillText(`Score: ${this.game.gameScore}`, 25, 25);
+    this.game.context.fillText(`Score: ${localStorage.getItem('gameScore')}`, 25, 25);
   }
 }

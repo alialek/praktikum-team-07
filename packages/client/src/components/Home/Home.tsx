@@ -14,8 +14,10 @@ export const Home = () => {
     locationState?.previousPath === EndGamePagePath.path,
   );
 
-  const handleStart = () => setStarted(!isStarted);
-
+  const handleStart = () => {
+    setStarted(!isStarted);
+    localStorage.clear();
+  };
   return (
     <Box>
       <Grid item xs={12}>
