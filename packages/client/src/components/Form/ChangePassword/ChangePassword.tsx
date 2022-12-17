@@ -27,8 +27,6 @@ export const ChangePassword = () => {
   });
 
   const onSubmit = (data: ChangePasswordModel) => {
-    console.log(JSON.stringify(data, null, 2));
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { newPasswordRepeat, ...password } = data;
 
