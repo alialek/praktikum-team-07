@@ -25,9 +25,8 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
     const context = canvas.getContext('2d');
 
     let animationFrameId = 0;
-
-    if (context && isRunning) {
-      const game = new GameClass({ context, setIsRunning });
+    if (context) {
+      const game = new GameClass({ context, setIsRunning, isRunning });
 
       const render = () => {
         game.draw();
