@@ -22,17 +22,23 @@ export class Background {
     this.ctx = this.game.context;
     this.image = new Image();
     this.image.src = backgroundImageSrc;
-    this.x = 0;
-    this.y = 0;
+    this.x = parseInt(JSON.parse(localStorage.getItem('backgroundX') || '0'), 10);
+    this.y = parseInt(JSON.parse(localStorage.getItem('backgroundY') || '0'), 10);
     this.width = 8390;
     this.height = 472;
-    this.backgroundFrame = 0;
+    this.backgroundFrame = parseInt(
+      JSON.parse(localStorage.getItem('backgroundFrame') || '0'),
+      10,
+    );
   }
 
   draw() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     this.ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
     this.backgroundFrame -= this.game.gameSpeed;
+    localStorage.setItem('backgroundX', this.x.toString());
+    localStorage.setItem('backgroundY', this.y.toString());
+    localStorage.setItem('backgroundFrame', this.backgroundFrame.toString());
   }
 
   update() {

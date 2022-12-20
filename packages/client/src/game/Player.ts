@@ -25,7 +25,7 @@ export class Player {
 
   image: HTMLImageElement;
 
-  position: 0 | 1;
+  position: number;
 
   constructor({
     game,
@@ -48,7 +48,7 @@ export class Player {
     this.x = 0;
     this.image = new Image();
     this.image.src = playerImageSrc;
-    this.position = 0;
+    this.position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
 
     window.addEventListener('keydown', ({ key }: KeyboardEvent) => {
       if (key === KEY_ARROW_UP) {
@@ -56,6 +56,7 @@ export class Player {
       } else if (key === KEY_ARROW_DOWN) {
         this.position = 0;
       }
+      localStorage.setItem('position', this.position.toString());
     });
   }
 

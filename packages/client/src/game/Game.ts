@@ -40,25 +40,19 @@ export class Game {
     context,
     setIsRunning,
     isPaused,
-    gameSpeed,
-    gameScore,
-    gameFrame,
   }: {
     context: CanvasRenderingContext2D;
     setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
     isPaused: boolean;
-    gameSpeed: number;
-    gameScore: number;
-    gameFrame: number;
   }) {
     this.context = context;
     this.setIsRunning = setIsRunning;
     this.isPaused = isPaused;
     this.width = context.canvas.width;
     this.height = context.canvas.height;
-    this.gameSpeed = gameSpeed; // 1
-    this.gameFrame = gameFrame; // 0
-    this.gameScore = gameScore; // 0
+    this.gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
+    this.gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
+    this.gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
 
     this.background = new Background(this, backgroundImagePng);
     this.ui = new UI(this);
@@ -90,7 +84,7 @@ export class Game {
       this.background.draw();
       this.ui.draw();
 
-      if (this.enemy.position === 0) {
+      if (this.enemy.y === 0) {
         this.player.draw();
         this.enemy.draw();
       } else {
@@ -105,7 +99,7 @@ export class Game {
       this.gameFrame += 1;
 
       if (
-        this.player.position === this.enemy.position &&
+        this.player.position === this.enemy.y &&
         this.player.x + this.player.width > this.enemy.x
       ) {
         this.setIsRunning(false);
