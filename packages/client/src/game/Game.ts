@@ -2,9 +2,11 @@ import React from 'react';
 import backgroundImagePng from '@/assets/images/gameBackground.png';
 import enemyImagePng from '@/assets/images/gameEnemy.png';
 import playerImagePng from '@/assets/images/gamePlayer.png';
+import boomImagePng from '@/assets/images/boom.png';
 import { Background } from './Background';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
+import { Boom } from '@/game/Boom';
 import { UI } from './UI';
 
 export class Game {
@@ -30,19 +32,26 @@ export class Game {
 
   enemy: Enemy;
 
+  boom: Boom;
+
   scoreInterval: ReturnType<typeof setInterval>;
 
   gameSpeedInterval: ReturnType<typeof setInterval>;
 
+  isRunning: boolean;
+
   constructor({
     context,
     setIsRunning,
+    isRunning,
   }: {
     context: CanvasRenderingContext2D;
     setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+    isRunning: boolean;
   }) {
     this.context = context;
     this.setIsRunning = setIsRunning;
+    this.isRunning = isRunning;
     this.width = context.canvas.width;
     this.height = context.canvas.height;
     this.gameSpeed = 1;
@@ -65,6 +74,13 @@ export class Game {
       height: 205,
     });
 
+    this.boom = new Boom({
+      game: this,
+      boomImageSrc: boomImagePng,
+      width: 96,
+      height: 96,
+    });
+
     this.scoreInterval = setInterval(() => {
       this.gameScore += 1;
     }, 1000 * this.gameSpeed);
@@ -80,22 +96,23 @@ export class Game {
 
     if (this.enemy.position === 0) {
       this.player.draw();
+      this.boom.update();
       this.enemy.draw();
     } else {
       this.enemy.draw();
+      this.boom.update();
       this.player.draw();
     }
   }
 
   update() {
     this.gameFrame += 1;
-
     if (
       this.player.position === this.enemy.position &&
       this.player.x + this.player.width > this.enemy.x
     ) {
-      console.log('end');
       this.setIsRunning(false);
+      this.boom.draw(this.player.width, this.enemy.width);
 
       clearInterval(this.scoreInterval);
       clearInterval(this.gameSpeedInterval);
@@ -104,6 +121,8 @@ export class Game {
       this.player.update();
       this.enemy.update();
     }
+
+    if (!this.isRunning) this.boom.update();
   }
 }
 
