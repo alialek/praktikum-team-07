@@ -18,9 +18,7 @@ export class Enemy {
 
   image: HTMLImageElement;
 
-  y: number; // position: number;
-
-  // positionX: number;
+  y: number;
 
   constructor({
     game,
@@ -42,7 +40,7 @@ export class Enemy {
     this.x = parseInt(
       JSON.parse(localStorage.getItem('positionX') || this.game.width.toString()),
       10,
-    ); // this.game.width;
+    );
     this.image = new Image();
     this.image.src = emenyImageSrc;
     this.y = parseInt(
