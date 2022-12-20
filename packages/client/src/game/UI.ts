@@ -11,8 +11,8 @@ export class UI {
 
   constructor(game: Game) {
     this.game = game;
-    this.fontSize = 20;
-    this.fontFamily = 'Roboto';
+    this.fontSize = 24;
+    this.fontFamily = 'Arial';
     this.fontColor = '#fff';
   }
 
@@ -21,6 +21,6 @@ export class UI {
     this.game.context.textAlign = 'left';
     this.game.context.fillStyle = this.fontColor;
 
-    this.game.context.fillText(`Score: ${this.game.gameScore}`, 25, 25);
+    this.game.context.fillText(`Score: ${this.game.gameScore}`, 25, 45);
   }
 }

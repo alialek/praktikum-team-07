@@ -8,7 +8,7 @@ export const LOGIN_TEXT = 'Войти';
 // Main text
 export const GAME_NAME_TEXT = 'ATOMIC CARS';
 export const WELCOME_TEXT = 'Привет, Игрок 👋';
-export const CONTROL_TEXT = 'Управление на клавиши вверх и вниз';
+export const CONTROL_TEXT = 'Управление на клавиши W — вверх и S — вниз';
 
 // auth
 export const AUTH_TITLE = 'Вход';

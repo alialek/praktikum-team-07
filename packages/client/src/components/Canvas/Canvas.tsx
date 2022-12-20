@@ -33,7 +33,12 @@ export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
       direction="column"
     >
       <Grid item xs={12}>
-        <canvas ref={canvasRef} width={1000} height={472} />
+        <canvas
+          ref={canvasRef}
+          width={1000}
+          height={472}
+          style={{ borderRadius: '32px', border: '4px solid #000' }}
+        />
       </Grid>
       <Grid item xs={12}>
         <Button

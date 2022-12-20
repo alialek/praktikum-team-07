@@ -60,9 +60,9 @@ export class Game {
     });
     this.enemy = new Enemy({
       game: this,
-      emenyImageSrc: enemyImagePng,
+      enemyImageSrc: enemyImagePng,
       width: 244,
-      height: 208,
+      height: 205,
     });
 
     this.scoreInterval = setInterval(() => {
@@ -94,6 +94,7 @@ export class Game {
       this.player.position === this.enemy.position &&
       this.player.x + this.player.width > this.enemy.x
     ) {
+      console.log('end');
       this.setIsRunning(false);
 
       clearInterval(this.scoreInterval);
