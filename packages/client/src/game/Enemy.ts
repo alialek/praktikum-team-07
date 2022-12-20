@@ -16,18 +16,20 @@ export class Enemy {
 
   x: number;
 
+  frame: number;
+
   image: HTMLImageElement;
 
   position: number;
 
   constructor({
     game,
-    emenyImageSrc,
+    enemyImageSrc,
     width,
     height,
   }: {
     game: Game;
-    emenyImageSrc: string;
+    enemyImageSrc: string;
     width: number;
     height: number;
   }) {
@@ -35,18 +37,19 @@ export class Enemy {
     this.context = this.game.context;
     this.width = width;
     this.height = height;
+    this.frame = 0;
     this.spriteWidth = this.width;
     this.spriteHeight = this.height;
     this.x = this.game.width;
     this.image = new Image();
-    this.image.src = emenyImageSrc;
+    this.image.src = enemyImageSrc;
     this.position = Math.floor(Math.random() * 2);
   }
 
   draw() {
     this.context.drawImage(
       this.image,
-      0,
+      this.spriteWidth * this.frame,
       0,
       this.spriteWidth,
       this.spriteHeight,
@@ -63,6 +66,14 @@ export class Enemy {
     if (this.x < -this.width) {
       this.x = this.game.width;
       this.position = Math.floor(Math.random() * 2);
+    }
+
+    if (this.game.gameFrame % 4 === 0) {
+      if (this.frame > 2) {
+        this.frame = 0;
+      } else {
+        this.frame += 1;
+      }
     }
 
     this.x -= this.game.gameSpeed;

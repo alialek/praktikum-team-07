@@ -17,7 +17,7 @@ export class Player {
 
   spriteWidth: number;
 
-  spriteHeigth: number;
+  spriteHeight: number;
 
   frame: number;
 
@@ -43,17 +43,17 @@ export class Player {
     this.width = width;
     this.height = height;
     this.spriteWidth = this.width;
-    this.spriteHeigth = this.height;
+    this.spriteHeight = this.height;
     this.frame = 0;
     this.x = 0;
     this.image = new Image();
     this.image.src = playerImageSrc;
     this.position = 0;
 
-    window.addEventListener('keydown', ({ key }: KeyboardEvent) => {
-      if (key === KEY_ARROW_UP) {
+    window.addEventListener('keydown', ({ code }: KeyboardEvent) => {
+      if (code === KEY_ARROW_UP) {
         this.position = 1;
-      } else if (key === KEY_ARROW_DOWN) {
+      } else if (code === KEY_ARROW_DOWN) {
         this.position = 0;
       }
     });
@@ -65,7 +65,7 @@ export class Player {
       this.spriteWidth * this.frame,
       0,
       this.spriteWidth,
-      this.spriteHeigth,
+      this.spriteHeight,
       this.x,
       this.position === 0
         ? this.game.height - this.height - FIRST_LINE_DISTANCE
