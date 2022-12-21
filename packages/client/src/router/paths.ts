@@ -18,6 +18,10 @@ export const ProfilePagePath = {
   path: '/profile',
 };
 
+export const ChangePasswordPagePath = {
+  path: '/change_password',
+};
+
 export const ForumPagePath = {
   path: '/forum',
 };

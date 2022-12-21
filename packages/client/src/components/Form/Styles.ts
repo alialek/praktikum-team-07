@@ -63,4 +63,31 @@ export const profileStyles: Record<string, SxProps<Theme> | React.CSSProperties>
   btnBlock: {
     alignItems: 'flex-start',
   },
+  avatarBlock: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '16px',
+  },
 };
+
+export const changePasswordStyles: Record<string, SxProps<Theme> | React.CSSProperties> =
+  {
+    card: {
+      maxWidth: '828px',
+      padding: '50px 164px',
+      background: bgForm,
+      borderRadius: '10px',
+      width: '100%',
+    },
+    link: {
+      margin: 0,
+      fontSize: 14,
+    },
+    button: {
+      borderRadius: '10px',
+      fontSize: 14,
+    },
+    btnBlock: {
+      alignItems: 'flex-start',
+    },
+  };
