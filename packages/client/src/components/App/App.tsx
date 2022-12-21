@@ -11,7 +11,7 @@ import { useAuthGuard } from '@/hooks/useAuthGuard';
 
 function Main() {
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
-  const routing = useRoutes(router(isLoggedIn));
+  const routing = useRoutes(router());
 
   useAuthGuard(isLoggedIn);
 
