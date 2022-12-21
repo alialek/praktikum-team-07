@@ -40,33 +40,39 @@ export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
           style={{ borderRadius: '32px', border: '4px solid #000' }}
         />
       </Grid>
-      <Grid item xs={12}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handlePause}
-          startIcon={<Pause />}
-        >
-          {PAUSE_GAME}
-        </Button>
+      <Grid container justifyContent="space-around" alignItems="center" item xs={12}>
+        <Grid item>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handlePause}
+            startIcon={<Pause />}
+          >
+            {PAUSE_GAME}
+          </Button>
+        </Grid>
 
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handlePlayAgain}
-          startIcon={<Replay />}
-        >
-          {PLAY_GAME_AGAIN}
-        </Button>
+        <Grid item>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handlePlayAgain}
+            startIcon={<Replay />}
+          >
+            {PLAY_GAME_AGAIN}
+          </Button>
+        </Grid>
 
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={onStop}
-          startIcon={<Stop />}
-        >
-          {STOP_GAME}
-        </Button>
+        <Grid item>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={onStop}
+            startIcon={<Stop />}
+          >
+            {STOP_GAME}
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );
