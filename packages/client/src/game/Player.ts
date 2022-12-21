@@ -50,13 +50,20 @@ export class Player {
     this.image.src = playerImageSrc;
     this.position = 0;
 
-    window.addEventListener('keydown', ({ code }: KeyboardEvent) => {
-      if (code === KEY_ARROW_UP) {
-        this.position = 1;
-      } else if (code === KEY_ARROW_DOWN) {
-        this.position = 0;
-      }
-    });
+    this.handler = this.handler.bind(this);
+    this.gameController();
+  }
+
+  gameController() {
+    window.addEventListener('keydown', this.handler);
+  }
+
+  handler({ code }: KeyboardEvent) {
+    if (code === KEY_ARROW_UP) {
+      this.position = 1;
+    } else if (code === KEY_ARROW_DOWN) {
+      this.position = 0;
+    }
   }
 
   draw() {

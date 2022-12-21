@@ -38,20 +38,15 @@ export class Game {
 
   gameSpeedInterval: ReturnType<typeof setInterval>;
 
-  isRunning: boolean;
-
   constructor({
     context,
     setIsRunning,
-    isRunning,
   }: {
     context: CanvasRenderingContext2D;
     setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
-    isRunning: boolean;
   }) {
     this.context = context;
     this.setIsRunning = setIsRunning;
-    this.isRunning = isRunning;
     this.width = context.canvas.width;
     this.height = context.canvas.height;
     this.gameSpeed = 1;
@@ -112,6 +107,7 @@ export class Game {
       this.player.x + this.player.width > this.enemy.x
     ) {
       this.setIsRunning(false);
+
       this.boom.draw(this.player.width, this.enemy.width);
 
       clearInterval(this.scoreInterval);
@@ -121,8 +117,6 @@ export class Game {
       this.player.update();
       this.enemy.update();
     }
-
-    if (!this.isRunning) this.boom.update();
   }
 }
 
