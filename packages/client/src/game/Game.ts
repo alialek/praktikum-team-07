@@ -95,9 +95,9 @@ export class Game {
 
       if (this.enemy.y === 0) {
         this.player.draw();
-        // this.enemy.draw();
+        this.enemy.draw();
       } else {
-        // this.enemy.draw();
+        this.enemy.draw();
         this.player.draw();
       }
     }
@@ -106,6 +106,7 @@ export class Game {
   update() {
     if (!this.isPaused) {
       this.gameFrame += 1;
+
       if (
         this.player.position === this.enemy.y &&
         this.player.x + this.player.width > this.enemy.x
@@ -123,7 +124,7 @@ export class Game {
       } else {
         this.background.update();
         this.player.update(this.input.keys);
-        // this.enemy.update();
+        this.enemy.update();
         localStorage.setItem('gameSpeed', this.gameSpeed.toString());
         localStorage.setItem('gameScore', this.gameScore.toString());
         localStorage.setItem('gameFrame', this.gameFrame.toString());

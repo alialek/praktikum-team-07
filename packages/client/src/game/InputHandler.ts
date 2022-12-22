@@ -11,7 +11,6 @@ export class InputHandler {
 
   constructor() {
     this.keys = [];
-
     window.addEventListener('keydown', ({ code }) => {
       if (
         (code === KEY_ARROW_DOWN ||

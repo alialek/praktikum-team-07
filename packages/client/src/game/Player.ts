@@ -82,8 +82,7 @@ export class Player {
       this.width,
       this.height,
       this.x,
-      // this.position === 0 ? this.leftRoadLine : this.rightRoadLine,
-      this.onMovement(),
+      this.y,
       this.width,
       this.height,
     );
@@ -109,17 +108,20 @@ export class Player {
     // по вертикали
     if (input.includes(KEY_ARROW_UP)) {
       this.position = 1;
-      this.isJump = false;
+      this.y =
+        this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+      this.setIsJump(false);
     }
     if (input.includes(KEY_ARROW_DOWN)) {
       this.position = 0;
-      this.isJump = false;
+      this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
+      this.setIsJump(false);
     }
 
     // прыжки
     if (input.includes(KEY_SPACE) && this.onGround()) {
-      this.vy -= 23;
-      this.isJump = true;
+      this.vy -= 29;
+      this.setIsJump(true);
     }
     this.y += this.vy;
     if (!this.onGround()) this.vy += this.weight;
@@ -135,7 +137,12 @@ export class Player {
     }
   }
 
+  setIsJump(hasJump: boolean) {
+    this.isJump = hasJump;
+  }
+
   onGround() {
-    return this.y >= this.leftRoadLine;
+    if (this.position === 0) return this.y >= this.leftRoadLine;
+    return this.y >= this.rightRoadLine;
   }
 }
