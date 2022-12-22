@@ -64,6 +64,7 @@ export class Player {
     } else if (code === KEY_ARROW_DOWN) {
       this.position = 0;
     }
+    localStorage.setItem('position', this.position.toString());
   }
 
   draw() {
