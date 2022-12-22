@@ -14,6 +14,8 @@ export class Game {
 
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
 
+  isPaused: boolean;
+
   width: number;
 
   height: number;
@@ -41,17 +43,20 @@ export class Game {
   constructor({
     context,
     setIsRunning,
+    isPaused,
   }: {
     context: CanvasRenderingContext2D;
     setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+    isPaused: boolean;
   }) {
     this.context = context;
     this.setIsRunning = setIsRunning;
+    this.isPaused = isPaused;
     this.width = context.canvas.width;
     this.height = context.canvas.height;
-    this.gameSpeed = 1;
-    this.gameFrame = 0;
-    this.gameScore = 0;
+    this.gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
+    this.gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
+    this.gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
 
     this.background = new Background(this, backgroundImagePng);
     this.ui = new UI(this);
@@ -86,36 +91,45 @@ export class Game {
   }
 
   draw() {
-    this.background.draw();
-    this.ui.draw();
+    if (!this.isPaused) {
+      this.background.draw();
+      this.ui.draw();
 
-    if (this.enemy.position === 0) {
-      this.player.draw();
-      this.boom.update();
+      if (this.enemy.y === 0) {
+        this.player.draw();
+        this.boom.update();
       this.enemy.draw();
-    } else {
-      this.enemy.draw();
-      this.boom.update();
+      } else {
+        this.enemy.draw();
+        this.boom.update();
       this.player.draw();
+      }
     }
   }
 
   update() {
-    this.gameFrame += 1;
-    if (
-      this.player.position === this.enemy.position &&
-      this.player.x + this.player.width > this.enemy.x
-    ) {
-      this.setIsRunning(false);
+    if (!this.isPaused) {
+      this.gameFrame += 1;
+      if (
+        this.player.position === this.enemy.y &&
+        this.player.x + this.player.width > this.enemy.x
+      ) {
+        this.setIsRunning(false);
 
       this.boom.draw(this.player.width, this.enemy.width);
-
-      clearInterval(this.scoreInterval);
-      clearInterval(this.gameSpeedInterval);
+        clearInterval(this.scoreInterval);
+        clearInterval(this.gameSpeedInterval);
+        localStorage.clear();
+      } else {
+        this.background.update();
+        this.player.update();
+        this.enemy.update();
+        localStorage.setItem('gameSpeed', this.gameSpeed.toString());
+        localStorage.setItem('gameScore', this.gameScore.toString());
+        localStorage.setItem('gameFrame', this.gameFrame.toString());
+      }
     } else {
-      this.background.update();
-      this.player.update();
-      this.enemy.update();
+      localStorage.setItem('isPaused', 'true');
     }
   }
 }

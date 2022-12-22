@@ -16,7 +16,8 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(
     null,
   ) as MutableRefObject<HTMLCanvasElement>;
-  const [isRunning, setIsRunning] = useState(true);
+  const [isRunning, setIsRunning] = useState<boolean>(true);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
 
   const { requestAnimationFrame, cancelAnimationFrame } = window;
 
@@ -26,7 +27,12 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
 
     let animationFrameId = 0;
     if (context && isRunning) {
-      const game = new GameClass({ context, setIsRunning });
+      const game = new GameClass({
+        context,
+        setIsRunning,
+        isPaused,
+      });
+
       const render = () => {
         game.draw();
         game.update();
@@ -37,11 +43,12 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
     }
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isRunning, GameClass, requestAnimationFrame, cancelAnimationFrame]);
+  }, [isRunning, GameClass, requestAnimationFrame, cancelAnimationFrame, isPaused]);
 
-  return [canvasRef, isRunning, setIsRunning] as [
+  return [canvasRef, isRunning, setIsRunning, setIsPaused] as [
     MutableRefObject<HTMLCanvasElement>,
     boolean,
+    Dispatch<SetStateAction<boolean>>,
     Dispatch<SetStateAction<boolean>>,
   ];
 };

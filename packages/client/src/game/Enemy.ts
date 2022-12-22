@@ -20,7 +20,7 @@ export class Enemy {
 
   image: HTMLImageElement;
 
-  position: number;
+  y: number;
 
   constructor({
     game,
@@ -40,13 +40,21 @@ export class Enemy {
     this.frame = 0;
     this.spriteWidth = this.width;
     this.spriteHeight = this.height;
-    this.x = this.game.width;
+    this.x = parseInt(
+      JSON.parse(localStorage.getItem('positionX') || this.game.width.toString()),
+      10,
+    );
     this.image = new Image();
     this.image.src = enemyImageSrc;
-    this.position = Math.floor(Math.random() * 2);
+    this.y = parseInt(
+      JSON.parse(
+        localStorage.getItem('positionY') || Math.floor(Math.random() * 2).toString(),
+      ),
+      10,
+    );
   }
 
-  draw() {
+  draw(): void {
     this.context.drawImage(
       this.image,
       this.spriteWidth * this.frame,
@@ -54,7 +62,7 @@ export class Enemy {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.position === 0
+      this.y === 0
         ? this.game.height - this.height - FIRST_LINE_DISTANCE
         : this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE,
       this.width,
@@ -65,7 +73,15 @@ export class Enemy {
   update() {
     if (this.x < -this.width) {
       this.x = this.game.width;
-      this.position = Math.floor(Math.random() * 2);
+      this.y = Math.floor(Math.random() * 2);
+    }
+
+    if (this.game.gameFrame % 4 === 0) {
+      if (this.frame > 2) {
+        this.frame = 0;
+      } else {
+        this.frame += 1;
+      }
     }
 
     if (this.game.gameFrame % 4 === 0) {
@@ -77,5 +93,7 @@ export class Enemy {
     }
 
     this.x -= this.game.gameSpeed;
+    localStorage.setItem('positionX', this.x.toString());
+    localStorage.setItem('positionY', this.y.toString());
   }
 }

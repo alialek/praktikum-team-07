@@ -58,6 +58,6 @@ export class UI {
     this.game.context.textAlign = 'left';
     this.game.context.fillStyle = this.fontColor;
 
-    this.game.context.fillText(`Score: ${this.game.gameScore}`, 35, 45);
+    this.game.context.fillText(`Score: ${localStorage.getItem('gameScore')}`, 35, 45);
   }
 }

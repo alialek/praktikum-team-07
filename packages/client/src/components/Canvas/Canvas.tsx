@@ -10,16 +10,25 @@ interface CanvasProps {
 }
 
 export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
-  const [canvasRef, isRunning, setIsRunning] = useCanvas({ GameClass: Game });
+  const [canvasRef, isRunning, setIsRunning, setIsPaused] = useCanvas({
+    GameClass: Game,
+  });
 
   const handlePause = () => {
-    setIsRunning(!isRunning);
+    const isPaused = localStorage.getItem('isPaused');
+    if (isPaused === 'true') {
+      setIsPaused(false);
+      localStorage.setItem('isPaused', 'false');
+    } else {
+      setIsPaused(true);
+    }
   };
 
   const handlePlayAgain = () => {
-    setIsRunning(false);
+    setIsRunning(!isRunning);
 
     setTimeout(() => {
+      localStorage.clear();
       setIsRunning(true);
     }, 0);
   };
