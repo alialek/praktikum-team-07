@@ -1,6 +1,7 @@
 import {
   KEY_ARROW_DOWN,
   KEY_ARROW_UP,
+  KEY_JUMP,
   FIRST_LINE_DISTANCE,
   SECOND_LINE_DISTANCE,
 } from '@/сonstants/game';
@@ -27,6 +28,10 @@ export class Player {
 
   position: number;
 
+  leftRoadLine: number;
+
+  rightRoadLine: number;
+
   constructor({
     game,
     playerImageSrc,
@@ -49,6 +54,9 @@ export class Player {
     this.image = new Image();
     this.image.src = playerImageSrc;
     this.position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
+    this.leftRoadLine = this.game.height - this.height - FIRST_LINE_DISTANCE;
+    this.rightRoadLine =
+      this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
 
     this.handler = this.handler.bind(this);
     this.gameController();
@@ -63,6 +71,8 @@ export class Player {
       this.position = 1;
     } else if (code === KEY_ARROW_DOWN) {
       this.position = 0;
+    } else if (code === KEY_JUMP) {
+      this.x = 200;
     }
     localStorage.setItem('position', this.position.toString());
   }
@@ -75,9 +85,7 @@ export class Player {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.position === 0
-        ? this.game.height - this.height - FIRST_LINE_DISTANCE
-        : this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE,
+      this.position === 0 ? this.leftRoadLine : this.rightRoadLine,
       this.width,
       this.height,
     );

@@ -7,6 +7,8 @@ import {
   Dispatch,
 } from 'react';
 import { GameType } from '@/game/Game';
+import { Boom } from '@/game/Boom';
+import boomImageSrc from '@/assets/images/boom.png';
 
 interface UseCanvasProps {
   GameClass: GameType;
@@ -18,6 +20,7 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
   ) as MutableRefObject<HTMLCanvasElement>;
   const [isRunning, setIsRunning] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [cords, setCords] = useState<Record<string, number>>({});
 
   const { requestAnimationFrame, cancelAnimationFrame } = window;
 
@@ -26,10 +29,12 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
     const context = canvas.getContext('2d');
 
     let animationFrameId = 0;
+    let animationFrameIdBoom = 0;
     if (context && isRunning) {
       const game = new GameClass({
         context,
         setIsRunning,
+        setCords,
         isPaused,
       });
 
@@ -42,13 +47,34 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
       render();
     }
 
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isRunning, GameClass, requestAnimationFrame, cancelAnimationFrame, isPaused]);
+    if (context && !isRunning) {
+      const boom = new Boom({
+        context,
+        boomImageSrc,
+        width: 96,
+        height: 96,
+      });
 
-  return [canvasRef, isRunning, setIsRunning, setIsPaused] as [
+      const render = () => {
+        boom.draw(cords.hero, cords.enemy);
+        boom.update();
+
+        animationFrameIdBoom = requestAnimationFrame(render);
+      };
+      render();
+    }
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animationFrameIdBoom);
+    };
+  }, [isRunning, isPaused, GameClass, requestAnimationFrame, cancelAnimationFrame]);
+
+  return [canvasRef, isRunning, setIsRunning, setIsPaused, setCords] as [
     MutableRefObject<HTMLCanvasElement>,
     boolean,
     Dispatch<SetStateAction<boolean>>,
     Dispatch<SetStateAction<boolean>>,
+    Dispatch<SetStateAction<Record<string, number>>>,
   ];
 };

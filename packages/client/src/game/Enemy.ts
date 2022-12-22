@@ -84,14 +84,6 @@ export class Enemy {
       }
     }
 
-    if (this.game.gameFrame % 4 === 0) {
-      if (this.frame > 2) {
-        this.frame = 0;
-      } else {
-        this.frame += 1;
-      }
-    }
-
     this.x -= this.game.gameSpeed;
     localStorage.setItem('positionX', this.x.toString());
     localStorage.setItem('positionY', this.y.toString());

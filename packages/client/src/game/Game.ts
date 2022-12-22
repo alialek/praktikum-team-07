@@ -2,17 +2,17 @@ import React from 'react';
 import backgroundImagePng from '@/assets/images/gameBackground.png';
 import enemyImagePng from '@/assets/images/gameEnemy.png';
 import playerImagePng from '@/assets/images/gamePlayer.png';
-import boomImagePng from '@/assets/images/boom.png';
 import { Background } from './Background';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
-import { Boom } from '@/game/Boom';
 import { UI } from './UI';
 
 export class Game {
   context: CanvasRenderingContext2D;
 
   setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+
+  setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
 
   isPaused: boolean;
 
@@ -34,8 +34,6 @@ export class Game {
 
   enemy: Enemy;
 
-  boom: Boom;
-
   scoreInterval: ReturnType<typeof setInterval>;
 
   gameSpeedInterval: ReturnType<typeof setInterval>;
@@ -43,14 +41,17 @@ export class Game {
   constructor({
     context,
     setIsRunning,
+    setCords,
     isPaused,
   }: {
     context: CanvasRenderingContext2D;
     setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+    setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
     isPaused: boolean;
   }) {
     this.context = context;
     this.setIsRunning = setIsRunning;
+    this.setCords = setCords;
     this.isPaused = isPaused;
     this.width = context.canvas.width;
     this.height = context.canvas.height;
@@ -74,13 +75,6 @@ export class Game {
       height: 205,
     });
 
-    this.boom = new Boom({
-      game: this,
-      boomImageSrc: boomImagePng,
-      width: 96,
-      height: 96,
-    });
-
     this.scoreInterval = setInterval(() => {
       this.gameScore += 1;
     }, 1000 * this.gameSpeed);
@@ -97,12 +91,10 @@ export class Game {
 
       if (this.enemy.y === 0) {
         this.player.draw();
-        this.boom.update();
-      this.enemy.draw();
+        this.enemy.draw();
       } else {
         this.enemy.draw();
-        this.boom.update();
-      this.player.draw();
+        this.player.draw();
       }
     }
   }
@@ -114,9 +106,13 @@ export class Game {
         this.player.position === this.enemy.y &&
         this.player.x + this.player.width > this.enemy.x
       ) {
+        const boomCords = {
+          hero: this.player.width,
+          enemy: this.enemy.width,
+        };
         this.setIsRunning(false);
+        this.setCords(boomCords);
 
-      this.boom.draw(this.player.width, this.enemy.width);
         clearInterval(this.scoreInterval);
         clearInterval(this.gameSpeedInterval);
         localStorage.clear();

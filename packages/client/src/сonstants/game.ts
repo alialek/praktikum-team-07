@@ -1,5 +1,6 @@
 export const KEY_ARROW_UP = 'KeyW';
 export const KEY_ARROW_DOWN = 'KeyS';
+export const KEY_JUMP = 'KeyD';
 
 export const FIRST_LINE_DISTANCE = 10;
 export const SECOND_LINE_DISTANCE = 40;
