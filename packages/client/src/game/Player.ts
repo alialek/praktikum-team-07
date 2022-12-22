@@ -45,7 +45,7 @@ export class Player {
     this.spriteWidth = this.width;
     this.spriteHeight = this.height;
     this.frame = 0;
-    this.x = 56;
+    this.x = 0;
     this.image = new Image();
     this.image.src = playerImageSrc;
     this.position = 0;
