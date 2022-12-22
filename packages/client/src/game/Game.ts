@@ -6,6 +6,7 @@ import { Background } from './Background';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
 import { UI } from './UI';
+import { InputHandler } from '@/game/InputHandler';
 
 export class Game {
   context: CanvasRenderingContext2D;
@@ -38,6 +39,8 @@ export class Game {
 
   gameSpeedInterval: ReturnType<typeof setInterval>;
 
+  input: InputHandler;
+
   constructor({
     context,
     setIsRunning,
@@ -55,6 +58,7 @@ export class Game {
     this.isPaused = isPaused;
     this.width = context.canvas.width;
     this.height = context.canvas.height;
+    this.input = new InputHandler();
     this.gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
     this.gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
     this.gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
@@ -91,9 +95,9 @@ export class Game {
 
       if (this.enemy.y === 0) {
         this.player.draw();
-        this.enemy.draw();
+        // this.enemy.draw();
       } else {
-        this.enemy.draw();
+        // this.enemy.draw();
         this.player.draw();
       }
     }
@@ -118,8 +122,8 @@ export class Game {
         localStorage.clear();
       } else {
         this.background.update();
-        this.player.update();
-        this.enemy.update();
+        this.player.update(this.input.keys);
+        // this.enemy.update();
         localStorage.setItem('gameSpeed', this.gameSpeed.toString());
         localStorage.setItem('gameScore', this.gameScore.toString());
         localStorage.setItem('gameFrame', this.gameFrame.toString());

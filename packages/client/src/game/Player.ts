@@ -1,7 +1,9 @@
 import {
   KEY_ARROW_DOWN,
   KEY_ARROW_UP,
-  KEY_JUMP,
+  KEY_LEFT,
+  KEY_RIGHT,
+  KEY_SPACE,
   FIRST_LINE_DISTANCE,
   SECOND_LINE_DISTANCE,
 } from '@/сonstants/game';
@@ -16,13 +18,21 @@ export class Player {
 
   height: number;
 
-  spriteWidth: number;
-
-  spriteHeight: number;
-
   frame: number;
 
   x: number;
+
+  y: number;
+
+  vy: number;
+
+  speed: number;
+
+  maxSpeed: number;
+
+  weight: number;
+
+  isJump: boolean;
 
   image: HTMLImageElement;
 
@@ -47,51 +57,75 @@ export class Player {
     this.context = this.game.context;
     this.width = width;
     this.height = height;
-    this.spriteWidth = this.width;
-    this.spriteHeight = this.height;
     this.frame = 0;
     this.x = 0;
+    this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
+    this.vy = 0;
+    this.weight = 1;
+    this.speed = 0;
+    this.maxSpeed = 10;
+    this.isJump = false;
+
     this.image = new Image();
     this.image.src = playerImageSrc;
     this.position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
     this.leftRoadLine = this.game.height - this.height - FIRST_LINE_DISTANCE;
     this.rightRoadLine =
       this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
-
-    this.handler = this.handler.bind(this);
-    this.gameController();
-  }
-
-  gameController() {
-    window.addEventListener('keydown', this.handler);
-  }
-
-  handler({ code }: KeyboardEvent) {
-    if (code === KEY_ARROW_UP) {
-      this.position = 1;
-    } else if (code === KEY_ARROW_DOWN) {
-      this.position = 0;
-    } else if (code === KEY_JUMP) {
-      this.x = 200;
-    }
-    localStorage.setItem('position', this.position.toString());
   }
 
   draw() {
     this.context.drawImage(
       this.image,
-      this.spriteWidth * this.frame,
+      this.width * this.frame,
       0,
-      this.spriteWidth,
-      this.spriteHeight,
+      this.width,
+      this.height,
       this.x,
-      this.position === 0 ? this.leftRoadLine : this.rightRoadLine,
+      // this.position === 0 ? this.leftRoadLine : this.rightRoadLine,
+      this.onMovement(),
       this.width,
       this.height,
     );
   }
 
-  update() {
+  onMovement() {
+    if (!this.isJump) {
+      if (this.position === 0) return this.leftRoadLine;
+      return this.rightRoadLine;
+    }
+    return this.y;
+  }
+
+  update(input: string[]) {
+    // по горизонтали
+    this.x += this.speed;
+    if (input.includes(KEY_RIGHT)) this.speed = this.maxSpeed;
+    else if (input.includes(KEY_LEFT)) this.speed = -this.maxSpeed;
+    else this.speed = 0;
+    if (this.x < 0) this.x = 0;
+    if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
+
+    // по вертикали
+    if (input.includes(KEY_ARROW_UP)) {
+      this.position = 1;
+      this.isJump = false;
+    }
+    if (input.includes(KEY_ARROW_DOWN)) {
+      this.position = 0;
+      this.isJump = false;
+    }
+
+    // прыжки
+    if (input.includes(KEY_SPACE) && this.onGround()) {
+      this.vy -= 23;
+      this.isJump = true;
+    }
+    this.y += this.vy;
+    if (!this.onGround()) this.vy += this.weight;
+    else this.vy = 0;
+
+    // анимация ног
     if (this.game.gameFrame % 6 === 0) {
       if (this.frame > 4) {
         this.frame = 0;
@@ -99,5 +133,9 @@ export class Player {
         this.frame += 1;
       }
     }
+  }
+
+  onGround() {
+    return this.y >= this.leftRoadLine;
   }
 }
