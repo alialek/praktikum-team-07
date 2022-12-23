@@ -88,14 +88,6 @@ export class Player {
     );
   }
 
-  onMovement() {
-    if (!this.isJump) {
-      if (this.position === 0) return this.leftRoadLine;
-      return this.rightRoadLine;
-    }
-    return this.y;
-  }
-
   update(input: string[]) {
     // по горизонтали
     this.x += this.speed;
@@ -120,7 +112,7 @@ export class Player {
 
     // прыжки
     if (input.includes(KEY_SPACE) && this.onGround()) {
-      this.vy -= 29;
+      this.vy -= 24;
       this.setIsJump(true);
     }
     this.y += this.vy;

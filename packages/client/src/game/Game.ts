@@ -93,7 +93,7 @@ export class Game {
       this.background.draw();
       this.ui.draw();
 
-      if (this.enemy.y === 0) {
+      if (this.enemy.position === 0) {
         this.player.draw();
         this.enemy.draw();
       } else {
@@ -107,6 +107,8 @@ export class Game {
     if (!this.isPaused) {
       this.gameFrame += 1;
 
+      console.log('this.player.x:', this.player.width - this.player.x);
+      console.log('this.player.y:', this.player.y);
       if (
         this.player.position === this.enemy.y &&
         this.player.x + this.player.width > this.enemy.x

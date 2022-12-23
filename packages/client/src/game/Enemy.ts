@@ -22,6 +22,8 @@ export class Enemy {
 
   y: number;
 
+  position: number;
+
   constructor({
     game,
     enemyImageSrc,
@@ -44,9 +46,10 @@ export class Enemy {
       JSON.parse(localStorage.getItem('positionX') || this.game.width.toString()),
       10,
     );
+    this.y = 0;
     this.image = new Image();
     this.image.src = enemyImageSrc;
-    this.y = parseInt(
+    this.position = parseInt(
       JSON.parse(
         localStorage.getItem('positionY') || Math.floor(Math.random() * 2).toString(),
       ),
@@ -62,18 +65,26 @@ export class Enemy {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.y === 0
-        ? this.game.height - this.height - FIRST_LINE_DISTANCE
-        : this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE,
+      this.y,
       this.width,
       this.height,
     );
   }
 
+  onMovement() {
+    if (this.position === 0) {
+      this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
+    } else {
+      this.y =
+        this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+    }
+  }
+
   update() {
+    this.onMovement();
     if (this.x < -this.width) {
       this.x = this.game.width;
-      this.y = Math.floor(Math.random() * 2);
+      this.position = Math.floor(Math.random() * 2);
     }
 
     if (this.game.gameFrame % 4 === 0) {

@@ -1,22 +1,22 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
-import { Pause, Replay, Stop } from '@mui/icons-material';
+import { Pause, Replay, Stop, PlayCircle } from '@mui/icons-material';
 import { Game } from '@/game/Game';
 import { useCanvas } from '@/hooks/useCanvas';
-import { PAUSE_GAME, PLAY_GAME_AGAIN, STOP_GAME } from '@/сonstants/game';
+import { PAUSE_GAME, PLAY_GAME, PLAY_GAME_AGAIN, STOP_GAME } from '@/сonstants/game';
 
 interface CanvasProps {
   onStop: () => void;
 }
 
 export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
-  const [canvasRef, isRunning, setIsRunning, setIsPaused] = useCanvas({
+  const [canvasRef, isRunning, isPaused, setIsRunning, setIsPaused] = useCanvas({
     GameClass: Game,
   });
 
   const handlePause = () => {
-    const isPaused = localStorage.getItem('isPaused');
-    if (isPaused === 'true') {
+    const _isPaused = localStorage.getItem('isPaused');
+    if (_isPaused === 'true') {
       setIsPaused(false);
       localStorage.setItem('isPaused', 'false');
     } else {
@@ -55,9 +55,9 @@ export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
             variant="outlined"
             color="secondary"
             onClick={handlePause}
-            startIcon={<Pause />}
+            startIcon={isPaused ? <PlayCircle /> : <Pause />}
           >
-            {PAUSE_GAME}
+            {isPaused ? PLAY_GAME : PAUSE_GAME}
           </Button>
         </Grid>
 
