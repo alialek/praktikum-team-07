@@ -106,23 +106,23 @@ export class Enemy {
       this.spriteHeight,
       this.x,
       this.y,
-      this._width,
-      this._height,
+      this.width,
+      this.height,
     );
   }
 
   private onMovement() {
     if (this.position === 0) {
-      this.y = this.game.height - this._height - FIRST_LINE_DISTANCE;
+      this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
     } else {
       this.y =
-        this.game.height - this._height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+        this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
     }
   }
 
   public update() {
     this.onMovement();
-    if (this.x < -this._width) {
+    if (this.x < -this.width) {
       this.x = this.game.width;
       this.position = Math.floor(Math.random() * 2);
     }

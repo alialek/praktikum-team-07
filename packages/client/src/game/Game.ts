@@ -21,7 +21,7 @@ export class Game {
 
   private _gameFrame: number;
 
-  private gameScore: number;
+  private _gameScore: number;
 
   private background: Background;
 
@@ -31,7 +31,7 @@ export class Game {
 
   private enemy: Enemy;
 
-  private scoreInterval: ReturnType<typeof setInterval>;
+  private readonly scoreInterval: ReturnType<typeof setInterval>;
 
   private input: InputHandler;
 
@@ -61,7 +61,7 @@ export class Game {
     this.input = new InputHandler();
     this._gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
     this._gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
-    this.gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
+    this._gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
 
     this.background = new Background(this, backgroundImagePng);
     this.ui = new UI(this);
@@ -80,11 +80,11 @@ export class Game {
     });
 
     this.scoreInterval = setInterval(() => {
-      this.gameScore += 1;
+      this._gameScore += 1;
     }, 1000 * this._gameSpeed);
 
     this.gameSpeedInterval = setInterval(() => {
-      this._gameSpeed += 0.1;
+      this._gameSpeed += 0.3;
     }, 1000);
   }
 
@@ -108,6 +108,10 @@ export class Game {
     return this._gameFrame;
   }
 
+  public get gameScore() {
+    return this._gameScore;
+  }
+
   public draw() {
     if (!this.isPaused) {
       this.background.draw();
@@ -128,28 +132,32 @@ export class Game {
       this._gameFrame += 1;
 
       const heroFrontCords = this.player.width + this.player.x;
-      // const heroAssCords = heroFrontCords - this.player.width;
+      const heroAssCords = heroFrontCords - this.player.width;
       const enemyAssCords = this.enemy.x;
-      console.log('frontCordsHero:', heroFrontCords);
-      console.log('assCordsEnemy:', enemyAssCords);
-      if (this.player.y === this.enemy.y && heroFrontCords === enemyAssCords) {
+      const enemyFrontCords = this.enemy.x + this.enemy.width;
+      const isAButtCollision =
+        heroFrontCords >= enemyAssCords && heroFrontCords < enemyFrontCords;
+
+      console.log('heroAssCords:', heroAssCords);
+      console.log('enemyFrontCords:', enemyFrontCords);
+      if (this.player.y === this.enemy.y && isAButtCollision) {
         const boomCords = {
-          hero: this.player.width,
-          enemy: this.enemy.width,
+          hero: heroFrontCords,
+          enemy: this.enemy.y,
         };
         this.setIsRunning(false);
         this.setCords(boomCords);
 
-        // clearInterval(this.scoreInterval);
+        clearInterval(this.scoreInterval);
         clearInterval(this.gameSpeedInterval);
         localStorage.clear();
       } else {
         this.background.update();
         this.player.update(this.input.keys);
         this.enemy.update();
-        localStorage.setItem('gameSpeed', this._gameSpeed.toString());
+        localStorage.setItem('gameSpeed', this.gameSpeed.toString());
         localStorage.setItem('gameScore', this.gameScore.toString());
-        localStorage.setItem('gameFrame', this._gameFrame.toString());
+        localStorage.setItem('gameFrame', this.gameFrame.toString());
       }
     } else {
       localStorage.setItem('isPaused', 'true');
