@@ -9,37 +9,37 @@ import { UI } from './UI';
 import { InputHandler } from '@/game/InputHandler';
 
 export class Game {
-  context: CanvasRenderingContext2D;
+  private readonly _width: number;
 
-  setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+  private readonly _height: number;
 
-  setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
+  private readonly _context: CanvasRenderingContext2D;
 
-  isPaused: boolean;
+  private readonly gameSpeedInterval: ReturnType<typeof setInterval>;
 
-  width: number;
+  private _gameSpeed: number;
 
-  height: number;
+  private _gameFrame: number;
 
-  gameSpeed: number;
+  private gameScore: number;
 
-  gameFrame: number;
+  private background: Background;
 
-  gameScore: number;
+  private ui: UI;
 
-  background: Background;
+  private player: Player;
 
-  ui: UI;
+  private enemy: Enemy;
 
-  player: Player;
+  private scoreInterval: ReturnType<typeof setInterval>;
 
-  enemy: Enemy;
+  private input: InputHandler;
 
-  scoreInterval: ReturnType<typeof setInterval>;
+  public setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
 
-  gameSpeedInterval: ReturnType<typeof setInterval>;
+  public setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
 
-  input: InputHandler;
+  public isPaused: boolean;
 
   constructor({
     context,
@@ -52,15 +52,15 @@ export class Game {
     setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
     isPaused: boolean;
   }) {
-    this.context = context;
+    this._context = context;
     this.setIsRunning = setIsRunning;
     this.setCords = setCords;
     this.isPaused = isPaused;
-    this.width = context.canvas.width;
-    this.height = context.canvas.height;
+    this._width = context.canvas.width;
+    this._height = context.canvas.height;
     this.input = new InputHandler();
-    this.gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
-    this.gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
+    this._gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
+    this._gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
     this.gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
 
     this.background = new Background(this, backgroundImagePng);
@@ -81,14 +81,34 @@ export class Game {
 
     this.scoreInterval = setInterval(() => {
       this.gameScore += 1;
-    }, 1000 * this.gameSpeed);
+    }, 1000 * this._gameSpeed);
 
     this.gameSpeedInterval = setInterval(() => {
-      this.gameSpeed += 0.1;
+      this._gameSpeed += 0.1;
     }, 1000);
   }
 
-  draw() {
+  public get context() {
+    return this._context;
+  }
+
+  public get width() {
+    return this._width;
+  }
+
+  public get height() {
+    return this._height;
+  }
+
+  public get gameSpeed() {
+    return this._gameSpeed;
+  }
+
+  public get gameFrame() {
+    return this._gameFrame;
+  }
+
+  public draw() {
     if (!this.isPaused) {
       this.background.draw();
       this.ui.draw();
@@ -103,16 +123,16 @@ export class Game {
     }
   }
 
-  update() {
+  public update() {
     if (!this.isPaused) {
-      this.gameFrame += 1;
+      this._gameFrame += 1;
 
-      console.log('this.player.x:', this.player.width - this.player.x);
-      console.log('this.player.y:', this.player.y);
-      if (
-        this.player.position === this.enemy.y &&
-        this.player.x + this.player.width > this.enemy.x
-      ) {
+      const heroFrontCords = this.player.width + this.player.x;
+      // const heroAssCords = heroFrontCords - this.player.width;
+      const enemyAssCords = this.enemy.x;
+      console.log('frontCordsHero:', heroFrontCords);
+      console.log('assCordsEnemy:', enemyAssCords);
+      if (this.player.y === this.enemy.y && heroFrontCords === enemyAssCords) {
         const boomCords = {
           hero: this.player.width,
           enemy: this.enemy.width,
@@ -120,16 +140,16 @@ export class Game {
         this.setIsRunning(false);
         this.setCords(boomCords);
 
-        clearInterval(this.scoreInterval);
+        // clearInterval(this.scoreInterval);
         clearInterval(this.gameSpeedInterval);
         localStorage.clear();
       } else {
         this.background.update();
         this.player.update(this.input.keys);
         this.enemy.update();
-        localStorage.setItem('gameSpeed', this.gameSpeed.toString());
+        localStorage.setItem('gameSpeed', this._gameSpeed.toString());
         localStorage.setItem('gameScore', this.gameScore.toString());
-        localStorage.setItem('gameFrame', this.gameFrame.toString());
+        localStorage.setItem('gameFrame', this._gameFrame.toString());
       }
     } else {
       localStorage.setItem('isPaused', 'true');

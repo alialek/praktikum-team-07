@@ -7,10 +7,10 @@ import {
 } from '@/сonstants/game';
 
 export class InputHandler {
-  keys: string[];
+  private readonly _keys: string[];
 
   constructor() {
-    this.keys = [];
+    this._keys = [];
     window.addEventListener('keydown', ({ code }) => {
       if (
         (code === KEY_ARROW_DOWN ||
@@ -18,9 +18,9 @@ export class InputHandler {
           code === KEY_LEFT ||
           code === KEY_RIGHT ||
           code === KEY_SPACE) &&
-        this.keys.indexOf(code) === -1
+        this._keys.indexOf(code) === -1
       ) {
-        this.keys.push(code);
+        this._keys.push(code);
       }
     });
 
@@ -32,8 +32,12 @@ export class InputHandler {
         code === KEY_RIGHT ||
         code === KEY_SPACE
       ) {
-        this.keys.splice(this.keys.indexOf(code), 1);
+        this._keys.splice(this._keys.indexOf(code), 1);
       }
     });
+  }
+
+  public get keys() {
+    return this._keys;
   }
 }

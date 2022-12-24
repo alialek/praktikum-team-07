@@ -10,37 +10,35 @@ import {
 import { Game } from './Game';
 
 export class Player {
-  game: Game;
+  private readonly game: Game;
 
-  context: CanvasRenderingContext2D;
+  private readonly context: CanvasRenderingContext2D;
 
-  width: number;
+  private readonly _width: number;
 
-  height: number;
+  private readonly _height: number;
 
-  frame: number;
+  private readonly _maxSpeed: number;
 
-  x: number;
+  private readonly _weight: number;
 
-  y: number;
+  private readonly image: HTMLImageElement;
 
-  vy: number;
+  private readonly _leftRoadLine: number;
 
-  speed: number;
+  private readonly _rightRoadLine: number;
 
-  maxSpeed: number;
+  private _frame: number;
 
-  weight: number;
+  private _x: number;
 
-  isJump: boolean;
+  private _y: number;
 
-  image: HTMLImageElement;
+  private _vy: number;
 
-  position: number;
+  private _speed: number;
 
-  leftRoadLine: number;
-
-  rightRoadLine: number;
+  private _position: number;
 
   constructor({
     game,
@@ -55,23 +53,94 @@ export class Player {
   }) {
     this.game = game;
     this.context = this.game.context;
-    this.width = width;
-    this.height = height;
-    this.frame = 0;
-    this.x = 0;
-    this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
-    this.vy = 0;
-    this.weight = 1;
-    this.speed = 0;
-    this.maxSpeed = 10;
-    this.isJump = false;
+    this._width = width;
+    this._height = height;
+    this._frame = 0;
+    this._x = 0;
+    this._y = this.game.height - this._height - FIRST_LINE_DISTANCE;
+    this._vy = 0;
+    this._weight = 1;
+    this._speed = 0;
+    this._maxSpeed = 10;
 
     this.image = new Image();
     this.image.src = playerImageSrc;
-    this.position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
-    this.leftRoadLine = this.game.height - this.height - FIRST_LINE_DISTANCE;
-    this.rightRoadLine =
-      this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+    this._position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
+    this._leftRoadLine = this.game.height - this._height - FIRST_LINE_DISTANCE;
+    this._rightRoadLine =
+      this.game.height - this._height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+  }
+
+  public get position() {
+    return this._position;
+  }
+
+  private set position(value) {
+    this._position = value;
+  }
+
+  public get leftRoadLine() {
+    return this._leftRoadLine;
+  }
+
+  public get rightRoadLine() {
+    return this._rightRoadLine;
+  }
+
+  public get speed() {
+    return this._speed;
+  }
+
+  private set speed(value) {
+    this._speed = value;
+  }
+
+  public get maxSpeed() {
+    return this._maxSpeed;
+  }
+
+  public get weight() {
+    return this._weight;
+  }
+
+  public get width() {
+    return this._width;
+  }
+
+  public get height() {
+    return this._height;
+  }
+
+  public get x() {
+    return this._x;
+  }
+
+  private set x(value) {
+    this._x = value;
+  }
+
+  public get y() {
+    return this._y;
+  }
+
+  private set y(value) {
+    this._y = value;
+  }
+
+  public get vy() {
+    return this._vy;
+  }
+
+  private set vy(value) {
+    this._vy = value;
+  }
+
+  public get frame() {
+    return this._frame;
+  }
+
+  private set frame(value) {
+    this._frame = value;
   }
 
   draw() {
@@ -102,19 +171,14 @@ export class Player {
       this.position = 1;
       this.y =
         this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
-      this.setIsJump(false);
     }
     if (input.includes(KEY_ARROW_DOWN)) {
       this.position = 0;
       this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
-      this.setIsJump(false);
     }
 
     // прыжки
-    if (input.includes(KEY_SPACE) && this.onGround()) {
-      this.vy -= 24;
-      this.setIsJump(true);
-    }
+    if (input.includes(KEY_SPACE) && this.onGround()) this.vy -= 24;
     this.y += this.vy;
     if (!this.onGround()) this.vy += this.weight;
     else this.vy = 0;
@@ -129,11 +193,7 @@ export class Player {
     }
   }
 
-  setIsJump(hasJump: boolean) {
-    this.isJump = hasJump;
-  }
-
-  onGround() {
+  private onGround() {
     if (this.position === 0) return this.y >= this.leftRoadLine;
     return this.y >= this.rightRoadLine;
   }

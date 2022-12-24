@@ -2,21 +2,21 @@
 import throttle from 'lodash.throttle';
 
 export class Boom {
-  context: CanvasRenderingContext2D;
-
-  width: number;
-
-  height: number;
-
-  spriteWidth: number;
-
-  spriteHeight: number;
-
-  frame: number;
-
-  image: HTMLImageElement;
+  private readonly context: CanvasRenderingContext2D;
 
   private readonly throttleBoomEffect: () => void;
+
+  private readonly width: number;
+
+  private readonly height: number;
+
+  private readonly spriteWidth: number;
+
+  private readonly spriteHeight: number;
+
+  private readonly image: HTMLImageElement;
+
+  private frame: number;
 
   constructor({
     context,
@@ -46,7 +46,7 @@ export class Boom {
     }, 120);
   }
 
-  draw(frontHeroCords: number, enemyAssCords: number) {
+  public draw(frontHeroCords: number, enemyAssCords: number) {
     this.context.drawImage(
       this.image,
       this.frame,
@@ -60,7 +60,7 @@ export class Boom {
     );
   }
 
-  update() {
+  public update() {
     this.throttleBoomEffect();
   }
 }
