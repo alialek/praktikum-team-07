@@ -127,20 +127,52 @@ export class Game {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  private flowerbed(array: number[][]): boolean {
+    array.sort();
+
+    const result: number[][] = [];
+
+    let idx = 0;
+    let [bigStart, bigEnd] = array[idx];
+
+    idx += 1;
+
+    while (idx < array.length) {
+      if (bigStart <= array[idx][0] && array[idx][0] <= bigEnd) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_, currentEnd] = array[idx];
+        idx += 1;
+        if (currentEnd > bigEnd) bigEnd = currentEnd;
+      } else {
+        result.push([bigStart, bigEnd]);
+        [bigStart, bigEnd] = array[idx];
+        idx += 1;
+      }
+    }
+    result.push([bigStart, bigEnd]);
+
+    return result.length === 1;
+  }
+
   public update() {
     if (!this.isPaused) {
       this._gameFrame += 1;
 
+      const isOnOneStraightLine = this.player.y === this.enemy.y;
+
       const heroFrontCords = this.player.width + this.player.x;
       const heroAssCords = heroFrontCords - this.player.width;
+
       const enemyAssCords = this.enemy.x;
       const enemyFrontCords = this.enemy.x + this.enemy.width;
-      const isAButtCollision =
-        heroFrontCords >= enemyAssCords && heroFrontCords < enemyFrontCords;
 
-      console.log('heroAssCords:', heroAssCords);
-      console.log('enemyFrontCords:', enemyFrontCords);
-      if (this.player.y === this.enemy.y && isAButtCollision) {
+      const isCollision = this.flowerbed([
+        [heroAssCords, heroFrontCords],
+        [enemyAssCords, enemyFrontCords],
+      ]);
+
+      if (isOnOneStraightLine && isCollision) {
         const boomCords = {
           hero: heroFrontCords,
           enemy: this.enemy.y,
