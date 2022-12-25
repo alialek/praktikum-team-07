@@ -10,10 +10,12 @@ import {
   AUTH_BUTTON_TEXT,
   EMAIL_FIELD_LABEL,
   PASSWORD_FIELD_LABEL,
+  AUTH_BUTTON_YANDEX,
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { setIsLoggedIn } from '@/store/user/user.slice';
+import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -71,6 +73,18 @@ export const Auth = () => {
           sx={loginFormStyles.button}
         >
           {AUTH_BUTTON_TEXT}
+        </Button>
+      </CardActions>
+      <CardActions>
+        <Button
+          variant="info"
+          type="button"
+          size="medium"
+          fullWidth
+          sx={loginFormStyles.button}
+          startIcon={<img src={YandexIcon} />}
+        >
+          {AUTH_BUTTON_YANDEX}
         </Button>
       </CardActions>
     </form>

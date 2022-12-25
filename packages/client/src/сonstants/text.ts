@@ -14,6 +14,7 @@ export const CONTROL_TEXT = 'Управление на клавиши W — вв
 export const AUTH_TITLE = 'Вход';
 export const AUTH_LINK_TEXT = 'Нет аккаунта? Регистрация';
 export const AUTH_BUTTON_TEXT = 'Войти';
+export const AUTH_BUTTON_YANDEX = 'Войти c Яндекс ID';
 
 // registration
 export const REGISTRATION_TITLE = 'Регистрация';
