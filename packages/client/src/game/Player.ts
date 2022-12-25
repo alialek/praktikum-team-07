@@ -1,31 +1,44 @@
 import {
   KEY_ARROW_DOWN,
   KEY_ARROW_UP,
+  KEY_LEFT,
+  KEY_RIGHT,
+  KEY_SPACE,
   FIRST_LINE_DISTANCE,
   SECOND_LINE_DISTANCE,
 } from '@/сonstants/game';
 import { Game } from './Game';
 
 export class Player {
-  game: Game;
+  private readonly game: Game;
 
-  context: CanvasRenderingContext2D;
+  private readonly context: CanvasRenderingContext2D;
 
-  width: number;
+  private readonly _width: number;
 
-  height: number;
+  private readonly _height: number;
 
-  spriteWidth: number;
+  private readonly _maxSpeed: number;
 
-  spriteHeight: number;
+  private readonly _weight: number;
 
-  frame: number;
+  private readonly image: HTMLImageElement;
 
-  x: number;
+  private readonly _leftRoadLine: number;
 
-  image: HTMLImageElement;
+  private readonly _rightRoadLine: number;
 
-  position: number;
+  private _frame: number;
+
+  private _x: number;
+
+  private _y: number;
+
+  private _vy: number;
+
+  private _speed: number;
+
+  private _position: number;
 
   constructor({
     game,
@@ -40,50 +53,137 @@ export class Player {
   }) {
     this.game = game;
     this.context = this.game.context;
-    this.width = width;
-    this.height = height;
-    this.spriteWidth = this.width;
-    this.spriteHeight = this.height;
-    this.frame = 0;
-    this.x = 0;
+    this._width = width;
+    this._height = height;
+    this._frame = 0;
+    this._x = 0;
+    this._y = this.game.height - this._height - FIRST_LINE_DISTANCE;
+    this._vy = 0;
+    this._weight = 1;
+    this._speed = 0;
+    this._maxSpeed = 10;
+
     this.image = new Image();
     this.image.src = playerImageSrc;
-    this.position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
-
-    this.handler = this.handler.bind(this);
-    this.gameController();
+    this._position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
+    this._leftRoadLine = this.game.height - this._height - FIRST_LINE_DISTANCE;
+    this._rightRoadLine =
+      this.game.height - this._height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
   }
 
-  gameController() {
-    window.addEventListener('keydown', this.handler);
+  public get position() {
+    return this._position;
   }
 
-  handler({ code }: KeyboardEvent) {
-    if (code === KEY_ARROW_UP) {
-      this.position = 1;
-    } else if (code === KEY_ARROW_DOWN) {
-      this.position = 0;
-    }
-    localStorage.setItem('position', this.position.toString());
+  private set position(value) {
+    this._position = value;
+  }
+
+  public get leftRoadLine() {
+    return this._leftRoadLine;
+  }
+
+  public get rightRoadLine() {
+    return this._rightRoadLine;
+  }
+
+  public get speed() {
+    return this._speed;
+  }
+
+  private set speed(value) {
+    this._speed = value;
+  }
+
+  public get maxSpeed() {
+    return this._maxSpeed;
+  }
+
+  public get weight() {
+    return this._weight;
+  }
+
+  public get width() {
+    return this._width;
+  }
+
+  public get height() {
+    return this._height;
+  }
+
+  public get x() {
+    return this._x;
+  }
+
+  private set x(value) {
+    this._x = value;
+  }
+
+  public get y() {
+    return this._y;
+  }
+
+  private set y(value) {
+    this._y = value;
+  }
+
+  public get vy() {
+    return this._vy;
+  }
+
+  private set vy(value) {
+    this._vy = value;
+  }
+
+  public get frame() {
+    return this._frame;
+  }
+
+  private set frame(value) {
+    this._frame = value;
   }
 
   draw() {
     this.context.drawImage(
       this.image,
-      this.spriteWidth * this.frame,
+      this.width * this.frame,
       0,
-      this.spriteWidth,
-      this.spriteHeight,
+      this.width,
+      this.height,
       this.x,
-      this.position === 0
-        ? this.game.height - this.height - FIRST_LINE_DISTANCE
-        : this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE,
+      this.y,
       this.width,
       this.height,
     );
   }
 
-  update() {
+  update(input: string[]) {
+    // по горизонтали
+    this.x += this.speed;
+    if (input.includes(KEY_RIGHT)) this.speed = this.maxSpeed;
+    else if (input.includes(KEY_LEFT)) this.speed = -this.maxSpeed;
+    else this.speed = 0;
+    if (this.x < 0) this.x = 0;
+    if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
+
+    // по вертикали
+    if (input.includes(KEY_ARROW_UP)) {
+      this.position = 1;
+      this.y =
+        this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+    }
+    if (input.includes(KEY_ARROW_DOWN)) {
+      this.position = 0;
+      this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
+    }
+
+    // прыжки
+    if (input.includes(KEY_SPACE) && this.onGround()) this.vy -= 24;
+    this.y += this.vy;
+    if (!this.onGround()) this.vy += this.weight;
+    else this.vy = 0;
+
+    // анимация ног
     if (this.game.gameFrame % 6 === 0) {
       if (this.frame > 4) {
         this.frame = 0;
@@ -91,5 +191,10 @@ export class Player {
         this.frame += 1;
       }
     }
+  }
+
+  private onGround() {
+    if (this.position === 0) return this.y >= this.leftRoadLine;
+    return this.y >= this.rightRoadLine;
   }
 }
