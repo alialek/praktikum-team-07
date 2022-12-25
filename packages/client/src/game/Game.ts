@@ -155,6 +155,17 @@ export class Game {
     return result.length === 1;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  private getXCollisionCords(arrHeroCords: number[], arrEnemyCords: number[]): number {
+    const [heroFrontCords, heroAssCords] = arrHeroCords;
+    const [enemyFrontCords, enemyAssCords] = arrEnemyCords;
+
+    if (heroFrontCords >= enemyAssCords && heroFrontCords < enemyFrontCords)
+      return heroFrontCords;
+
+    return heroAssCords;
+  }
+
   public update() {
     if (!this.isPaused) {
       this._gameFrame += 1;
@@ -164,8 +175,8 @@ export class Game {
       const heroFrontCords = this.player.width + this.player.x;
       const heroAssCords = heroFrontCords - this.player.width;
 
-      const enemyAssCords = this.enemy.x;
       const enemyFrontCords = this.enemy.x + this.enemy.width;
+      const enemyAssCords = this.enemy.x;
 
       const isCollision = this.flowerbed([
         [heroAssCords, heroFrontCords],
@@ -174,7 +185,10 @@ export class Game {
 
       if (isOnOneStraightLine && isCollision) {
         const boomCords = {
-          hero: heroFrontCords,
+          hero: this.getXCollisionCords(
+            [heroFrontCords, heroAssCords],
+            [enemyFrontCords, enemyAssCords],
+          ),
           enemy: this.enemy.y,
         };
         this.setIsRunning(false);
