@@ -98,11 +98,11 @@ export class Game {
       if (this.enemy.y === 0) {
         this.player.draw();
         this.boom.update();
-      this.enemy.draw();
+        this.enemy.draw();
       } else {
         this.enemy.draw();
         this.boom.update();
-      this.player.draw();
+        this.player.draw();
       }
     }
   }
@@ -116,7 +116,7 @@ export class Game {
       ) {
         this.setIsRunning(false);
 
-      this.boom.draw(this.player.width, this.enemy.width);
+        this.boom.draw(this.player.width, this.enemy.width);
         clearInterval(this.scoreInterval);
         clearInterval(this.gameSpeedInterval);
         localStorage.clear();
