@@ -9,7 +9,7 @@ export interface Config {
   helmet?: Readonly<HelmetOptions>;
 
   cors?: CorsOptions & {
-    allowedOrigins?: string[];
+    allowedOrigins?: Array<string | RegExp>;
   };
 
   static: {

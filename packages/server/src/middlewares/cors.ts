@@ -10,7 +10,19 @@ const { allowedOrigins } = options;
 
 if (allowedOrigins) {
   options.origin = (origin, callback) => {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    const isAllowed = allowedOrigins.some((el) => {
+      if (el instanceof RegExp) {
+        return el.test(origin);
+      }
+      return el === origin;
+    });
+
+    if (isAllowed) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
