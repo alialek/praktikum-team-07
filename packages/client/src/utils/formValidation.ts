@@ -34,7 +34,7 @@ export const signupFormValidationSchema = Yup.object({
 });
 
 export const signinFormValidationSchema = Yup.object({
-  email: Yup.string().required(REQUIRED_VALUE_MESSAGE).email(EMAIL_VALUE_MESSAGE),
+  login: Yup.string().required(REQUIRED_VALUE_MESSAGE).email(EMAIL_VALUE_MESSAGE),
   password: Yup.string()
     .required(REQUIRED_VALUE_MESSAGE)
     .min(6, `${MIN_MESSAGE}6`)

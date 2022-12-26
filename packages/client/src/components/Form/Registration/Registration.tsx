@@ -29,7 +29,8 @@ export const Registration = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = () => {
+  const onSubmit = (data: SignupInputModel) => {
+    AuthService.signup(data);
     navigate(SigninPagePath.path);
   };
 
