@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rimraf ./dist && tsc --p ./tsconfig.prod.json",
     "preview": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/index.js",
-    "dev": "NODE_ENV=development nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+    "dev": "cross-env NODE_ENV=development && docker compose up -d && NODE_ENV=development nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."
