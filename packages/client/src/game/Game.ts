@@ -2,66 +2,61 @@ import React from 'react';
 import backgroundImagePng from '@/assets/images/gameBackground.png';
 import enemyImagePng from '@/assets/images/gameEnemy.png';
 import playerImagePng from '@/assets/images/gamePlayer.png';
+import boomImagePng from '@/assets/images/boom.png';
 import { Background } from './Background';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
+import { Boom } from '@/game/Boom';
 import { UI } from './UI';
-import { InputHandler } from '@/game/InputHandler';
 
 export class Game {
-  private readonly _width: number;
+  context: CanvasRenderingContext2D;
 
-  private readonly _height: number;
+  setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
 
-  private readonly _context: CanvasRenderingContext2D;
+  isPaused: boolean;
 
-  private readonly gameSpeedInterval: ReturnType<typeof setInterval>;
+  width: number;
 
-  private _gameSpeed: number;
+  height: number;
 
-  private _gameFrame: number;
+  gameSpeed: number;
 
-  private _gameScore: number;
+  gameFrame: number;
 
-  private background: Background;
+  gameScore: number;
 
-  private ui: UI;
+  background: Background;
 
-  private player: Player;
+  ui: UI;
 
-  private enemy: Enemy;
+  player: Player;
 
-  private readonly scoreInterval: ReturnType<typeof setInterval>;
+  enemy: Enemy;
 
-  private input: InputHandler;
+  boom: Boom;
 
-  public setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+  scoreInterval: ReturnType<typeof setInterval>;
 
-  public setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
-
-  public isPaused: boolean;
+  gameSpeedInterval: ReturnType<typeof setInterval>;
 
   constructor({
     context,
     setIsRunning,
-    setCords,
     isPaused,
   }: {
     context: CanvasRenderingContext2D;
     setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
-    setCords: React.Dispatch<React.SetStateAction<Record<string, number>>>;
     isPaused: boolean;
   }) {
-    this._context = context;
+    this.context = context;
     this.setIsRunning = setIsRunning;
-    this.setCords = setCords;
     this.isPaused = isPaused;
-    this._width = context.canvas.width;
-    this._height = context.canvas.height;
-    this.input = new InputHandler();
-    this._gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
-    this._gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
-    this._gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
+    this.width = context.canvas.width;
+    this.height = context.canvas.height;
+    this.gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
+    this.gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
+    this.gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
 
     this.background = new Background(this, backgroundImagePng);
     this.ui = new UI(this);
@@ -79,127 +74,55 @@ export class Game {
       height: 205,
     });
 
+    this.boom = new Boom({
+      game: this,
+      boomImageSrc: boomImagePng,
+      width: 96,
+      height: 96,
+    });
+
     this.scoreInterval = setInterval(() => {
-      this._gameScore += 1;
-    }, 1000 * this._gameSpeed);
+      this.gameScore += 1;
+    }, 1000 * this.gameSpeed);
 
     this.gameSpeedInterval = setInterval(() => {
-      this._gameSpeed += 0.3;
+      this.gameSpeed += 0.1;
     }, 1000);
   }
 
-  public get context() {
-    return this._context;
-  }
-
-  public get width() {
-    return this._width;
-  }
-
-  public get height() {
-    return this._height;
-  }
-
-  public get gameSpeed() {
-    return this._gameSpeed;
-  }
-
-  public get gameFrame() {
-    return this._gameFrame;
-  }
-
-  public get gameScore() {
-    return this._gameScore;
-  }
-
-  public draw() {
+  draw() {
     if (!this.isPaused) {
       this.background.draw();
       this.ui.draw();
 
-      if (this.enemy.position === 0) {
+      if (this.enemy.y === 0) {
         this.player.draw();
+        this.boom.update();
         this.enemy.draw();
       } else {
         this.enemy.draw();
+        this.boom.update();
         this.player.draw();
       }
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private flowerbed(array: number[][]): boolean {
-    array.sort();
-
-    const result: number[][] = [];
-
-    let idx = 0;
-    let [bigStart, bigEnd] = array[idx];
-
-    idx += 1;
-
-    while (idx < array.length) {
-      if (bigStart <= array[idx][0] && array[idx][0] <= bigEnd) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [_, currentEnd] = array[idx];
-        idx += 1;
-        if (currentEnd > bigEnd) bigEnd = currentEnd;
-      } else {
-        result.push([bigStart, bigEnd]);
-        [bigStart, bigEnd] = array[idx];
-        idx += 1;
-      }
-    }
-    result.push([bigStart, bigEnd]);
-
-    return result.length === 1;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private getXCollisionCords(arrHeroCords: number[], arrEnemyCords: number[]): number {
-    const [heroFrontCords, heroAssCords] = arrHeroCords;
-    const [enemyFrontCords, enemyAssCords] = arrEnemyCords;
-
-    if (heroFrontCords >= enemyAssCords && heroFrontCords < enemyFrontCords)
-      return heroFrontCords;
-
-    return heroAssCords;
-  }
-
-  public update() {
+  update() {
     if (!this.isPaused) {
-      this._gameFrame += 1;
-
-      const isOnOneStraightLine = this.player.y === this.enemy.y;
-
-      const heroFrontCords = this.player.width + this.player.x;
-      const heroAssCords = heroFrontCords - this.player.width;
-
-      const enemyFrontCords = this.enemy.x + this.enemy.width;
-      const enemyAssCords = this.enemy.x;
-
-      const isCollision = this.flowerbed([
-        [heroAssCords, heroFrontCords],
-        [enemyAssCords, enemyFrontCords],
-      ]);
-
-      if (isOnOneStraightLine && isCollision) {
-        const boomCords = {
-          hero: this.getXCollisionCords(
-            [heroFrontCords, heroAssCords],
-            [enemyFrontCords, enemyAssCords],
-          ),
-          enemy: this.enemy.y,
-        };
+      this.gameFrame += 1;
+      if (
+        this.player.position === this.enemy.y &&
+        this.player.x + this.player.width > this.enemy.x
+      ) {
         this.setIsRunning(false);
-        this.setCords(boomCords);
 
+        this.boom.draw(this.player.width, this.enemy.width);
         clearInterval(this.scoreInterval);
         clearInterval(this.gameSpeedInterval);
         localStorage.clear();
       } else {
         this.background.update();
-        this.player.update(this.input.keys);
+        this.player.update();
         this.enemy.update();
         localStorage.setItem('gameSpeed', this.gameSpeed.toString());
         localStorage.setItem('gameScore', this.gameScore.toString());
