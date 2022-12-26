@@ -16,6 +16,7 @@ import {
   PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
+import { AuthService } from '@/api/services/auth';
 
 export const Registration = () => {
   const navigate = useNavigate();

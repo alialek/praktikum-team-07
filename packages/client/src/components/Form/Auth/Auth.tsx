@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
 import {
@@ -13,11 +13,11 @@ import {
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
-// import { setIsLoggedIn } from '@/store/user/user.slice';
+import { setIsLoggedIn } from '@/store/user/user.slice';
 import { AuthService } from '@/api/services/auth';
 
 export const Auth = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
@@ -31,6 +31,7 @@ export const Auth = () => {
 
   const onSubmit = (data: SigninInputModel) => {
     AuthService.signin(data);
+    dispatch(setIsLoggedIn());
     navigate(RootPath.path, { replace: true });
   };
 
