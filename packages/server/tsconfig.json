@@ -21,8 +21,10 @@
     "lib": ["es2019", "esnext.asynciterable"],
     "types": ["node", "jest"],
     "baseUrl": ".",
+    "typeRoots": ["./@types"],
+    "rootDir": "src",
     "paths": {
-      "*": ["types/*"]
+      "@/*": ["src/*"]
     },
     "outDir": "dist"
   }

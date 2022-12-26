@@ -10,5 +10,5 @@ export const useAuthGuard = (isLoggedIn: boolean) => {
     if (!isLoggedIn) {
       navigate(SigninPagePath.path);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 };
