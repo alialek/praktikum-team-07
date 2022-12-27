@@ -14,7 +14,7 @@ import {
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { setIsLoggedIn } from '@/store/user/user.slice';
-import { AuthService } from '@/api/services/auth';
+import { signin } from '@/store/user/user.actions';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -30,8 +30,8 @@ export const Auth = () => {
   });
 
   const onSubmit = (data: SigninInputModel) => {
-    AuthService.signin(data);
     dispatch(setIsLoggedIn());
+    dispatch(signin(data));
     navigate(RootPath.path, { replace: true });
   };
 

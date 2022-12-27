@@ -1,6 +1,6 @@
 import { UserModel } from './user.model';
 
-export interface SigninInputModel extends Pick<UserModel, 'email'> {
+export interface SigninInputModel extends UserModel {
   password: string;
   login: string;
 }
