@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,10 +17,20 @@ import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { setIsLoggedIn } from '@/store/user/user.slice';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
+import { OauthService } from '@/api/services/oauth';
+
+// type Props = {}
+
+// type State = OauthSingInModel & {
+//   access_token: string;
+// }
 
 export const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [serviceId, setServiceId] = useState<string>();
+  const [accessCode, setAccessCode] = useState<string>();
 
   const {
     register,
@@ -33,6 +44,27 @@ export const Auth = () => {
   const onSubmit = () => {
     dispatch(setIsLoggedIn());
     navigate(RootPath.path, { replace: true });
+  };
+
+  const takeOauthAunthification = () => {
+    console.log('call ya-practicum api');
+    OauthService.getServiceId()
+      .then((response: any) => {
+        setServiceId(response.data.service_id);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+    console.log(serviceId);
+    console.log('call yandex oauth service');
+    OauthService.getAccessCode(serviceId!)
+      .then((response: any) => {
+        setAccessCode(response.data.code);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+    console.log(accessCode);
   };
 
   return (
@@ -83,6 +115,7 @@ export const Auth = () => {
           fullWidth
           sx={loginFormStyles.button}
           startIcon={<img src={YandexIcon} />}
+          onClick={takeOauthAunthification}
         >
           {AUTH_BUTTON_YANDEX}
         </Button>
