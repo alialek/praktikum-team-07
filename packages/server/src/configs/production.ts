@@ -1,5 +1,5 @@
 import type { AppConfig } from '@/types';
-import { VERSEL_URL, YA_API_URL } from '@/constants/main';
+import { VERSEL_URL_REGEX, YA_API_URL } from '@/constants/main';
 import { productionPresets } from './csp/production';
 
 export const productionConfig: AppConfig = {
@@ -7,6 +7,6 @@ export const productionConfig: AppConfig = {
     presets: productionPresets,
   },
   cors: {
-    allowedOrigins: [VERSEL_URL, YA_API_URL],
+    allowedOrigins: [VERSEL_URL_REGEX, YA_API_URL],
   },
 };
