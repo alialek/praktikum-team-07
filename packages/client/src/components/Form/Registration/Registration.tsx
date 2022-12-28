@@ -36,6 +36,7 @@ export const Registration = () => {
   });
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(signup());
     if (isLoggedIn) {
       navigate(RootPath.path, { replace: true });
@@ -43,6 +44,7 @@ export const Registration = () => {
   }, [isLoggedIn, navigate]);
 
   const onSubmit = (data: SignupInputModel) => {
+    // @ts-ignore
     dispatch(signup(data));
   };
 

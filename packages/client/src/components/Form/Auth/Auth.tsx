@@ -33,6 +33,7 @@ export const Auth = () => {
   });
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(signin());
     if (isLoggedIn) {
       navigate(RootPath.path, { replace: true });
@@ -40,6 +41,7 @@ export const Auth = () => {
   }, [isLoggedIn, navigate]);
 
   const onSubmit = (data: SigninInputModel) => {
+    // @ts-ignore
     dispatch(signin(data));
   };
 
