@@ -40,6 +40,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(signup.fulfilled, (state) => {
       state.loading = false;
+      state.isAuth = true;
     });
     builder.addCase(signup.rejected, (state, action) => {
       state.loading = false;

@@ -2,9 +2,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, CardContent, CardActions, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { signupFormValidationSchema } from '@/utils/formValidation';
-import { SigninPagePath } from '@/router/paths';
+import { RootPath, SigninPagePath } from '@/router/paths';
 import { SignupInputModel } from '@/models/auth.model';
 import {
   REGISTRATION_LINK_TEXT,
@@ -18,10 +19,12 @@ import {
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { signup } from '@/store/user/user.actions';
+import { RootState } from '@/store/store';
 
 export const Registration = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
   const {
     register,
@@ -32,9 +35,15 @@ export const Registration = () => {
     mode: 'onChange',
   });
 
+  useEffect(() => {
+    dispatch(signup());
+    if (isLoggedIn) {
+      navigate(RootPath.path, { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
+
   const onSubmit = (data: SignupInputModel) => {
     dispatch(signup(data));
-    navigate(SigninPagePath.path);
   };
 
   return (
