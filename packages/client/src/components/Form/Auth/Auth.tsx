@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
-import type { AppDispatch } from '@/store/store';
 import {
   AUTH_LINK_TEXT,
   AUTH_BUTTON_TEXT,
@@ -19,7 +18,7 @@ import { signin } from '@/store/user/user.actions';
 import { RootState } from '@/store/store';
 
 export const Auth = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
@@ -38,7 +37,7 @@ export const Auth = () => {
     if (isLoggedIn) {
       navigate(RootPath.path, { replace: true });
     }
-  }, [isLoggedIn, navigate]);
+  }, [dispatch, isLoggedIn, navigate]);
 
   const onSubmit = (data: SigninInputModel) => {
     // @ts-ignore

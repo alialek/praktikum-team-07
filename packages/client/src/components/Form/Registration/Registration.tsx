@@ -41,7 +41,7 @@ export const Registration = () => {
     if (isLoggedIn) {
       navigate(RootPath.path, { replace: true });
     }
-  }, [isLoggedIn, navigate]);
+  }, [dispatch, isLoggedIn, navigate]);
 
   const onSubmit = (data: SignupInputModel) => {
     // @ts-ignore

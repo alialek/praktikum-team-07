@@ -6,14 +6,14 @@ import { UserModel } from '@/models/user.model';
 export interface UserState {
   isAuth: boolean;
   loading: boolean;
-  user: UserModel;
+  profile: UserModel;
   error: string;
 }
 
 const initialState: UserState = {
   isAuth: false,
   loading: false,
-  user: null,
+  profile: {} as UserModel,
   error: '',
 };
 
@@ -53,9 +53,10 @@ export const userSlice = createSlice({
     builder.addCase(getUserInfo.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getUserInfo.fulfilled, (state) => {
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {
       state.loading = false;
       state.isAuth = true;
+      state.profile = action.payload as UserModel;
     });
     builder.addCase(getUserInfo.rejected, (state, action) => {
       state.loading = false;

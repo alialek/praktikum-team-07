@@ -43,7 +43,7 @@ export const getUserInfo = createAsyncThunk(
   'user/getInfo',
   async (payload: UserModel, thunkApi) => {
     try {
-      const { data } = await AuthService.getUserInfo(payload);
+      const { data } = await AuthService.getUserInfo();
       return data;
     } catch (e) {
       const hasErrResponse = (e as { response: { [key: string]: string } }).response;
