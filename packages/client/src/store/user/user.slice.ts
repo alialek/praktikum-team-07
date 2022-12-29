@@ -1,16 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { signin, signup } from './user.actions';
+import { getUserInfo, signin, signup } from './user.actions';
+import { UserModel } from '@/models/user.model';
 
 export interface UserState {
   isAuth: boolean;
   loading: boolean;
+  profile: UserModel;
   error: string;
 }
 
 const initialState: UserState = {
   isAuth: false,
   loading: false,
+  profile: {} as UserModel,
   error: '',
 };
 
@@ -40,8 +43,22 @@ export const userSlice = createSlice({
     });
     builder.addCase(signup.fulfilled, (state) => {
       state.loading = false;
+      state.isAuth = true;
     });
     builder.addCase(signup.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    builder.addCase(getUserInfo.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isAuth = true;
+      state.profile = action.payload as UserModel;
+    });
+    builder.addCase(getUserInfo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });

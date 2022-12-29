@@ -2,22 +2,25 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
 import {
   AUTH_LINK_TEXT,
   AUTH_BUTTON_TEXT,
-  EMAIL_FIELD_LABEL,
+  LOGIN_FIELD_LABEL,
   PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { setIsLoggedIn } from '@/store/user/user.slice';
+import { signin } from '@/store/user/user.actions';
+import { RootState } from '@/store/store';
 
 export const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
   const {
     register,
@@ -28,9 +31,17 @@ export const Auth = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = () => {
-    dispatch(setIsLoggedIn());
-    navigate(RootPath.path, { replace: true });
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(signin());
+    if (isLoggedIn) {
+      navigate(RootPath.path, { replace: true });
+    }
+  }, [dispatch, isLoggedIn, navigate]);
+
+  const onSubmit = (data: SigninInputModel) => {
+    // @ts-ignore
+    dispatch(signin(data));
   };
 
   return (
@@ -39,12 +50,12 @@ export const Auth = () => {
         <Stack direction="column" spacing={2}>
           <TextField
             type="text"
-            {...register('email')}
+            {...register('login')}
             id="authEmail"
-            label={EMAIL_FIELD_LABEL}
+            label={LOGIN_FIELD_LABEL}
             autoFocus
-            error={!!errors?.email}
-            helperText={errors.email?.message}
+            error={!!errors?.login}
+            helperText={errors.login?.message}
           />
 
           <TextField
