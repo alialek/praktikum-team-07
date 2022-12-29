@@ -12,6 +12,8 @@ export const OauthService = {
   },
 
   getAccessCode(accessCode: string): Promise<ApiResponse> {
-    return oauthApi.get(`&client_id=${accessCode}&redirect_uri=${REDIRECT_URI}`);
+    return oauthApi.get(
+      `https://oauth.yandex.ru/authorize?response_type=code&client_id=${accessCode}&redirect_uri=${REDIRECT_URI}`,
+    );
   },
 };
