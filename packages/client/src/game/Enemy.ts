@@ -2,25 +2,27 @@ import { FIRST_LINE_DISTANCE, SECOND_LINE_DISTANCE } from '@/сonstants/game';
 import { Game } from './Game';
 
 export class Enemy {
-  game: Game;
+  private readonly game: Game;
 
-  context: CanvasRenderingContext2D;
+  private readonly context: CanvasRenderingContext2D;
 
-  width: number;
+  private readonly _width: number;
 
-  height: number;
+  private readonly _height: number;
 
-  spriteWidth: number;
+  private readonly spriteWidth: number;
 
-  spriteHeight: number;
+  private readonly spriteHeight: number;
 
-  x: number;
+  private readonly image: HTMLImageElement;
 
-  frame: number;
+  private _x: number;
 
-  image: HTMLImageElement;
+  private _frame: number;
 
-  y: number;
+  private _y: number;
+
+  private _position: number;
 
   constructor({
     game,
@@ -35,18 +37,19 @@ export class Enemy {
   }) {
     this.game = game;
     this.context = this.game.context;
-    this.width = width;
-    this.height = height;
-    this.frame = 0;
+    this._width = width;
+    this._height = height;
+    this._frame = 0;
     this.spriteWidth = this.width;
     this.spriteHeight = this.height;
-    this.x = parseInt(
+    this._x = parseInt(
       JSON.parse(localStorage.getItem('positionX') || this.game.width.toString()),
       10,
     );
+    this._y = 0;
     this.image = new Image();
     this.image.src = enemyImageSrc;
-    this.y = parseInt(
+    this._position = parseInt(
       JSON.parse(
         localStorage.getItem('positionY') || Math.floor(Math.random() * 2).toString(),
       ),
@@ -54,7 +57,47 @@ export class Enemy {
     );
   }
 
-  draw(): void {
+  public get width() {
+    return this._width;
+  }
+
+  public get height() {
+    return this._height;
+  }
+
+  public get x() {
+    return this._x;
+  }
+
+  private set x(value) {
+    this._x = value;
+  }
+
+  public get y() {
+    return this._y;
+  }
+
+  private set y(value) {
+    this._y = value;
+  }
+
+  public get position() {
+    return this._position;
+  }
+
+  private set position(value) {
+    this._position = value;
+  }
+
+  public get frame() {
+    return this._frame;
+  }
+
+  private set frame(value) {
+    this._frame = value;
+  }
+
+  public draw(): void {
     this.context.drawImage(
       this.image,
       this.spriteWidth * this.frame,
@@ -62,26 +105,26 @@ export class Enemy {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.y === 0
-        ? this.game.height - this.height - FIRST_LINE_DISTANCE
-        : this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE,
+      this.y,
       this.width,
       this.height,
     );
   }
 
-  update() {
+  private onMovement() {
+    if (this.position === 0) {
+      this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
+    } else {
+      this.y =
+        this.game.height - this.height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
+    }
+  }
+
+  public update() {
+    this.onMovement();
     if (this.x < -this.width) {
       this.x = this.game.width;
-      this.y = Math.floor(Math.random() * 2);
-    }
-
-    if (this.game.gameFrame % 4 === 0) {
-      if (this.frame > 2) {
-        this.frame = 0;
-      } else {
-        this.frame += 1;
-      }
+      this.position = Math.floor(Math.random() * 2);
     }
 
     if (this.game.gameFrame % 4 === 0) {
@@ -94,6 +137,6 @@ export class Enemy {
 
     this.x -= this.game.gameSpeed;
     localStorage.setItem('positionX', this.x.toString());
-    localStorage.setItem('positionY', this.y.toString());
+    localStorage.setItem('positionY', this.position.toString());
   }
 }

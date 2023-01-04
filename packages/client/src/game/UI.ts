@@ -1,26 +1,46 @@
 import { Game } from './Game';
 
 export class UI {
-  game: Game;
+  private readonly _game: Game;
 
-  fontSize: number;
+  private readonly _fontSize: number;
 
-  fontWeight: string;
+  private readonly _fontWeight: string;
 
-  fontFamily: string;
+  private readonly _fontFamily: string;
 
-  fontColor: string;
+  private readonly _fontColor: string;
 
   constructor(game: Game) {
-    this.game = game;
-    this.fontSize = 24;
-    this.fontWeight = 'bold';
-    this.fontFamily = 'Arial';
-    this.fontColor = '#fff';
+    this._game = game;
+    this._fontSize = 24;
+    this._fontWeight = 'bold';
+    this._fontFamily = 'Arial';
+    this._fontColor = '#fff';
+  }
+
+  private get game() {
+    return this._game;
+  }
+
+  private get fontSize() {
+    return this._fontSize;
+  }
+
+  private get fontWeight() {
+    return this._fontWeight;
+  }
+
+  private get fontFamily() {
+    return this._fontFamily;
+  }
+
+  private get fontColor() {
+    return this._fontColor;
   }
 
   // eslint-disable-next-line class-methods-use-this
-  roundRect(
+  private roundRect(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
@@ -49,7 +69,7 @@ export class UI {
     }
   }
 
-  draw() {
+  public draw() {
     this.game.context.lineWidth = 4;
     this.game.context.strokeStyle = '#000000';
     this.game.context.fillStyle = 'rgba(51, 51, 51, 0.76)';

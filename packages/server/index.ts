@@ -7,12 +7,15 @@ import express from 'express';
 // @ts-ignore
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { render } from 'client/dist/ssr/entry-server.cjs';
+import { createClientAndConnect } from '@/db';
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 const port = Number(process.env.SERVER_PORT) || 3001;
+
+createClientAndConnect();
 
 app.get('/', (req, res) => {
   const result = render(req);

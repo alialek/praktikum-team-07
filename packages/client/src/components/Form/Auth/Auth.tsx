@@ -3,19 +3,21 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
 import {
   AUTH_LINK_TEXT,
   AUTH_BUTTON_TEXT,
-  EMAIL_FIELD_LABEL,
+  LOGIN_FIELD_LABEL,
   PASSWORD_FIELD_LABEL,
   AUTH_BUTTON_YANDEX,
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { setIsLoggedIn } from '@/store/user/user.slice';
+import { signin } from '@/store/user/user.actions';
+import { RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
@@ -29,6 +31,7 @@ import { REDIRECT_URI } from '@/сonstants/main';
 export const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
   // const [serviceId, setServiceId] = useState<string>();
   // const [accessCode, setAccessCode] = useState<string>();
@@ -42,9 +45,48 @@ export const Auth = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = () => {
-    dispatch(setIsLoggedIn());
-    navigate(RootPath.path, { replace: true });
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(signin());
+    if (isLoggedIn) {
+      navigate(RootPath.path, { replace: true });
+    }
+  }, [dispatch, isLoggedIn, navigate]);
+
+  const onSubmit = (data: SigninInputModel) => {
+    // @ts-ignore
+    dispatch(signin(data));
+  };
+
+  const takeOauthAunthification = async () => {
+    console.log('call ya-practicum api');
+    try {
+      const response: any = await OauthService.getServiceId();
+      // setServiceId(response.data.service_id);
+      const yapServiceId = response.data.service_id;
+      window.open(
+        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    // OauthService.getServiceId()
+    //   .then((response: any) => {
+    //     setServiceId(response.data.service_id);
+    //   })
+    //   .catch((e: Error) => {
+    //     console.log(e);
+    //   });
+    // console.log(serviceId);
+    // console.log('call yandex oauth service');
+    // OauthService.getAccessCode(serviceId!)
+    //   .then((response: any) => {
+    //     setAccessCode(response.data.code);
+    //   })
+    //   .catch((e: Error) => {
+    //     console.log(e);
+    //   });
+    // console.log(accessCode);
   };
 
   const takeOauthAunthification = async () => {
@@ -84,12 +126,12 @@ export const Auth = () => {
         <Stack direction="column" spacing={2}>
           <TextField
             type="text"
-            {...register('email')}
+            {...register('login')}
             id="authEmail"
-            label={EMAIL_FIELD_LABEL}
+            label={LOGIN_FIELD_LABEL}
             autoFocus
-            error={!!errors?.email}
-            helperText={errors.email?.message}
+            error={!!errors?.login}
+            helperText={errors.login?.message}
           />
 
           <TextField

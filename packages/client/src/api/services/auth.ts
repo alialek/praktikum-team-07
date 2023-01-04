@@ -8,4 +8,7 @@ export const AuthService = {
   signup(data: SignupInputModel): Promise<ApiResponse> {
     return api.post('/auth/signup', data);
   },
+  getUserInfo(): Promise<ApiResponse> {
+    return api.get('/auth/user');
+  },
 };

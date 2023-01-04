@@ -1,5 +1,7 @@
 import { Client } from 'pg';
 
+import type { SequelizeOptions } from 'sequelize-typescript';
+
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
 
 export const createClientAndConnect = async (): Promise<Client | null> => {
@@ -25,3 +27,14 @@ export const createClientAndConnect = async (): Promise<Client | null> => {
 
   return null;
 };
+
+export const sequelizeOptions: SequelizeOptions = {
+  host: 'localhost',
+  port: Number(POSTGRES_PORT),
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  database: POSTGRES_DB,
+  dialect: 'postgres',
+};
+
+// const sequelize = new Sequelize(sequelizeOptions);
