@@ -104,7 +104,7 @@ export const Auth = () => {
       </CardActions>
       <CardActions>
         <Button
-          variant="info"
+          variant="text"
           type="button"
           size="medium"
           fullWidth
