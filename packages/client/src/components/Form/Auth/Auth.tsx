@@ -22,19 +22,10 @@ import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
 
-// type Props = {}
-
-// type State = OauthSingInModel & {
-//   access_token: string;
-// }
-
 export const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
-
-  // const [serviceId, setServiceId] = useState<string>();
-  // const [accessCode, setAccessCode] = useState<string>();
 
   const {
     register,
@@ -62,7 +53,6 @@ export const Auth = () => {
     console.log('call ya-practicum api');
     try {
       const response: any = await OauthService.getServiceId();
-      // setServiceId(response.data.service_id);
       const yapServiceId = response.data.service_id;
       window.open(
         `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
@@ -70,54 +60,6 @@ export const Auth = () => {
     } catch (error) {
       console.log(error);
     }
-    // OauthService.getServiceId()
-    //   .then((response: any) => {
-    //     setServiceId(response.data.service_id);
-    //   })
-    //   .catch((e: Error) => {
-    //     console.log(e);
-    //   });
-    // console.log(serviceId);
-    // console.log('call yandex oauth service');
-    // OauthService.getAccessCode(serviceId!)
-    //   .then((response: any) => {
-    //     setAccessCode(response.data.code);
-    //   })
-    //   .catch((e: Error) => {
-    //     console.log(e);
-    //   });
-    // console.log(accessCode);
-  };
-
-  const takeOauthAunthification = async () => {
-    console.log('call ya-practicum api');
-    try {
-      const response: any = await OauthService.getServiceId();
-      // setServiceId(response.data.service_id);
-      const yapServiceId = response.data.service_id;
-      window.open(
-        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
-      );
-    } catch (error) {
-      console.log(error);
-    }
-    // OauthService.getServiceId()
-    //   .then((response: any) => {
-    //     setServiceId(response.data.service_id);
-    //   })
-    //   .catch((e: Error) => {
-    //     console.log(e);
-    //   });
-    // console.log(serviceId);
-    // console.log('call yandex oauth service');
-    // OauthService.getAccessCode(serviceId!)
-    //   .then((response: any) => {
-    //     setAccessCode(response.data.code);
-    //   })
-    //   .catch((e: Error) => {
-    //     console.log(e);
-    //   });
-    // console.log(accessCode);
   };
 
   return (
