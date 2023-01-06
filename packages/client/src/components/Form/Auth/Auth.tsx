@@ -62,6 +62,7 @@ export const Auth = () => {
     }
   };
 
+  // eslint-disable-next-line no-return-assign
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent>
@@ -104,11 +105,11 @@ export const Auth = () => {
       </CardActions>
       <CardActions>
         <Button
-          variant="text"
+          variant="contained"
           type="button"
           size="medium"
           fullWidth
-          sx={loginFormStyles.button}
+          sx={loginFormStyles.yaButton}
           startIcon={<img src={YandexIcon} />}
           onClick={takeOauthAunthification}
         >

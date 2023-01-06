@@ -30,6 +30,9 @@ export const loginFormStyles: Record<string, SxProps<Theme> | React.CSSPropertie
   button: {
     borderRadius: '10px',
   },
+  yaButton: {
+    background: 'transparent',
+  },
 };
 
 export const profileStyles: Record<string, SxProps<Theme> | React.CSSProperties> = {
