@@ -54,6 +54,7 @@ export const Auth = () => {
     try {
       const response: any = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
+      localStorage.setItem('redirect_uri', this.redirect_uri.toString());
       window.open(
         `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
       );
