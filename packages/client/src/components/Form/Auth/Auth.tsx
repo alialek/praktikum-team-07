@@ -41,6 +41,8 @@ export const Auth = () => {
     dispatch(signin());
     if (isLoggedIn) {
       navigate(RootPath.path, { replace: true });
+    } else {
+      localStorage.clear();
     }
   }, [dispatch, isLoggedIn, navigate]);
 
@@ -54,7 +56,7 @@ export const Auth = () => {
     try {
       const response: any = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
-      localStorage.setItem('redirect_uri', this.redirect_uri.toString());
+      localStorage.setItem('redirect_uri', window.location.origin);
       window.open(
         `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
       );
