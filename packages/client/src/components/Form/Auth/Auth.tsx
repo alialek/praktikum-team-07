@@ -20,7 +20,6 @@ import { signin } from '@/store/user/user.actions';
 import { RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
-import { REDIRECT_URI } from '@/сonstants/main';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -56,9 +55,10 @@ export const Auth = () => {
     try {
       const response: any = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
-      localStorage.setItem('redirect_uri', window.location.origin);
+      const yaRedirectUri: string = window.location.origin;
+      localStorage.setItem('redirect_uri', yaRedirectUri);
       window.open(
-        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
+        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${yaRedirectUri}`,
       );
     } catch (error) {
       console.log(error);
