@@ -9,6 +9,5 @@ export const api = axios.create({
 });
 
 export const oauthApi = axios.create({
-  // withCredentials: true,
   headers: { 'Access-Control-Allow-Origin': '*' },
 });

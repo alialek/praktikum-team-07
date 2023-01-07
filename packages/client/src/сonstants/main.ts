@@ -4,7 +4,7 @@ export const UPDATE_AVATAR = '/user/profile/avatar';
 export const CHANGE_PASSWORD = '/user/password';
 
 // oauth
-export const REDIRECT_URI = 'http://localhost:3000';
+export const REDIRECT_URI = window.location.origin;
 export const OAUTH_GET_SERVICE_ID = '/oauth/yandex/service-id';
 export const OAUTH_GET_ACCESS_TOKEN = '/oauth/yandex';
 

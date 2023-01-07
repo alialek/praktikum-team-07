@@ -52,10 +52,8 @@ export const Auth = () => {
   const takeOauthAunthification = async () => {
     console.log('call ya-practicum api');
     try {
-      const response: any = await OauthService.getServiceId();
+      const response = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
-      const yaRedirectUri: string = window.location.origin;
-      localStorage.setItem('redirect_uri', yaRedirectUri);
       window.open(
         `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
       );

@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SigninPagePath } from '@/router/paths';
 import { oauthSignIn } from '@/store/user/user.actions';
+import { REDIRECT_URI } from '@/сonstants/main';
 
 export const useAuthGuard = (isLoggedIn: boolean) => {
   const navigate = useNavigate();
@@ -18,11 +19,10 @@ export const useAuthGuard = (isLoggedIn: boolean) => {
       }
       if (window.location.search.includes('code')) {
         const yaCode: string = window.location.search.split('=')[1];
-        const yaRedirectUri = localStorage.getItem('redirect_uri');
-        console.log(yaRedirectUri);
+        console.log(REDIRECT_URI);
+        console.log(yaCode);
         // @ts-ignore
-        dispatch(oauthSignIn({ code: yaCode, redirect_uri: yaRedirectUri }));
-        console.log(window.location.search.split('=')[1]);
+        dispatch(oauthSignIn({ code: yaCode, redirect_uri: REDIRECT_URI }));
         navigate(SigninPagePath.path);
       }
     }

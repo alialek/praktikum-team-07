@@ -7,7 +7,7 @@ export const OauthService = {
     return api.post('/oauth/yandex', data);
   },
 
-  getServiceId(): Promise<ApiResponse> {
+  getServiceId(): Promise<ApiResponse<OauthSingInModel>> {
     return api.get(`/oauth/yandex/service-id?redirect_uri=${REDIRECT_URI}`);
   },
 };
