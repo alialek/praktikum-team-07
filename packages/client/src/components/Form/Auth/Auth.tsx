@@ -20,6 +20,7 @@ import { signin } from '@/store/user/user.actions';
 import { RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
+import { REDIRECT_URI } from '@/сonstants/main';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -40,8 +41,6 @@ export const Auth = () => {
     dispatch(signin());
     if (isLoggedIn) {
       navigate(RootPath.path, { replace: true });
-    } else {
-      localStorage.clear();
     }
   }, [dispatch, isLoggedIn, navigate]);
 
@@ -58,7 +57,7 @@ export const Auth = () => {
       const yaRedirectUri: string = window.location.origin;
       localStorage.setItem('redirect_uri', yaRedirectUri);
       window.open(
-        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${yaRedirectUri}`,
+        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
       );
     } catch (error) {
       console.log(error);
