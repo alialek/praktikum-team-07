@@ -38,11 +38,13 @@ import { ProfileService } from '@/api/services/profile';
 
 export const Profile = () => {
   const { profile: user } = useAppSelector(showUserData);
-  const { first_name, second_name, email, phone, login, display_name } = user;
+  const { first_name, second_name, email, phone, login, display_name, avatar } = user;
+
+  const { updateProfile, updateAvatar } = ProfileService;
 
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
   const [edit, setEdit] = useState<boolean>(false);
-  const [avatar, setAvatar] = useState<AvatarModel | null>(null);
+  const [newAvatar, setNewAvatar] = useState<AvatarModel | null>(null);
   const [preview, setPreview] = useState<string | undefined>();
 
   const {
@@ -59,6 +61,7 @@ export const Profile = () => {
       phone,
       login,
       display_name,
+      avatar,
     },
   });
 
@@ -76,12 +79,10 @@ export const Profile = () => {
   }, [selectedFile]);
 
   const onSubmit = (data: UserModel) => {
-    console.log(JSON.stringify(data, null, 2), selectedFile);
-
     const formData = new FormData();
     formData.append('avatar', selectedFile as Blob);
 
-    ProfileService.avatar(formData);
+    updateProfile(data).then(() => updateAvatar(formData));
   };
 
   const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +93,7 @@ export const Profile = () => {
     }
 
     const [file] = files;
-    setAvatar(file);
+    setNewAvatar(file);
     setSelectedFile(file);
   };
 
@@ -102,28 +103,30 @@ export const Profile = () => {
 
   return (
     <Card sx={profileStyles.card}>
-      <Avatar avatar="" onChangeAvatar={handleChangeAvatar} />
-      <Box sx={profileStyles.avatarBlock}>
-        {avatar ? (
-          <Card variant="outlined">
-            <CardMedia
-              component="img"
-              height="140"
-              src={preview as string}
-              alt="Новый аватар"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {AVATAR_TEXT}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {`${avatar.name} - ${(avatar.size / (1024 * 1024)).toFixed(2)} MB`}
-              </Typography>
-            </CardContent>
-          </Card>
-        ) : null}
-      </Box>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <Avatar avatar={avatar} onChangeAvatar={handleChangeAvatar} />
+        {newAvatar ? (
+          <Box sx={profileStyles.avatarBlock}>
+            <Card variant="outlined">
+              <CardMedia
+                component="img"
+                height="140"
+                src={preview as string}
+                alt="Новый аватар"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {AVATAR_TEXT}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`${newAvatar.name} - ${(newAvatar.size / (1024 * 1024)).toFixed(
+                    2,
+                  )} MB`}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        ) : null}
         <CardContent>
           <Stack direction="column" spacing={2}>
             <TextField
@@ -135,7 +138,6 @@ export const Profile = () => {
               {...register('first_name')}
               error={!!errors?.first_name}
               helperText={errors.first_name?.message}
-              defaultValue="Иван"
               fullWidth
             />
 
@@ -148,7 +150,6 @@ export const Profile = () => {
               {...register('second_name')}
               error={!!errors.second_name}
               helperText={errors.second_name?.message}
-              defaultValue="Иванов"
               fullWidth
             />
 
@@ -161,7 +162,6 @@ export const Profile = () => {
               {...register('email')}
               error={!!errors.email}
               helperText={errors.email?.message}
-              defaultValue="iivanov@ya.ru"
               fullWidth
             />
 
@@ -174,7 +174,6 @@ export const Profile = () => {
               {...register('phone')}
               error={!!errors.phone}
               helperText={errors.phone?.message}
-              defaultValue="+79036742614"
               fullWidth
             />
 
@@ -187,7 +186,6 @@ export const Profile = () => {
               {...register('login')}
               error={!!errors.login}
               helperText={errors.login?.message}
-              defaultValue="iivanov"
               fullWidth
             />
 
@@ -200,7 +198,6 @@ export const Profile = () => {
               {...register('display_name')}
               error={!!errors.display_name}
               helperText={errors.display_name?.message}
-              defaultValue="otvertka2022"
               fullWidth
             />
           </Stack>
