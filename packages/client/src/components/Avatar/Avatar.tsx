@@ -9,13 +9,15 @@ type CallbackFunction = (event: React.ChangeEvent<HTMLInputElement>) => void;
 interface AvatarProps {
   avatar: string;
   onChangeAvatar: CallbackFunction;
+  disabled: boolean;
 }
 
-export const Avatar = ({ avatar, onChangeAvatar }: AvatarProps) => {
+export const Avatar = ({ avatar, disabled, onChangeAvatar }: AvatarProps) => {
   return (
     <Box sx={avatarStyles.boxWrapper}>
-      <Box sx={avatarStyles.boxInner}>
+      <Box sx={disabled ? avatarStyles.boxInnerDisabled : avatarStyles.boxInner}>
         <input
+          disabled={disabled}
           style={avatarStyles.avatarInput as React.CSSProperties}
           onChange={onChangeAvatar}
           type="file"

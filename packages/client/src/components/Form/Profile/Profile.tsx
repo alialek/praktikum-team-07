@@ -30,13 +30,14 @@ import {
   AVATAR_TEXT,
   CHANGE_PASSWORD_TEXT,
 } from '@/сonstants/text';
-import { useAppSelector } from '@/hooks';
-import { showUserData } from '@/store/user/user.slice';
+import { useAppSelector, useAppDispatch } from '@/hooks';
+import { showUserData, fetchUser } from '@/store/user/user.slice';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 import { ProfileService } from '@/api/services/profile';
 
 export const Profile = () => {
+  const dispatch = useAppDispatch();
   const { profile: user } = useAppSelector(showUserData);
   const { first_name, second_name, email, phone, login, display_name, avatar } = user;
 
@@ -50,7 +51,7 @@ export const Profile = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm<UserModel>({
     resolver: yupResolver(profileValidationSchema),
     mode: 'onChange',
@@ -80,9 +81,12 @@ export const Profile = () => {
 
   const onSubmit = (data: UserModel) => {
     const formData = new FormData();
-    formData.append('avatar', selectedFile as Blob);
+    formData.append('avatar', selectedFile as Blob); // TODO bullshit, remove the casting of types!!!!
 
-    updateProfile(data).then(() => updateAvatar(formData));
+    updateProfile(data)
+      .then(() => dispatch(fetchUser(data)))
+      .then(() => updateAvatar(formData))
+      .then(() => setNewAvatar(null));
   };
 
   const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +108,7 @@ export const Profile = () => {
   return (
     <Card sx={profileStyles.card}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <Avatar avatar={avatar} onChangeAvatar={handleChangeAvatar} />
+        <Avatar avatar={avatar} disabled={!edit} onChangeAvatar={handleChangeAvatar} />
         {newAvatar ? (
           <Box sx={profileStyles.avatarBlock}>
             <Card variant="outlined">
@@ -128,6 +132,9 @@ export const Profile = () => {
           </Box>
         ) : null}
         <CardContent>
+          <Typography variant="h1" padding="0 0 32px 0" textAlign="center">
+            Привет, {first_name} 🤘
+          </Typography>
           <Stack direction="column" spacing={2}>
             <TextField
               disabled={!edit}
@@ -208,7 +215,11 @@ export const Profile = () => {
               {EDIT_CHANGE_DATA}
             </Button>
 
-            <Button type="submit" disabled={!isValid} sx={profileStyles.button}>
+            <Button
+              type="submit"
+              disabled={!isDirty || !isValid}
+              sx={profileStyles.button}
+            >
               {PROFILE_CHANGE_DATA}
             </Button>
 

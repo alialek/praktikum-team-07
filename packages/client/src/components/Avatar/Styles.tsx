@@ -2,7 +2,7 @@ import React from 'react';
 import { SxProps, Theme } from '@mui/material';
 import editAvatarIcon from '@/img/edit.svg';
 
-type ClassName = 'boxWrapper' | 'boxInner' | 'avatarInput' | 'img';
+type ClassName = 'boxWrapper' | 'boxInner' | 'boxInnerDisabled' | 'avatarInput' | 'img';
 
 export const avatarStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   boxWrapper: {
@@ -11,6 +11,31 @@ export const avatarStyles: Record<ClassName, SxProps<Theme> | React.CSSPropertie
     justifyContent: 'center',
     flexDirection: 'column',
     height: '100%',
+  },
+  boxInnerDisabled: {
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'block',
+    cursor: 'default',
+    margin: 'auto',
+    width: 153,
+    height: 153,
+    borderRadius: 65,
+    ':after': {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      content: "''",
+      backgroundColor: 'rgb(234 222 222 / 62%)',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundSize: 40,
+      borderRadius: 65,
+    },
   },
   boxInner: {
     position: 'relative',
