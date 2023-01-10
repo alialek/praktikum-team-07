@@ -40,7 +40,6 @@ export const Profile = () => {
   const dispatch = useAppDispatch();
   const { profile: user } = useAppSelector(showUserData);
   const { first_name, second_name, email, phone, login, display_name, avatar } = user;
-
   const { updateProfile, updateAvatar } = ProfileService;
 
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
@@ -81,11 +80,14 @@ export const Profile = () => {
 
   const onSubmit = (data: UserModel) => {
     const formData = new FormData();
-    formData.append('avatar', selectedFile as Blob); // TODO bullshit, remove the casting of types!!!!
+    formData.append('avatar', data.avatar[0]);
 
     updateProfile(data)
-      .then(() => dispatch(fetchUser(data)))
-      .then(() => updateAvatar(formData))
+      .then(() => updateAvatar<UserModel>(formData))
+      .then((res) => {
+        const { data: payload } = res;
+        dispatch(fetchUser({ ...data, avatar: payload.avatar }));
+      })
       .then(() => setNewAvatar(null));
   };
 
@@ -108,7 +110,12 @@ export const Profile = () => {
   return (
     <Card sx={profileStyles.card}>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <Avatar avatar={avatar} disabled={!edit} onChangeAvatar={handleChangeAvatar} />
+        <Avatar
+          register={register}
+          avatar={avatar}
+          disabled={!edit}
+          onChangeAvatar={handleChangeAvatar}
+        />
         {newAvatar ? (
           <Box sx={profileStyles.avatarBlock}>
             <Card variant="outlined">

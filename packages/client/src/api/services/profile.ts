@@ -7,8 +7,8 @@ export const ProfileService = {
     return api.put<T>(UPDATE_PROFILE_URL, data);
   },
 
-  updateAvatar(data: FormData): Promise<ApiResponse> {
-    return api.put(UPDATE_AVATAR, data);
+  updateAvatar<T>(data: FormData): Promise<ApiResponse<T>> {
+    return api.put<T>(UPDATE_AVATAR, data);
   },
 
   changePassword(data: ChangePasswordModel): Promise<ApiResponse> {
