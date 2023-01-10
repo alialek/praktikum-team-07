@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -29,11 +30,16 @@ import {
   AVATAR_TEXT,
   CHANGE_PASSWORD_TEXT,
 } from '@/сonstants/text';
+import { useAppSelector } from '@/hooks';
+import { showUserData } from '@/store/user/user.slice';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 import { ProfileService } from '@/api/services/profile';
 
 export const Profile = () => {
+  const { profile: user } = useAppSelector(showUserData);
+  const { first_name, second_name, email, phone, login, display_name } = user;
+
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
   const [edit, setEdit] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<AvatarModel | null>(null);
@@ -46,6 +52,14 @@ export const Profile = () => {
   } = useForm<UserModel>({
     resolver: yupResolver(profileValidationSchema),
     mode: 'onChange',
+    defaultValues: {
+      first_name,
+      second_name,
+      email,
+      phone,
+      login,
+      display_name,
+    },
   });
 
   useEffect(() => {
@@ -103,7 +117,7 @@ export const Profile = () => {
                 {AVATAR_TEXT}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {`${avatar.name} - ${(avatar.size / 1024 ** 2).toFixed(2)} MB`}
+                {`${avatar.name} - ${(avatar.size / (1024 * 1024)).toFixed(2)} MB`}
               </Typography>
             </CardContent>
           </Card>

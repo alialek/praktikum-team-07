@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import type { RootState } from '../store';
 import { getUserInfo, signin, signup } from './user.actions';
 import { UserModel } from '@/models/user.model';
 
@@ -13,7 +14,16 @@ export interface UserState {
 const initialState: UserState = {
   isAuth: false,
   loading: false,
-  profile: {} as UserModel,
+  profile: {
+    id: 0,
+    display_name: '',
+    avatar: '',
+    first_name: '',
+    second_name: '',
+    login: '',
+    email: '',
+    phone: '',
+  },
   error: '',
 };
 
@@ -65,5 +75,6 @@ export const userSlice = createSlice({
   },
 });
 
+export const showUserData = (state: RootState) => state.user;
 export const { setIsLoggedIn } = userSlice.actions;
 export default userSlice.reducer;
