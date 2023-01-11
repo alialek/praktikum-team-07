@@ -11,7 +11,7 @@ export const ProfileService = {
     return api.put<T>(UPDATE_AVATAR, data);
   },
 
-  changePassword(data: ChangePasswordModel): Promise<ApiResponse> {
-    return api.put(CHANGE_PASSWORD, data);
+  changePassword<T>(data: ChangePasswordModel): Promise<ApiResponse<T>> {
+    return api.put<T>(CHANGE_PASSWORD, data);
   },
 };

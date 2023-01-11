@@ -17,9 +17,11 @@ import { ProfileService } from '@/api/services/profile';
 import { ChangePasswordModel } from '@/models/user.model';
 
 export const ChangePassword = () => {
+  const { changePassword } = ProfileService;
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<ChangePasswordModel>({
     resolver: yupResolver(passwordValidationSchema),
@@ -28,9 +30,9 @@ export const ChangePassword = () => {
 
   const onSubmit = (data: ChangePasswordModel) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { newPasswordRepeat, ...password } = data;
+    const { newPasswordRepeat, ...changePasswordRequest } = data;
 
-    ProfileService.changePassword(password);
+    changePassword(changePasswordRequest).then(() => reset());
   };
 
   return (
