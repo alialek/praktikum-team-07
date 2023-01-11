@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -29,23 +30,39 @@ import {
   AVATAR_TEXT,
   CHANGE_PASSWORD_TEXT,
 } from '@/сonstants/text';
+import { useAppSelector, useAppDispatch } from '@/hooks';
+import { showUserData, fetchUser } from '@/store/user/user.slice';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 import { ProfileService } from '@/api/services/profile';
 
 export const Profile = () => {
+  const dispatch = useAppDispatch();
+  const { profile: user } = useAppSelector(showUserData);
+  const { first_name, second_name, email, phone, login, display_name, avatar } = user;
+  const { updateProfile, updateAvatar } = ProfileService;
+
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
   const [edit, setEdit] = useState<boolean>(false);
-  const [avatar, setAvatar] = useState<AvatarModel | null>(null);
+  const [newAvatar, setNewAvatar] = useState<AvatarModel | null>(null);
   const [preview, setPreview] = useState<string | undefined>();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm<UserModel>({
     resolver: yupResolver(profileValidationSchema),
     mode: 'onChange',
+    defaultValues: {
+      first_name,
+      second_name,
+      email,
+      phone,
+      login,
+      display_name,
+      avatar,
+    },
   });
 
   useEffect(() => {
@@ -62,12 +79,24 @@ export const Profile = () => {
   }, [selectedFile]);
 
   const onSubmit = (data: UserModel) => {
-    console.log(JSON.stringify(data, null, 2), selectedFile);
-
-    const formData = new FormData();
-    formData.append('avatar', selectedFile as Blob);
-
-    ProfileService.avatar(formData);
+    if (data.avatar) {
+      const formData = new FormData();
+      formData.append('avatar', data.avatar[0]);
+      updateProfile(data)
+        .then(() => updateAvatar<UserModel>(formData))
+        .then((res) => {
+          const { data: payload } = res;
+          dispatch(fetchUser({ ...data, avatar: payload.avatar }));
+        })
+        .then(() => setNewAvatar(null))
+        .then(() => setEdit(!edit));
+    } else {
+      updateProfile(data)
+        .then(() => {
+          dispatch(fetchUser(data));
+        })
+        .then(() => setEdit(!edit));
+    }
   };
 
   const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +107,7 @@ export const Profile = () => {
     }
 
     const [file] = files;
-    setAvatar(file);
+    setNewAvatar(file);
     setSelectedFile(file);
   };
 
@@ -88,29 +117,39 @@ export const Profile = () => {
 
   return (
     <Card sx={profileStyles.card}>
-      <Avatar avatar="" onChangeAvatar={handleChangeAvatar} />
-      <Box sx={profileStyles.avatarBlock}>
-        {avatar ? (
-          <Card variant="outlined">
-            <CardMedia
-              component="img"
-              height="140"
-              src={preview as string}
-              alt="Новый аватар"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {AVATAR_TEXT}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {`${avatar.name} - ${(avatar.size / 1024 ** 2).toFixed(2)} MB`}
-              </Typography>
-            </CardContent>
-          </Card>
-        ) : null}
-      </Box>
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <Avatar
+          register={register}
+          avatar={avatar}
+          disabled={!edit}
+          onChangeAvatar={handleChangeAvatar}
+        />
+        {newAvatar ? (
+          <Box sx={profileStyles.avatarBlock}>
+            <Card variant="outlined">
+              <CardMedia
+                component="img"
+                height="140"
+                src={preview as string}
+                alt="Новый аватар"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {AVATAR_TEXT}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`${newAvatar.name} - ${(newAvatar.size / (1024 * 1024)).toFixed(
+                    2,
+                  )} MB`}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        ) : null}
         <CardContent>
+          <Typography variant="h1" padding="0 0 32px 0" textAlign="center">
+            Привет, {first_name} 🤘
+          </Typography>
           <Stack direction="column" spacing={2}>
             <TextField
               disabled={!edit}
@@ -121,7 +160,6 @@ export const Profile = () => {
               {...register('first_name')}
               error={!!errors?.first_name}
               helperText={errors.first_name?.message}
-              defaultValue="Иван"
               fullWidth
             />
 
@@ -134,7 +172,6 @@ export const Profile = () => {
               {...register('second_name')}
               error={!!errors.second_name}
               helperText={errors.second_name?.message}
-              defaultValue="Иванов"
               fullWidth
             />
 
@@ -147,7 +184,6 @@ export const Profile = () => {
               {...register('email')}
               error={!!errors.email}
               helperText={errors.email?.message}
-              defaultValue="iivanov@ya.ru"
               fullWidth
             />
 
@@ -160,7 +196,6 @@ export const Profile = () => {
               {...register('phone')}
               error={!!errors.phone}
               helperText={errors.phone?.message}
-              defaultValue="+79036742614"
               fullWidth
             />
 
@@ -173,7 +208,6 @@ export const Profile = () => {
               {...register('login')}
               error={!!errors.login}
               helperText={errors.login?.message}
-              defaultValue="iivanov"
               fullWidth
             />
 
@@ -186,7 +220,6 @@ export const Profile = () => {
               {...register('display_name')}
               error={!!errors.display_name}
               helperText={errors.display_name?.message}
-              defaultValue="otvertka2022"
               fullWidth
             />
           </Stack>
@@ -197,7 +230,11 @@ export const Profile = () => {
               {EDIT_CHANGE_DATA}
             </Button>
 
-            <Button type="submit" disabled={!isValid} sx={profileStyles.button}>
+            <Button
+              type="submit"
+              disabled={!isDirty || !isValid}
+              sx={profileStyles.button}
+            >
               {PROFILE_CHANGE_DATA}
             </Button>
 

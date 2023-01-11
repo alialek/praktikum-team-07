@@ -1,4 +1,5 @@
 export const API_URL = 'https://ya-praktikum.tech/api/v2';
+export const UPDATE_PROFILE_URL = '/user/profile';
 export const GET_AVATAR_URL = `${API_URL}/resources`;
 export const UPDATE_AVATAR = '/user/profile/avatar';
 export const CHANGE_PASSWORD = '/user/password';

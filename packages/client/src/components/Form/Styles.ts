@@ -42,6 +42,7 @@ export const profileStyles: Record<string, SxProps<Theme> | React.CSSProperties>
     justifyContent: 'center',
     flexDirection: 'column',
     minHeight: '100vh',
+    padding: '24px 0 32px',
   },
   card: {
     maxWidth: '828px',
