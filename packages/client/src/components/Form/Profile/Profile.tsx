@@ -79,16 +79,24 @@ export const Profile = () => {
   }, [selectedFile]);
 
   const onSubmit = (data: UserModel) => {
-    const formData = new FormData();
-    formData.append('avatar', data.avatar[0]);
-
-    updateProfile(data)
-      .then(() => updateAvatar<UserModel>(formData))
-      .then((res) => {
-        const { data: payload } = res;
-        dispatch(fetchUser({ ...data, avatar: payload.avatar }));
-      })
-      .then(() => setNewAvatar(null));
+    if (data.avatar) {
+      const formData = new FormData();
+      formData.append('avatar', data.avatar[0]);
+      updateProfile(data)
+        .then(() => updateAvatar<UserModel>(formData))
+        .then((res) => {
+          const { data: payload } = res;
+          dispatch(fetchUser({ ...data, avatar: payload.avatar }));
+        })
+        .then(() => setNewAvatar(null))
+        .then(() => setEdit(!edit));
+    } else {
+      updateProfile(data)
+        .then(() => {
+          dispatch(fetchUser(data));
+        })
+        .then(() => setEdit(!edit));
+    }
   };
 
   const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {

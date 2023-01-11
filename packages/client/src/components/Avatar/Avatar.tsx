@@ -30,7 +30,7 @@ export const Avatar = ({ register, avatar, disabled, onChangeAvatar }: AvatarPro
         />
         <img
           style={avatarStyles.img as React.CSSProperties}
-          src={avatar.length ? `${GET_AVATAR_URL}/${avatar}` : emptyAvatarImg}
+          src={avatar ? `${GET_AVATAR_URL}/${avatar}` : emptyAvatarImg}
           alt="Аватар"
         />
       </Box>
