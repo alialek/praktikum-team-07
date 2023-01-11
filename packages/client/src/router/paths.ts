@@ -37,3 +37,7 @@ export const LeadersPagePath = {
 export const NoneExistPath = {
   path: '*',
 };
+
+export const OauthPath = {
+  path: '',
+};

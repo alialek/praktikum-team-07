@@ -1,3 +1,4 @@
+// import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,11 +12,15 @@ import {
   AUTH_BUTTON_TEXT,
   LOGIN_FIELD_LABEL,
   PASSWORD_FIELD_LABEL,
+  AUTH_BUTTON_YANDEX,
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { signin } from '@/store/user/user.actions';
 import { RootState } from '@/store/store';
+import YandexIcon from '../../../assets/images/Yandex_icon.svg';
+import { OauthService } from '@/api/services/oauth';
+import { REDIRECT_URI } from '@/сonstants/main';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -44,6 +49,20 @@ export const Auth = () => {
     dispatch(signin(data));
   };
 
+  const takeOauthAunthification = async () => {
+    console.log('call ya-practicum api');
+    try {
+      const response = await OauthService.getServiceId();
+      const yapServiceId = response.data.service_id;
+      window.open(
+        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // eslint-disable-next-line no-return-assign
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent>
@@ -82,6 +101,19 @@ export const Auth = () => {
           sx={loginFormStyles.button}
         >
           {AUTH_BUTTON_TEXT}
+        </Button>
+      </CardActions>
+      <CardActions>
+        <Button
+          variant="contained"
+          type="button"
+          size="medium"
+          fullWidth
+          sx={loginFormStyles.yaButton}
+          startIcon={<img src={YandexIcon} />}
+          onClick={takeOauthAunthification}
+        >
+          {AUTH_BUTTON_YANDEX}
         </Button>
       </CardActions>
     </form>
