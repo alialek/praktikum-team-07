@@ -11,6 +11,9 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
 import { AccountCircle } from '@mui/icons-material';
 import { Link } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
 import colors from '@/colors';
 import {
   LeadersPagePath,
@@ -27,6 +30,8 @@ import {
 } from '@/сonstants/text';
 import { headerStyles } from './Styles';
 import { ColorModeContext } from '@/components/ToggleColorMode';
+import { AuthService } from '@/api/services/auth';
+import { AppDispatch } from '@/store/store';
 
 const settings = [
   {
@@ -48,6 +53,7 @@ const settings = [
 ];
 
 export const Header = () => {
+  const dispatch = useDispatch<ThunkDispatch<AppDispatch, Promise<AxiosResponse>, any>>();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
 
@@ -68,7 +74,13 @@ export const Header = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
           <Box sx={headerStyles.nav}>
             {settings.map(({ title, link }) => (
-              <Link to={link} underline="none" component={RouterLink} key={title}>
+              <Link
+                to={link}
+                underline="none"
+                component={RouterLink}
+                key={title}
+                onClick={() => title === LOGOUT_TEXT && dispatch(AuthService.logout())}
+              >
                 <Typography color="primary" sx={headerStyles.navItem}>
                   {title}
                 </Typography>

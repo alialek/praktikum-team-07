@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -19,8 +18,7 @@ export const useAuthGuard = (isLoggedIn: boolean) => {
       }
       if (window.location.search.includes('code')) {
         const yaCode: string = window.location.search.split('=')[1];
-        console.log(REDIRECT_URI);
-        console.log(yaCode);
+
         // @ts-ignore
         dispatch(oauthSignIn({ code: yaCode, redirect_uri: REDIRECT_URI }));
         navigate(SigninPagePath.path);

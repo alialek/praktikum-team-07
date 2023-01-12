@@ -1,24 +1,43 @@
 import React from 'react';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router';
 import { ToggleColorMode } from '@/components/ToggleColorMode';
 import { router } from '@/router/router';
-import { RootState, store } from '@/store/store';
+import { store } from '@/store/store';
 import { mainStyles } from '../../../StyleMain';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { getUserInfo } from '@/store/user/user.actions';
+import { showUserData } from '@/store/user/user.slice';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 function Main() {
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
+  const navigate = useNavigate();
   const routing = useRoutes(router());
 
-  useAuthGuard(isLoggedIn);
+  const dispatch = useAppDispatch();
+  const { profile: user, isAuth: isLoggedIn } = useAppSelector(showUserData);
 
-  // @ts-ignore
-  dispatch(getUserInfo());
+  useAuthGuard(isLoggedIn); // TODO починить бы, ломает роутинг, при перезагрузке всегда редирект на главную
+
+  const fetchData = async () => {
+    const resultAction = await dispatch(getUserInfo());
+    if (getUserInfo.fulfilled.match(resultAction)) {
+      const { payload } = resultAction;
+      return payload;
+    }
+    return null;
+  };
+
+  React.useEffect(() => {
+    fetchData().then((payload) => {
+      if (!payload) {
+        navigate('/auth/login');
+      }
+    });
+  }, [user.id]);
 
   return routing;
 }
