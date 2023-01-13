@@ -1,9 +1,8 @@
 import React from 'react';
-import { BrowserRouter, useRoutes } from 'react-router-dom';
+import { BrowserRouter, useRoutes, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router';
 import { ToggleColorMode } from '@/components/ToggleColorMode';
 import { router } from '@/router/router';
 import { store } from '@/store/store';
@@ -34,7 +33,7 @@ function Main() {
   React.useEffect(() => {
     fetchData().then((payload) => {
       if (!payload) {
-        navigate('/auth/login');
+        navigate('/auth/login', { replace: true });
       }
     });
   }, [user.id]);
