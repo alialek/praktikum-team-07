@@ -17,9 +17,10 @@ function Main() {
   const routing = useRoutes(router());
 
   const dispatch = useAppDispatch();
-  const { profile: user, isAuth: isLoggedIn } = useAppSelector(showUserData);
+  const { profile: user } = useAppSelector(showUserData);
+  const isLoggedIn = localStorage.getItem('user_in');
 
-  useAuthGuard(isLoggedIn); // TODO починить бы, ломает роутинг, при перезагрузке всегда редирект на главную
+  useAuthGuard(Boolean(isLoggedIn)); // TODO починить бы, ломает роутинг, при перезагрузке всегда редирект на главную
 
   const fetchData = async () => {
     const resultAction = await dispatch(getUserInfo());
@@ -33,6 +34,7 @@ function Main() {
   React.useEffect(() => {
     fetchData().then((payload) => {
       if (!payload) {
+        localStorage.clear();
         navigate('/auth/login', { replace: true });
       }
     });

@@ -40,6 +40,7 @@ export const Auth = () => {
     // @ts-ignore
     dispatch(signin());
     if (isLoggedIn) {
+      localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
       dispatch(getUserInfo());
     }

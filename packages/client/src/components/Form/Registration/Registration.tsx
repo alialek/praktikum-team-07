@@ -39,6 +39,7 @@ export const Registration = () => {
     // @ts-ignore
     dispatch(signup());
     if (isLoggedIn) {
+      localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
     }
   }, [dispatch, isLoggedIn, navigate]);
