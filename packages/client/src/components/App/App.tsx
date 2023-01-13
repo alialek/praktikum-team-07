@@ -20,7 +20,7 @@ function Main() {
   const { profile: user } = useAppSelector(showUserData);
   const isLoggedIn = localStorage.getItem('user_in');
 
-  useAuthGuard(Boolean(isLoggedIn)); // TODO починить бы, ломает роутинг, при перезагрузке всегда редирект на главную
+  useAuthGuard(Boolean(isLoggedIn));
 
   const fetchData = async () => {
     const resultAction = await dispatch(getUserInfo());
