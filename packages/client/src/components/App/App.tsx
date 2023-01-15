@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, useRoutes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -8,37 +8,11 @@ import { router } from '@/router/router';
 import { store } from '@/store/store';
 import { mainStyles } from '../../../StyleMain';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
-import { getUserInfo } from '@/store/user/user.actions';
-import { showUserData } from '@/store/user/user.slice';
-import { useAppDispatch, useAppSelector } from '@/hooks';
 
 function Main() {
-  const navigate = useNavigate();
   const routing = useRoutes(router());
 
-  const dispatch = useAppDispatch();
-  const { profile: user } = useAppSelector(showUserData);
-  const isLoggedIn = localStorage.getItem('user_in');
-
-  useAuthGuard(Boolean(isLoggedIn));
-
-  const fetchData = async () => {
-    const resultAction = await dispatch(getUserInfo());
-    if (getUserInfo.fulfilled.match(resultAction)) {
-      const { payload } = resultAction;
-      return payload;
-    }
-    return null;
-  };
-
-  React.useEffect(() => {
-    fetchData().then((payload) => {
-      if (!payload) {
-        localStorage.clear();
-        navigate('/auth/login', { replace: true });
-      }
-    });
-  }, [user.id]);
+  useAuthGuard();
 
   return routing;
 }
