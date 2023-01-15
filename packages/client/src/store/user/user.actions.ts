@@ -41,9 +41,9 @@ export const signup = createAsyncThunk(
   },
 );
 
-export const getUserInfo = createAsyncThunk(
+export const getUserInfo = createAsyncThunk<UserModel, void>(
   'user/getInfo',
-  async (payload: UserModel, thunkApi) => {
+  async (_, thunkApi) => {
     try {
       const { data } = await AuthService.getUserInfo();
       return data;
@@ -60,7 +60,7 @@ export const getUserInfo = createAsyncThunk(
 );
 
 export const oauthSignIn = createAsyncThunk(
-  'user/signin',
+  'user/oauthSignIn',
   async (payload: OauthSingInModel, thunkApi) => {
     try {
       const { data } = await OauthService.signin(payload);

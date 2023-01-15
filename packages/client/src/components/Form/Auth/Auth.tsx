@@ -16,14 +16,14 @@ import {
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { signin } from '@/store/user/user.actions';
-import { RootState } from '@/store/store';
+import { getUserInfo, signin } from '@/store/user/user.actions';
+import { AppDispatch, RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
 
 export const Auth = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
@@ -40,7 +40,9 @@ export const Auth = () => {
     // @ts-ignore
     dispatch(signin());
     if (isLoggedIn) {
+      localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
+      dispatch(getUserInfo());
     }
   }, [dispatch, isLoggedIn, navigate]);
 
@@ -50,7 +52,6 @@ export const Auth = () => {
   };
 
   const takeOauthAunthification = async () => {
-    console.log('call ya-practicum api');
     try {
       const response = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
@@ -110,7 +111,7 @@ export const Auth = () => {
           size="medium"
           fullWidth
           sx={loginFormStyles.yaButton}
-          startIcon={<img src={YandexIcon} />}
+          startIcon={<img src={YandexIcon} alt="YandexIcon" />}
           onClick={takeOauthAunthification}
         >
           {AUTH_BUTTON_YANDEX}

@@ -79,7 +79,7 @@ export const Profile = () => {
   }, [selectedFile]);
 
   const onSubmit = (data: UserModel) => {
-    if (data.avatar) {
+    if (typeof data.avatar[0] === 'object') {
       const formData = new FormData();
       formData.append('avatar', data.avatar[0]);
       updateProfile(data)

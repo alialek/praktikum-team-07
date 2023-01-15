@@ -1,16 +1,36 @@
 import { useEffect } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigate } from 'react-router';
-import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SigninPagePath } from '@/router/paths';
-import { oauthSignIn } from '@/store/user/user.actions';
+import { getUserInfo, oauthSignIn } from '@/store/user/user.actions';
 import { REDIRECT_URI } from '@/сonstants/main';
+import { useAppDispatch, useAppSelector } from '@/hooks/index';
+import { showUserData } from '@/store/user/user.slice';
 
-export const useAuthGuard = (isLoggedIn: boolean) => {
+export const useAuthGuard = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const { profile: user } = useAppSelector(showUserData);
+  const isLoggedIn = Boolean(localStorage.getItem('user_in'));
+
+  const fetchUserData = async () => {
+    const resultAction = await dispatch(getUserInfo());
+    if (getUserInfo.fulfilled.match(resultAction)) {
+      const { payload } = resultAction;
+      return payload;
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    fetchUserData().then((payload) => {
+      if (!payload) {
+        localStorage.clear();
+        navigate('/auth/login', { replace: true });
+      }
+    });
+  }, [user.id]);
 
   useEffect(() => {
     if (!pathname.includes('/auth')) {
@@ -19,8 +39,7 @@ export const useAuthGuard = (isLoggedIn: boolean) => {
       }
       if (window.location.search.includes('code')) {
         const yaCode: string = window.location.search.split('=')[1];
-        console.log(REDIRECT_URI);
-        console.log(yaCode);
+
         // @ts-ignore
         dispatch(oauthSignIn({ code: yaCode, redirect_uri: REDIRECT_URI }));
         navigate(SigninPagePath.path);
