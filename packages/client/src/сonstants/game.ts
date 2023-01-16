@@ -2,7 +2,7 @@ export const KEY_ARROW_UP = 'KeyW';
 export const KEY_ARROW_DOWN = 'KeyS';
 export const KEY_RIGHT = 'KeyD';
 export const KEY_LEFT = 'KeyA';
-export const KEY_SPACE = 'ShiftLeft';
+export const KEY_JUMP = 'ShiftLeft';
 
 export const FIRST_LINE_DISTANCE = 10;
 export const SECOND_LINE_DISTANCE = 40;

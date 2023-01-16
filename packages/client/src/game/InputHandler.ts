@@ -3,7 +3,7 @@ import {
   KEY_ARROW_UP,
   KEY_LEFT,
   KEY_RIGHT,
-  KEY_SPACE,
+  KEY_JUMP,
 } from '@/сonstants/game';
 
 export class InputHandler {
@@ -17,7 +17,7 @@ export class InputHandler {
           code === KEY_ARROW_UP ||
           code === KEY_LEFT ||
           code === KEY_RIGHT ||
-          code === KEY_SPACE) &&
+          code === KEY_JUMP) &&
         this._keys.indexOf(code) === -1
       ) {
         this._keys.push(code);
@@ -30,7 +30,7 @@ export class InputHandler {
         code === KEY_ARROW_UP ||
         code === KEY_LEFT ||
         code === KEY_RIGHT ||
-        code === KEY_SPACE
+        code === KEY_JUMP
       ) {
         this._keys.splice(this._keys.indexOf(code), 1);
       }

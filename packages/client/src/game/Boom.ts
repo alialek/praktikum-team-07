@@ -1,6 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import throttle from 'lodash.throttle';
 
+/**
+ * @class Boom
+ * @classdesc Класс отвечающий за анимацию взрыва
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {HTMLImageElement} boomImageSrc Спрайт взрыва (private readonly)
+ * @param {number} width
+ * @param {number} height
+ */
 export class Boom {
   private readonly context: CanvasRenderingContext2D;
 
@@ -46,6 +55,10 @@ export class Boom {
     }, 120);
   }
 
+  /**
+   * @function draw
+   * @description Функция отвечающая за отрисовку
+   */
   public draw(frontHeroCords: number, enemyAssCords: number) {
     this.context.drawImage(
       this.image,
@@ -60,6 +73,10 @@ export class Boom {
     );
   }
 
+  /**
+   * @function update
+   * @description Функция отвечает за обновление координат анимации взрыва
+   */
   public update() {
     this.throttleBoomEffect();
   }
