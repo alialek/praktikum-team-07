@@ -9,51 +9,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
-import { AccountCircle } from '@mui/icons-material';
 import { Link } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
-import colors from '@/colors';
-import {
-  LeadersPagePath,
-  ProfilePagePath,
-  ForumPagePath,
-  SigninPagePath,
-} from '@/router/paths';
-import {
-  FORUM_TEXT,
-  GAME_NAME_TEXT,
-  LEADERS_TEXT,
-  LOGOUT_TEXT,
-  PROFILE_TEXT,
-} from '@/сonstants/text';
+import { GAME_NAME_TEXT } from '@/сonstants/text';
 import { headerStyles } from './Styles';
 import { ColorModeContext } from '@/components/ToggleColorMode';
-import { AuthService } from '@/api/services/auth';
-import { AppDispatch } from '@/store/store';
-
-const settings = [
-  {
-    title: PROFILE_TEXT,
-    link: ProfilePagePath.path,
-  },
-  {
-    title: LEADERS_TEXT,
-    link: LeadersPagePath.path,
-  },
-  {
-    title: FORUM_TEXT,
-    link: ForumPagePath.path,
-  },
-  {
-    title: LOGOUT_TEXT,
-    link: SigninPagePath.path,
-  },
-];
+import { Nav } from '@/components/Nav/Nav';
 
 export const Header = () => {
-  const dispatch = useDispatch<ThunkDispatch<AppDispatch, Promise<AxiosResponse>, any>>();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
 
@@ -73,20 +35,7 @@ export const Header = () => {
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
           <Box sx={headerStyles.nav}>
-            {settings.map(({ title, link }) => (
-              <Link
-                to={link}
-                underline="none"
-                component={RouterLink}
-                key={title}
-                onClick={() => title === LOGOUT_TEXT && dispatch(AuthService.logout())}
-              >
-                <Typography color="primary" sx={headerStyles.navItem}>
-                  {title}
-                </Typography>
-              </Link>
-            ))}
-            <AccountCircle htmlColor={colors.avaBG} fontSize="large" />
+            <Nav />
             <IconButton
               sx={{ ml: 1 }}
               onClick={colorMode?.toggleColorMode as () => void}
