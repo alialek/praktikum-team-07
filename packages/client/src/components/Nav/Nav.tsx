@@ -17,6 +17,8 @@ export const Nav = () => {
   const dispatch = useDispatch<ThunkDispatch<AppDispatch, Promise<AxiosResponse>, any>>();
   const isLoggedIn = Boolean(localStorage.getItem('user_in'));
 
+  const handleClickLogout = () => dispatch(AuthService.logout());
+
   return isLoggedIn ? (
     <>
       {SETTINGS.map(({ title, link }) => (
@@ -25,7 +27,7 @@ export const Nav = () => {
           underline="none"
           component={RouterLink}
           key={title}
-          onClick={() => title === LOGOUT_TEXT && dispatch(AuthService.logout())}
+          onClick={title === LOGOUT_TEXT ? handleClickLogout : undefined}
         >
           <Typography color="primary" sx={headerStyles.navItem}>
             {title}
