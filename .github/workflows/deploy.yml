@@ -60,8 +60,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_SSH_HOST }}
           username: ${{ secrets.VPS_SSH_USERNAME }}
-          password: ${{ secrets.VPS_SSH_PASSWORD }}
-          port: ${{ secrets.VPS_SSH_PORT }}
+          key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             echo "Pull new image"
             docker-compose -f /home/${{ secrets.VPS_SSH_USERNAME }}/praktikum-team-07/docker-compose.test.yml pull
