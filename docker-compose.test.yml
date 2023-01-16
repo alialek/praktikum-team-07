@@ -2,13 +2,13 @@ version: '3.9'
 
 services:
   server:
-    image: cr.yandex/crpa957ab9entteba105/server:latest
+    container_name: prakticum-server
+    image: prackicum-server
     build:
       context: .
       dockerfile: Dockerfile.server.test
       args:
         SERVER_PORT: ${SERVER_PORT}
-    restart: always
     ports:
       - '${SERVER_PORT}:${SERVER_PORT}'
     environment:
