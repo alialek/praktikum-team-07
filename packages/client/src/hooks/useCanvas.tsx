@@ -6,6 +6,8 @@ import {
   SetStateAction,
   Dispatch,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EndGamePagePath } from '@/router/paths';
 import { GameType } from '@/game/Game';
 import { Boom } from '@/game/Boom';
 import boomImageSrc from '@/assets/images/boom.png';
@@ -23,6 +25,8 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
   const [cords, setCords] = useState<Record<string, number>>({});
 
   const { requestAnimationFrame, cancelAnimationFrame } = window;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -47,7 +51,7 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
       render();
     }
 
-    if (context && !isRunning) {
+    if (context && !isRunning && localStorage.isReload !== 'true') {
       const boom = new Boom({
         context,
         boomImageSrc,
@@ -62,6 +66,11 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
         animationFrameIdBoom = requestAnimationFrame(render);
       };
       render();
+      setTimeout(() => {
+        localStorage.removeItem('gameSpeed');
+        localStorage.removeItem('gameFrame');
+        navigate(EndGamePagePath.path);
+      }, 2000);
     }
 
     return () => {

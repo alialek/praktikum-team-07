@@ -16,7 +16,9 @@ export const Home = () => {
 
   const handleStart = () => {
     setStarted(!isStarted);
-    localStorage.clear();
+    Object.entries(localStorage).forEach(([key]) => {
+      if (!key.includes('bestScore')) delete localStorage[key];
+    });
   };
   return (
     <Box>

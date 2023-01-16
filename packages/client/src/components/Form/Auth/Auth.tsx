@@ -50,7 +50,6 @@ export const Auth = () => {
   };
 
   const takeOauthAunthification = async () => {
-    console.log('call ya-practicum api');
     try {
       const response = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;

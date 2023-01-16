@@ -1,20 +1,22 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { Pause, Replay, Stop, PlayCircle } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { Game } from '@/game/Game';
 import { useCanvas } from '@/hooks/useCanvas';
 import { PAUSE_GAME, PLAY_GAME, PLAY_GAME_AGAIN, STOP_GAME } from '@/сonstants/game';
+import { EndGamePagePath } from '@/router/paths';
 
 interface CanvasProps {
   onStop: () => void;
 }
-
-export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
+export const Canvas: React.FC<CanvasProps> = () => {
   const [canvasRef, isRunning, isPaused, setIsRunning, setIsPaused] = useCanvas({
     GameClass: Game,
   });
+  const navigate = useNavigate();
 
-  const handlePause = () => {
+  function handlePause() {
     const _isPaused = localStorage.getItem('isPaused');
     if (_isPaused === 'true') {
       setIsPaused(false);
@@ -22,15 +24,25 @@ export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
     } else {
       setIsPaused(true);
     }
-  };
+  }
 
   const handlePlayAgain = () => {
     setIsRunning(!isRunning);
+    localStorage.setItem('isReload', 'true');
 
     setTimeout(() => {
-      localStorage.clear();
+      Object.entries(localStorage).forEach(([key]) => {
+        if (!key.includes('bestScore')) delete localStorage[key];
+      });
       setIsRunning(true);
+      localStorage.setItem('isReload', 'false');
     }, 0);
+  };
+
+  const handleStop = () => {
+    // eslint-disable-next-line no-unused-expressions
+    setIsRunning(!isRunning);
+    navigate(EndGamePagePath.path);
   };
 
   return (
@@ -76,7 +88,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onStop }) => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={onStop}
+            onClick={handleStop}
             startIcon={<Stop />}
           >
             {STOP_GAME}

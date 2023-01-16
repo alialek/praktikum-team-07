@@ -19,8 +19,6 @@ export const useAuthGuard = (isLoggedIn: boolean) => {
       }
       if (window.location.search.includes('code')) {
         const yaCode: string = window.location.search.split('=')[1];
-        console.log(REDIRECT_URI);
-        console.log(yaCode);
         // @ts-ignore
         dispatch(oauthSignIn({ code: yaCode, redirect_uri: REDIRECT_URI }));
         navigate(SigninPagePath.path);

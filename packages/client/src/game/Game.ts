@@ -23,6 +23,8 @@ export class Game {
 
   private _gameScore: number;
 
+  private _bestScore: number;
+
   private background: Background;
 
   private ui: UI;
@@ -62,6 +64,7 @@ export class Game {
     this._gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
     this._gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
     this._gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
+    this._bestScore = parseInt(JSON.parse(localStorage.getItem('bestScore') || '0'), 10); // 0
 
     this.background = new Background(this, backgroundImagePng);
     this.ui = new UI(this);
@@ -193,10 +196,8 @@ export class Game {
         };
         this.setIsRunning(false);
         this.setCords(boomCords);
-
         clearInterval(this.scoreInterval);
         clearInterval(this.gameSpeedInterval);
-        localStorage.clear();
       } else {
         this.background.update();
         this.player.update(this.input.keys);
@@ -204,6 +205,10 @@ export class Game {
         localStorage.setItem('gameSpeed', this.gameSpeed.toString());
         localStorage.setItem('gameScore', this.gameScore.toString());
         localStorage.setItem('gameFrame', this.gameFrame.toString());
+        if (this._gameScore > this._bestScore) {
+          this._bestScore = this._gameScore;
+          localStorage.setItem('bestScore', this._bestScore.toString());
+        }
       }
     } else {
       localStorage.setItem('isPaused', 'true');
