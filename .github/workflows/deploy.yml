@@ -22,37 +22,37 @@ jobs:
   #     - name: Run build client ssr
   #       run: yarn lerna run --scope=client build:ssr
 
-  push_to_yandex_registry:
-    runs-on: ubuntu-latest
-    # needs: [build]
+  # push_to_yandex_registry:
+  #   runs-on: ubuntu-latest
+  #   # needs: [build]
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout repo
+  #       uses: actions/checkout@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          registry: 'cr.yandex'
-          username: ${{ secrets.YANDEX_REGISTRY_USERNAME }}
-          password: ${{ secrets.YANDEX_REGISTRY_TOKEN }}
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: 'cr.yandex'
+  #         username: ${{ secrets.YANDEX_REGISTRY_USERNAME }}
+  #         password: ${{ secrets.YANDEX_REGISTRY_TOKEN }}
 
-      - name: Copy env
-        run: cp .env.sample .env
-      - name: Docker build
-        run: docker compose -f ./docker-compose.build.yml build --no-cache
-      - name: Docker push
-        run: docker compose -f ./docker-compose.build.yml push
+  #     - name: Copy env
+  #       run: cp .env.sample .env
+  #     - name: Docker build
+  #       run: docker compose -f ./docker-compose.build.yml build --no-cache
+  #     - name: Docker push
+  #       run: docker compose -f ./docker-compose.build.yml push
 
   deploy:
     runs-on: ubuntu-latest   
-    needs: [push_to_yandex_registry]
+    # needs: [push_to_yandex_registry]
     
     steps:
       - name: Deploy to VPS
@@ -61,10 +61,14 @@ jobs:
           host: ${{ secrets.VPS_SSH_HOST }}
           username: ${{ secrets.VPS_SSH_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          script_stop: true
           script: |
             echo "Pull new image"
-            docker-compose -f /home/${{ secrets.VPS_SSH_USERNAME }}/praktikum-team-07/docker-compose.test.yml pull
+            cd /home/${{ secrets.VPS_SSH_USERNAME }}/praktikum-team-07
+            echo pwd
+            docker-compose -f ./docker-compose.test.yml pull
             echo "Restart the container"
-            docker-compose -f /home/${{ secrets.VPS_SSH_USERNAME }}/praktikum-team-07/docker-compose.test.yml up --force-recreate --build --no-deps -d
+            docker-compose -f ./docker-compose.test.yml up --force-recreate --build --no-deps -d
             echo "Delete old image"
             docker image prune -f
+            echo "End"
