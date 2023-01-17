@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  server:
+    image: cr.yandex/crpa957ab9entteba105/server:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+      args:
+        SERVER_PORT: ${SERVER_PORT}
+    restart: always
+    ports:
+      - '${SERVER_PORT}:${SERVER_PORT}'
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
