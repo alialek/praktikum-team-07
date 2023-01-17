@@ -9,7 +9,7 @@ FROM base as builder
 
 COPY . .
 
-RUN yarn && node init.js && yarn lerna bootstrap
+RUN yarn bootstrap
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
 RUN rm -rf /app/packages/client/dist/ && yarn lerna run --scope=client build && yarn lerna run --scope=client build:ssr
 
