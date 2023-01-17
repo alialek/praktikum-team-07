@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
-    "target": "ES6",
+    "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -24,7 +24,7 @@
     "types": ["node", "jest", "@types/jest"],
     "baseUrl": ".",
     "typeRoots": ["./@types"],
-    "rootDir": ".",
+    "rootDir": "src",
     "paths": {
       "@/*": ["src/*"]
     },
