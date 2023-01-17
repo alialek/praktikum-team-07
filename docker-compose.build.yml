@@ -5,7 +5,7 @@ services:
     image: cr.yandex/crpa957ab9entteba105/server:latest
     build:
       context: .
-      dockerfile: Dockerfile.server.test
+      dockerfile: Dockerfile.server
       args:
         SERVER_PORT: ${SERVER_PORT}
     restart: always
