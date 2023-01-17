@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SigninPagePath } from '@/router/paths';
 import { getUserInfo, oauthSignIn } from '@/store/user/user.actions';
@@ -14,14 +14,14 @@ export const useAuthGuard = () => {
   const { profile: user } = useAppSelector(showUserData);
   const isLoggedIn = Boolean(localStorage.getItem('user_in'));
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     const resultAction = await dispatch(getUserInfo());
     if (getUserInfo.fulfilled.match(resultAction)) {
       const { payload } = resultAction;
       return payload;
     }
     return null;
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchUserData().then((payload) => {
@@ -30,7 +30,7 @@ export const useAuthGuard = () => {
         navigate('/auth/login', { replace: true });
       }
     });
-  }, [user.id]);
+  }, [user.id, navigate, fetchUserData]);
 
   useEffect(() => {
     if (!pathname.includes('/auth')) {

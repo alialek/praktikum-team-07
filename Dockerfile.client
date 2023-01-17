@@ -7,14 +7,10 @@ WORKDIR /app
 
 FROM base as builder
 
-COPY package.json yarn.lock
-RUN yarn install --frozen-lockfile
-
 COPY . .
 
-RUN yarn lerna bootstrap
+RUN yarn bootstrap
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=client
-
 
 FROM nginx:latest as production
 WORKDIR /app

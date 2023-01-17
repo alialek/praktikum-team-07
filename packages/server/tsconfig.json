@@ -21,7 +21,7 @@
     "emitDecoratorMetadata": true,
     "importsNotUsedAsValues": "error",
     "lib": ["es2019", "esnext.asynciterable"],
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "@types/jest"],
     "baseUrl": ".",
     "typeRoots": ["./@types"],
     "rootDir": "src",
