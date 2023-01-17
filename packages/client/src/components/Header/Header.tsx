@@ -53,6 +53,7 @@ const settings = [
 ];
 
 export const Header = () => {
+  /* eslint @typescript-eslint/no-explicit-any: off */
   const dispatch = useDispatch<ThunkDispatch<AppDispatch, Promise<AxiosResponse>, any>>();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);

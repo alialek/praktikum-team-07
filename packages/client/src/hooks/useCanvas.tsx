@@ -68,7 +68,14 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
       cancelAnimationFrame(animationFrameId);
       cancelAnimationFrame(animationFrameIdBoom);
     };
-  }, [isRunning, isPaused, GameClass, requestAnimationFrame, cancelAnimationFrame]);
+  }, [
+    isRunning,
+    isPaused,
+    GameClass,
+    requestAnimationFrame,
+    cancelAnimationFrame,
+    cords,
+  ]);
 
   return [canvasRef, isRunning, isPaused, setIsRunning, setIsPaused, setCords] as [
     MutableRefObject<HTMLCanvasElement>,

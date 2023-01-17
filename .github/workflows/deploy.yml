@@ -7,52 +7,57 @@ on:
       - dev
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-  #     - name: Install and Initialize
-  #       run: yarn bootstrap
-  #     - name: Run build server
-  #       run: yarn build --scope=server
-  #     - name: Run build client ssr
-  #       run: yarn lerna run --scope=client build:ssr
+      - name: Install and Initialize
+        run: yarn bootstrap
+      - name: Lint
+        run: yarn lint
+      - name: Test
+        run: yarn test
+      - name: Run build server
+        run: yarn build --scope=server
+      - name: Run build client ssr
+        run: yarn lerna run --scope=client build:ssr
 
-  # push_to_yandex_registry:
-  #   runs-on: ubuntu-latest
-  #   # needs: [build]
+  push_to_yandex_registry:
+    runs-on: ubuntu-latest
+    needs: [build_and_test]
 
-  #   steps:
-  #     - name: Checkout repo
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-  #     - name: Login to DockerHub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         registry: 'cr.yandex'
-  #         username: ${{ secrets.YANDEX_REGISTRY_USERNAME }}
-  #         password: ${{ secrets.YANDEX_REGISTRY_TOKEN }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          registry: 'cr.yandex'
+          username: ${{ secrets.YANDEX_REGISTRY_USERNAME }}
+          password: ${{ secrets.YANDEX_REGISTRY_TOKEN }}
 
-  #     - name: Copy env
-  #       run: cp .env.sample .env
-  #     - name: Docker build
-  #       run: docker compose -f ./docker-compose.build.yml build --no-cache
-  #     - name: Docker push
-  #       run: docker compose -f ./docker-compose.build.yml push
+      - name: Copy env
+        run: cp .env.sample .env
+      - name: Docker build
+        run: docker compose -f ./docker-compose.build.yml build --no-cache
+      - name: Docker push
+        run: docker compose -f ./docker-compose.build.yml push
 
   deploy:
     runs-on: ubuntu-latest   
-    # needs: [push_to_yandex_registry]
+    needs: [push_to_yandex_registry]
     
     steps:
       - name: Deploy to VPS
