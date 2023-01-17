@@ -6,7 +6,7 @@ const port = 3001;
 const requestListener = function (req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.writeHead(200);
-  res.end(JSON.stringify({ status: 'ok', time: new Date() }));
+  res.end(JSON.stringify({ status: 'ok', time: new Date(), newField: 'hello' }));
 };
 
 const server = http.createServer(requestListener);
