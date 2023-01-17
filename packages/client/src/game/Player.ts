@@ -3,12 +3,21 @@ import {
   KEY_ARROW_UP,
   KEY_LEFT,
   KEY_RIGHT,
-  KEY_SPACE,
+  KEY_JUMP,
   FIRST_LINE_DISTANCE,
   SECOND_LINE_DISTANCE,
 } from '@/сonstants/game';
 import { Game } from './Game';
 
+/**
+ * @class Player
+ * @classdesc Класс отвечающий за поведение основного персонажа
+ *
+ * @param {Game} game Инстанс класса Game (private readonly)
+ * @param {HTMLImageElement} enemyImageSrc Спрайт персанажа (private readonly)
+ * @param {number} width
+ * @param {number} height
+ */
 export class Player {
   private readonly game: Game;
 
@@ -56,9 +65,15 @@ export class Player {
     this._width = width;
     this._height = height;
     this._frame = 0;
-    this._x = 0;
-    this._y = this.game.height - this._height - FIRST_LINE_DISTANCE;
-    this._vy = 0;
+    this._x = parseInt(JSON.parse(localStorage.getItem('playerXCord') || '0'), 10);
+    this._y = parseInt(
+      JSON.parse(
+        localStorage.getItem('playerYCord') ||
+          String(this.game.height - this._height - FIRST_LINE_DISTANCE),
+      ),
+      10,
+    );
+    this._vy = parseInt(JSON.parse(localStorage.getItem('playerVYCord') || '0'), 10);
     this._weight = 1;
     this._speed = 0;
     this._maxSpeed = 10;
@@ -143,6 +158,10 @@ export class Player {
     this._frame = value;
   }
 
+  /**
+   * @function draw
+   * @description Функция отвечающая за отрисовку
+   */
   draw() {
     this.context.drawImage(
       this.image,
@@ -157,6 +176,12 @@ export class Player {
     );
   }
 
+  /**
+   * @function update
+   * @param {string[]} input Массив кодов нажатых клавиш
+   *
+   * @description Функция отвечает за обновление координат персонажа, анимацию передвижения ног, расчет координаты прыжка
+   */
   update(input: string[]) {
     // по горизонтали
     this.x += this.speed;
@@ -178,7 +203,7 @@ export class Player {
     }
 
     // прыжки
-    if (input.includes(KEY_SPACE) && this.onGround()) this.vy -= 24;
+    if (input.includes(KEY_JUMP) && this.onGround()) this.vy -= 24;
     this.y += this.vy;
     if (!this.onGround()) this.vy += this.weight;
     else this.vy = 0;
@@ -191,8 +216,19 @@ export class Player {
         this.frame += 1;
       }
     }
+
+    localStorage.setItem('playerXCord', this.x.toString());
+    localStorage.setItem('playerYCord', this.y.toString());
+    localStorage.setItem('playerVYCord', this.vy.toString());
+    localStorage.setItem('position', this.position.toString());
   }
 
+  /**
+   * @function onGround
+   * @private
+   *
+   * @description Функция определяющая находится ли противник на «земле» и на какую «полосу» надо вернуться
+   */
   private onGround() {
     if (this.position === 0) return this.y >= this.leftRoadLine;
     return this.y >= this.rightRoadLine;
