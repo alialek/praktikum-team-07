@@ -7,8 +7,6 @@ import { endGameStyles } from './Styles';
 import { PLAY_GAME_AGAIN, END_TEXT, RECORD_TEXT, COUNT_TEXT } from '@/сonstants/game';
 
 export const EndGame = () => {
-  // const { pathname } = useLocation();
-
   return (
     <Box>
       <Box sx={endGameStyles.welcomeBox}>
@@ -34,7 +32,6 @@ export const EndGame = () => {
           startIcon={<PlayArrow />}
           component={Link}
           to={RootPath.path}
-          // state={{ previousPath: pathname }}
         >
           {PLAY_GAME_AGAIN}
         </Button>

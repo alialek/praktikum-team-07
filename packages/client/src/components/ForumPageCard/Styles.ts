@@ -20,7 +20,7 @@ export const forumStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties
     borderRadius: '10px',
   },
   mainTitle: {
-    fontWeight: '500',
+    fontWeight: '400',
     padding: '0 0 56px 0',
     textAlign: 'left',
   },

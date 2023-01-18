@@ -37,7 +37,7 @@ export const LeaderBoard = () => {
   };
   return (
     <Box sx={{ py: '40px', px: '50px' }}>
-      <Typography color="primary" variant="h1" fontWeight={500} sx={{ pb: 6 }}>
+      <Typography color="primary" variant="h1" fontWeight={400} sx={{ pb: 6 }}>
         {PAGE_TITLE}
       </Typography>
       <TableContainer sx={{ maxHeight: 400 }}>

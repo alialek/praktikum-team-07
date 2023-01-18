@@ -1,6 +1,5 @@
 import { Typography, Card, Divider, Grid, Box } from '@mui/material';
 import { Forum } from '@/components/Forum';
-// import { BackButton } from '@/components/BackButton';
 import { FORUM_TEXT } from '@/сonstants/text';
 import { TITLE_FORUMS, TITLE_ANSWER, TITLE_THREADS } from '@/сonstants/forumPageText';
 import { forumsList } from './utils';
