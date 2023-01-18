@@ -20,11 +20,14 @@ export class ThreadModel extends Model<IThread> {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
-  // eslint-disable-next-line indent
   override id: number;
 
   @AllowNull(false)
   @Column(DataType.STRING)
   // eslint-disable-next-line indent
   name: string;
+
+  @Column(DataType.STRING)
+  // eslint-disable-next-line indent
+  description: string;
 }
