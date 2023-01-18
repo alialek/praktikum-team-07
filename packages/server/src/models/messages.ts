@@ -23,21 +23,19 @@ export class MessageModel extends Model<IMessage> {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
-  // @ts-ignore
   // eslint-disable-next-line indent
-  id: number;
+  override id: number;
 
   @ForeignKey(() => ThreadModel)
   @Column({
     type: DataType.INTEGER,
     field: 'id',
   })
-  // @ts-ignore
   // eslint-disable-next-line indent
   threadId: number;
 
   @AllowNull(false)
   @Column(DataType.STRING)
   // eslint-disable-next-line indent
-  nickname!: string;
+  nickname: string;
 }

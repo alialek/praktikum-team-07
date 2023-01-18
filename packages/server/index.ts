@@ -7,7 +7,7 @@ import express from 'express';
 // @ts-ignore
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { render } from 'client/dist/ssr/entry-server.cjs';
-import { createClientAndConnect, dbConnect } from '@/db';
+import { createClientAndConnect, dbConnect } from './src/db';
 
 dotenv.config();
 
