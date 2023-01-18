@@ -1,5 +1,12 @@
 import { Game } from './Game';
 
+/**
+ * @class Background
+ * @classdesc Клас отвечающий за обработку фона
+ *
+ * @param {Game} game
+ * @param {string} backgroundImageSrc
+ */
 export class Background {
   private readonly game: Game;
 
@@ -60,6 +67,10 @@ export class Background {
     this._backgroundFrame = value;
   }
 
+  /**
+   * @function draw
+   * @description Функция отвечающая за отрисовку
+   */
   public draw() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     this.ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
@@ -69,6 +80,10 @@ export class Background {
     localStorage.setItem('backgroundFrame', this.backgroundFrame.toString());
   }
 
+  /**
+   * @function update
+   * @description Функция отвечает за обновление координат фона
+   */
   public update() {
     this.x = this.backgroundFrame % this.width;
   }

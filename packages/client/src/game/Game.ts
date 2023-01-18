@@ -8,6 +8,15 @@ import { Player } from './Player';
 import { UI } from './UI';
 import { InputHandler } from '@/game/InputHandler';
 
+/**
+ * @class Game
+ * @classdesc Основной класс игры
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setIsRunning Функция устанавливающая состояние игры (старт/пауза)
+ * @param {React.Dispatch<React.SetStateAction<Record<string, number>>>} setCords Функция устанавливает координаты столкновения
+ * @param {boolean} isPaused Состояние игры (старт/пауза)
+ */
 export class Game {
   private readonly _width: number;
 
@@ -111,10 +120,18 @@ export class Game {
     return this._gameFrame;
   }
 
+  public set gameFrame(value) {
+    this._gameFrame = value;
+  }
+
   public get gameScore() {
     return this._gameScore;
   }
 
+  /**
+   * @function draw
+   * @description Функция отвечающая за отрисовку
+   */
   public draw() {
     if (!this.isPaused) {
       this.background.draw();
@@ -130,8 +147,14 @@ export class Game {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private flowerbed(array: number[][]): boolean {
+  /**
+   * @function flowerbed
+   * @description Алгоритм вычисления пересечения двух прямых на плоскости
+   *
+   * @param {number[][]} array Массив координат игрока и противника
+   * @private
+   */
+  private static flowerbed(array: number[][]): boolean {
     array.sort();
 
     const result: number[][] = [];
@@ -158,8 +181,18 @@ export class Game {
     return result.length === 1;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private getXCollisionCords(arrHeroCords: number[], arrEnemyCords: number[]): number {
+  /**
+   * @function getXCollisionCords
+   * @description Функция возврата координаты по X для отображения взрыва
+   *
+   * @param arrHeroCords
+   * @param arrEnemyCords
+   * @private
+   */
+  private static getXCollisionCords(
+    arrHeroCords: number[],
+    arrEnemyCords: number[],
+  ): number {
     const [heroFrontCords, heroAssCords] = arrHeroCords;
     const [enemyFrontCords, enemyAssCords] = arrEnemyCords;
 
@@ -169,9 +202,13 @@ export class Game {
     return heroAssCords;
   }
 
+  /**
+   * @function update
+   * @description Функция отвечает за обновление координат персонажей
+   */
   public update() {
     if (!this.isPaused) {
-      this._gameFrame += 1;
+      this.gameFrame += 1;
 
       const isOnOneStraightLine = this.player.y === this.enemy.y;
 
@@ -181,14 +218,14 @@ export class Game {
       const enemyFrontCords = this.enemy.x + this.enemy.width;
       const enemyAssCords = this.enemy.x;
 
-      const isCollision = this.flowerbed([
+      const isCollision = Game.flowerbed([
         [heroAssCords, heroFrontCords],
         [enemyAssCords, enemyFrontCords],
       ]);
 
       if (isOnOneStraightLine && isCollision) {
         const boomCords = {
-          hero: this.getXCollisionCords(
+          hero: Game.getXCollisionCords(
             [heroFrontCords, heroAssCords],
             [enemyFrontCords, enemyAssCords],
           ),

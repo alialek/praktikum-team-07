@@ -1,6 +1,15 @@
 import { FIRST_LINE_DISTANCE, SECOND_LINE_DISTANCE } from '@/сonstants/game';
 import { Game } from './Game';
 
+/**
+ * @class Enemy
+ * @classdesc Класс отвечающий за поведение противника
+ *
+ * @param {Game} game Инстанс класса Game (private readonly)
+ * @param {HTMLImageElement} enemyImageSrc Спрайт персанажа (private readonly)
+ * @param {number} width
+ * @param {number} height
+ */
 export class Enemy {
   private readonly game: Game;
 
@@ -97,6 +106,10 @@ export class Enemy {
     this._frame = value;
   }
 
+  /**
+   * @function draw
+   * @description Функция отвечающая за отрисовку
+   */
   public draw(): void {
     this.context.drawImage(
       this.image,
@@ -111,6 +124,12 @@ export class Enemy {
     );
   }
 
+  /**
+   * @function onMovement
+   * @private
+   *
+   * @description Функция отвечает за появление персонажа относительно оси Y
+   */
   private onMovement() {
     if (this.position === 0) {
       this.y = this.game.height - this.height - FIRST_LINE_DISTANCE;
@@ -120,6 +139,10 @@ export class Enemy {
     }
   }
 
+  /**
+   * @function update
+   * @description Функция отвечает за обновление координат персонажа и анимацию передвижения ног
+   */
   public update() {
     this.onMovement();
     if (this.x < -this.width) {

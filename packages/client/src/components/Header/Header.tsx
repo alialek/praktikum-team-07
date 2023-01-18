@@ -9,43 +9,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
-import { AccountCircle } from '@mui/icons-material';
 import { Link } from '@mui/material';
-import colors from '@/colors';
-import {
-  LeadersPagePath,
-  ProfilePagePath,
-  ForumPagePath,
-  SigninPagePath,
-} from '@/router/paths';
-import {
-  FORUM_TEXT,
-  GAME_NAME_TEXT,
-  LEADERS_TEXT,
-  LOGOUT_TEXT,
-  PROFILE_TEXT,
-} from '@/сonstants/text';
+import { GAME_NAME_TEXT } from '@/сonstants/text';
 import { headerStyles } from './Styles';
 import { ColorModeContext } from '@/components/ToggleColorMode';
-
-const settings = [
-  {
-    title: PROFILE_TEXT,
-    link: ProfilePagePath.path,
-  },
-  {
-    title: LEADERS_TEXT,
-    link: LeadersPagePath.path,
-  },
-  {
-    title: FORUM_TEXT,
-    link: ForumPagePath.path,
-  },
-  {
-    title: LOGOUT_TEXT,
-    link: SigninPagePath.path,
-  },
-];
+import { Nav } from '@/components/Nav/Nav';
 
 export const Header = () => {
   const theme = useTheme();
@@ -67,14 +35,7 @@ export const Header = () => {
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
           <Box sx={headerStyles.nav}>
-            {settings.map(({ title, link }) => (
-              <Link to={link} underline="none" component={RouterLink} key={title}>
-                <Typography color="primary" sx={headerStyles.navItem}>
-                  {title}
-                </Typography>
-              </Link>
-            ))}
-            <AccountCircle htmlColor={colors.avaBG} fontSize="large" />
+            <Nav />
             <IconButton
               sx={{ ml: 1 }}
               onClick={colorMode?.toggleColorMode as () => void}
