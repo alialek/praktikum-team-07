@@ -5,8 +5,12 @@
   "scripts": {
     "build": "rimraf ./dist ./*.tsbuildinfo && tsc --p ./tsconfig.prod.json",
     "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/index.js",
+    "start:docker": "cross-env CURRENT_USER=$(id -u):$(id -g) docker compose -f ../../docker-compose.yml up -d",
     "preview": "yarn start",
-    "dev": "cross-env NODE_ENV=development && docker compose up -d && NODE_ENV=development nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+    "dev": "yarn dev:postgres && yarn dev:server",
+    "dev:server": "cross-env NODE_ENV=development nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+    "dev:docker-all": "cross-env CURRENT_USER=$(id -u):$(id -g) NODE_ENV=development docker compose -f ../../docker-compose.dev.yml up -d",
+    "dev:postgres": "cross-env CURRENT_USER=$(id -u):$(id -g) NODE_ENV=development docker compose -f ../../docker-compose.dev.yml up postgres -d",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."
