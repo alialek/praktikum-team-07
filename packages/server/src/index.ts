@@ -4,8 +4,13 @@ import { cors } from '@/middlewares/cors';
 import { logger } from '@/middlewares/logger';
 import { cfg } from '@/cfg';
 import router from '@/routes';
+import { createClientAndConnect, dbConnect } from './db';
 
 dotenv.config();
+
+createClientAndConnect();
+
+dbConnect();
 
 const app = express();
 
