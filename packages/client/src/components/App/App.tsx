@@ -10,6 +10,7 @@ import { store } from '@/store/store';
 import { mainStyles } from '../../../StyleMain';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { notistackConfig } from '@/configs/Notistack.config';
+import Notifier from '@/ui/elements/Notifier';
 
 function Main() {
   const routing = useRoutes(router());
@@ -25,6 +26,7 @@ export const App = () => {
       <ToggleColorMode>
         <Container sx={mainStyles.main}>
           <SnackbarProvider {...notistackConfig}>
+            <Notifier />
             <Main />
           </SnackbarProvider>
         </Container>

@@ -4,6 +4,7 @@ import { UserModel } from '@/models/user.model';
 import { AuthService } from '@/api/services/auth';
 import { OauthSingInModel } from '@/models/oauth.model';
 import { OauthService } from '@/api/services/oauth';
+import notificationService from '@/global/Notification.service';
 
 export const signin = createAsyncThunk(
   'user/signin',
@@ -13,6 +14,15 @@ export const signin = createAsyncThunk(
       return data;
     } catch (e) {
       const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+
+      // TODO затипизировать
+      // @ts-ignore
+      if (hasErrResponse.status > 200) {
+        const { data } = hasErrResponse;
+        // @ts-ignore
+        const { reason, error } = data;
+        notificationService.addNotification(error, reason, 'error');
+      }
 
       if (!hasErrResponse) {
         throw e;
