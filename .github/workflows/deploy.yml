@@ -75,7 +75,7 @@ jobs:
             echo "$YANDEX_REGISTRY_KEY" | docker login --username='${{secrets.YANDEX_REGISTRY_USERNAME}}' --password-stdin cr.yandex
             docker compose -f ./docker-compose.yml pull
             echo "Restart the container"
-            docker compose -f ./docker-compose.yml up --force-recreate --build --no-deps -d
+            CURRENT_USER=$(id -u):$(id -g) docker compose -f ./docker-compose.yml up --force-recreate --build --no-deps -d
             echo "Delete old image"
             docker image prune -f
             echo "Docker logout"

@@ -8,6 +8,8 @@ services:
       - '${SERVER_PORT}:${SERVER_PORT}'
     environment:
       SERVER_PORT: ${SERVER_PORT}
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:14
