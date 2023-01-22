@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SigninPagePath } from '@/router/paths';
 import { getUserInfo, oauthSignIn } from '@/store/user/user.actions';
@@ -12,8 +12,7 @@ export const useAuthGuard = () => {
   const dispatch = useAppDispatch();
 
   const { profile: user } = useAppSelector(showUserData);
-  const isLoggedIn = Boolean(localStorage.getItem('user_in'));
-
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const fetchUserData = useCallback(async () => {
     const resultAction = await dispatch(getUserInfo());
     if (getUserInfo.fulfilled.match(resultAction)) {
@@ -30,7 +29,15 @@ export const useAuthGuard = () => {
         navigate('/auth/login', { replace: true });
       }
     });
-  }, [user.id, navigate, fetchUserData]);
+  }, [user.id]);
+
+  useEffect(() => {
+    const loggedIn = Boolean(localStorage.getItem('user_in'));
+
+    if (loggedIn) {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (!pathname.includes('/auth')) {
