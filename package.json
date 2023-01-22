@@ -7,6 +7,7 @@
     "start": "npm run dev:client",
     "dev:client": "lerna run dev  --scope=client",
     "dev:server": "lerna run dev --scope=server",
+    "dev:docker": "cross-env CURRENT_USER=$(id -u):$(id -g) docker compose -f ./docker-compose.dev.yml up -d",
     "dev": "lerna run dev",
     "test": "lerna run test",
     "lint": "eslint .",

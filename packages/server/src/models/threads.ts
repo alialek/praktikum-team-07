@@ -6,17 +6,27 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
+  HasMany,
 } from 'sequelize-typescript';
 
-interface IThread {
+import type { Optional } from 'sequelize';
+import { MessageModel } from './messages';
+
+export interface IThread {
   id: number;
   name: string;
+  description: string;
 }
 
+export type CreationThread = Optional<IThread, 'id'>;
+
+/* eslint indent: "off" */
 @Table({
-  tableName: 'Threads',
+  tableName: 'threads',
 })
-export class ThreadModel extends Model<IThread> {
+export class ThreadModel extends Model<IThread, CreationThread> {
+  @Unique
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
@@ -24,10 +34,11 @@ export class ThreadModel extends Model<IThread> {
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  // eslint-disable-next-line indent
   name: string;
 
   @Column(DataType.STRING)
-  // eslint-disable-next-line indent
   description: string;
+
+  @HasMany(() => MessageModel)
+  messages: MessageModel[];
 }

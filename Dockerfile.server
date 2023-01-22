@@ -11,7 +11,7 @@ COPY . .
 
 RUN yarn bootstrap
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
-RUN rm -rf /app/packages/client/dist/ && yarn lerna run --scope=client build && yarn lerna run --scope=client build:ssr
+RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
 
 FROM node:$NODE_VERSION-buster-slim as production
 WORKDIR /app

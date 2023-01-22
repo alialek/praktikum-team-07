@@ -5,8 +5,11 @@
   "scripts": {
     "build": "rimraf ./dist ./*.tsbuildinfo && tsc --p ./tsconfig.prod.json",
     "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/index.js",
+    "start:docker": "cross-env CURRENT_USER=$(id -u):$(id -g) docker compose -f ../../docker-compose.yml up -d",
     "preview": "yarn start",
-    "dev": "cross-env NODE_ENV=development && docker compose up -d && NODE_ENV=development nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+    "dev": "yarn dev:postgres && yarn dev:server",
+    "dev:server": "cross-env NODE_ENV=development nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+    "dev:postgres": "cross-env CURRENT_USER=$(id -u):$(id -g) NODE_ENV=development docker compose -f ../../docker-compose.dev.yml up postgres -d",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."
@@ -17,15 +20,17 @@
     "dotenv": "16.0.2",
     "eslint-config-prettier": "8.5.0",
     "express": "4.18.1",
+    "express-async-errors": "3.1.1",
     "helmet": "6.0.1",
+    "http-status-codes": "2.2.0",
     "merge-options": "3.0.4",
     "morgan": "1.10.0",
     "pg": "8.8.0",
     "prettier": "2.7.1",
     "psl": "1.9.0",
-    "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.28.0",
-    "sequelize-typescript": "^2.1.5"
+    "reflect-metadata": "0.1.13",
+    "sequelize": "6.28.0",
+    "sequelize-typescript": "2.1.5"
   },
   "devDependencies": {
     "@types/cors": "2.8.12",
