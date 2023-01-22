@@ -1,11 +1,17 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { Pause, Replay, Stop, PlayCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Game } from '@/game/Game';
 import { useCanvas } from '@/hooks/useCanvas';
 import { PAUSE_GAME, PLAY_GAME, PLAY_GAME_AGAIN, STOP_GAME } from '@/сonstants/game';
 import { EndGamePagePath } from '@/router/paths';
+import { AppDispatch } from '@/store/store';
+import { useAppSelector } from '@/hooks';
+import { showUserData } from '@/store/user/user.slice';
+import { addNewLeader, getAllLeaders } from '@/store/leaders/leaders.action';
 
 interface CanvasProps {
   onStop: () => void;
@@ -15,6 +21,10 @@ export const Canvas: React.FC<CanvasProps> = () => {
     GameClass: Game,
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { profile: user } = useAppSelector(showUserData);
+  const { display_name, avatar } = user;
 
   function handlePause() {
     const _isPaused = localStorage.getItem('isPaused');
@@ -42,6 +52,15 @@ export const Canvas: React.FC<CanvasProps> = () => {
   const handleStop = () => {
     // eslint-disable-next-line no-unused-expressions
     setIsRunning(!isRunning);
+    const data: object = {
+      user_name: display_name,
+      avatar,
+      score: parseInt(localStorage.getItem('bestScore') || '0', 10),
+    };
+    dispatch(
+      addNewLeader({ ratingFieldName: 'score', data, teamName: 'atom_dream_team' }),
+    );
+    dispatch(getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }));
     navigate(EndGamePagePath.path);
   };
 

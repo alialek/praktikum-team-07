@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   useState,
   useRef,
@@ -7,10 +8,16 @@ import {
   Dispatch,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { EndGamePagePath } from '@/router/paths';
 import { GameType } from '@/game/Game';
 import { Boom } from '@/game/Boom';
 import boomImageSrc from '@/assets/images/boom.png';
+import { AppDispatch } from '@/store/store';
+import { addNewLeader, getAllLeaders } from '@/store/leaders/leaders.action';
+
+import { useAppSelector } from '@/hooks';
+import { showUserData } from '@/store/user/user.slice';
 
 interface UseCanvasProps {
   GameClass: GameType;
@@ -27,6 +34,10 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
   const { requestAnimationFrame, cancelAnimationFrame } = window;
 
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { profile: user } = useAppSelector(showUserData);
+  const { display_name, avatar } = user;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -66,6 +77,15 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
         animationFrameIdBoom = requestAnimationFrame(render);
       };
       render();
+      const data: object = {
+        user_name: display_name,
+        avatar,
+        score: parseInt(localStorage.getItem('bestScore') || '0', 10),
+      };
+      dispatch(
+        addNewLeader({ ratingFieldName: 'score', data, teamName: 'atom_dream_team' }),
+      );
+      dispatch(getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }));
       setTimeout(() => {
         localStorage.removeItem('gameSpeed');
         localStorage.removeItem('gameFrame');

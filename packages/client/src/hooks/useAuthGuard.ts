@@ -30,7 +30,7 @@ export const useAuthGuard = () => {
         navigate('/auth/login', { replace: true });
       }
     });
-  }, [user.id, navigate, fetchUserData]);
+  }, [user.id]);
 
   useEffect(() => {
     if (!pathname.includes('/auth')) {
@@ -44,5 +44,5 @@ export const useAuthGuard = () => {
         navigate(SigninPagePath.path);
       }
     }
-  }, [isLoggedIn, navigate, pathname, dispatch]);
+  }, [user.id]);
 };
