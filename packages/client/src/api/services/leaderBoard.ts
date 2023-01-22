@@ -1,8 +1,12 @@
-import { LeaderboardNewLeaderRequest, LeaderboardRequest } from '@/models/leader.model';
+import {
+  LeaderboardDataResponse,
+  LeaderboardNewLeaderRequest,
+  LeaderboardRequest,
+} from '@/models/leader.model';
 import { api, ApiResponse } from '../client';
 
 export const LeaderBoardService = {
-  getAllLeaders(data: LeaderboardRequest): Promise<ApiResponse> {
+  getAllLeaders(data: LeaderboardRequest): Promise<ApiResponse<LeaderboardDataResponse>> {
     return api.post('/leaderboard/atom_dream_team', data);
   },
 

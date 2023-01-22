@@ -42,7 +42,8 @@ export const Canvas: React.FC<CanvasProps> = () => {
 
     setTimeout(() => {
       Object.entries(localStorage).forEach(([key]) => {
-        if (!key.includes('bestScore')) delete localStorage[key];
+        if (!key.includes('bestScore') && !key.includes('user_in'))
+          delete localStorage[key];
       });
       setIsRunning(true);
       localStorage.setItem('isReload', 'false');

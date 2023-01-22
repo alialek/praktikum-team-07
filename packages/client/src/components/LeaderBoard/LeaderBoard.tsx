@@ -22,7 +22,6 @@ import { LeaderBoardTableRow } from './LeaderBoardTableRow';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { showLeadersData } from '@/store/leaders/leaders.slice';
 import { getAllLeaders } from '@/store/leaders/leaders.action';
-// import { LeaderBoardService } from '@/api/services/leaderBoard';
 
 export const LeaderBoard = () => {
   const [page, setPage] = useState(0);
@@ -30,12 +29,8 @@ export const LeaderBoard = () => {
 
   const dispatch = useAppDispatch();
   const { leaders } = useAppSelector(showLeadersData);
-  // const { getAllLeaders } = LeaderBoardService;
 
   useEffect(() => {
-    // getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }).then((res) => {
-    //   const leaders = res.data;
-    // });
     dispatch(getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }));
   });
 
