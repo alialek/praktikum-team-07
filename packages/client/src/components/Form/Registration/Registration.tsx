@@ -18,11 +18,11 @@ import {
   PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { signup } from '@/store/user/user.actions';
-import { RootState } from '@/store/store';
+import { getUserInfo, signup } from '@/store/user/user.actions';
+import { AppDispatch, RootState } from '@/store/store';
 
 export const Registration = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
@@ -41,6 +41,7 @@ export const Registration = () => {
     if (isLoggedIn) {
       localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
+      dispatch(getUserInfo());
     }
   }, [dispatch, isLoggedIn, navigate]);
 

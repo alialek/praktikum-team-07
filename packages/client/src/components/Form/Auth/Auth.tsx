@@ -58,6 +58,7 @@ export const Auth = () => {
 
     dispatch(signin(formData)).then(() =>
       enqueueSnackbar({
+        key: v4(),
         message: reason,
         options: {
           key: v4(),
