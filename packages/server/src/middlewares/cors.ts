@@ -19,7 +19,7 @@ if (allowedOrigins) {
       if (el instanceof RegExp) {
         return el.test(origin);
       }
-      return el === origin;
+      return origin.match(el);
     });
 
     if (isAllowed) {
