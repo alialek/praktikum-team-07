@@ -1,1 +1,1 @@
-export { Forum } from './Forum';
+export { ForumPageCard } from './ForumPageCard';

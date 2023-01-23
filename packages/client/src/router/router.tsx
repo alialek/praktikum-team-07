@@ -1,4 +1,5 @@
 import { ForumPage } from '@/pages/ForumPage';
+import { ForumsPage } from '@/pages/ForumsPage';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProfilePage } from '@/pages/ProfilePage';
@@ -11,15 +12,18 @@ import {
   SignupPagePath,
   ProfilePagePath,
   ForumPagePath,
+  ForumsPagePath,
   EndGamePagePath,
   RootPath,
   LeadersPagePath,
   AuthPath,
   NoneExistPath,
   ChangePasswordPagePath,
+  ThreadPagePath,
 } from '@/router/paths';
 import { Default } from '@/layouts/Default';
 import { ChangePasswordPage } from '@/pages/ChangePasswordPage';
+import { ThreadPage } from '@/pages/ThreadPage';
 
 export const router = () => [
   {
@@ -36,8 +40,16 @@ export const router = () => [
         element: <ProfilePage />,
       },
       {
-        path: ForumPagePath.path,
+        path: `${ThreadPagePath.path}/:threadId`,
+        element: <ThreadPage />,
+      },
+      {
+        path: `${ForumPagePath.path}/:forumId`,
         element: <ForumPage />,
+      },
+      {
+        path: ForumsPagePath.path,
+        element: <ForumsPage />,
       },
       {
         path: EndGamePagePath.path,

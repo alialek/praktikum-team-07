@@ -1,4 +1,6 @@
-export const API_URL = 'https://ya-praktikum.tech/api/v2';
+export const YANDEX_API_URL = 'https://ya-praktikum.tech/api/v2';
+export const API_URL =
+  process.env.NODE_ENV === 'production' ? '/api/v1' : 'http://localhost:3001/api/v1';
 export const UPDATE_PROFILE_URL = '/user/profile';
 export const GET_AVATAR_URL = `${API_URL}/resources`;
 export const UPDATE_AVATAR = '/user/profile/avatar';

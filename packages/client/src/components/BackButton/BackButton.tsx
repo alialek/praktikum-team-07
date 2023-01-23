@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Button, Link } from '@mui/material';
 import { ArrowBackIos } from '@mui/icons-material';
-import { RootPath } from '@/router/paths';
 import { BACK_TEXT, BACK_TEXT_ERROR } from '@/сonstants/text';
 import { MuiColor } from '@/colors';
 
@@ -14,15 +13,22 @@ interface BackButtonProps {
 export const BackButton: React.FC<BackButtonProps> = ({
   color,
   isNotArrow,
-}: BackButtonProps) => (
-  <Link to={RootPath.path} style={{ textDecoration: 'none' }}>
-    <Button
-      variant="text"
-      color={color}
-      startIcon={isNotArrow ? '' : <ArrowBackIos />}
-      style={{ textTransform: 'none' }}
-    >
-      {isNotArrow ? BACK_TEXT_ERROR : BACK_TEXT}
-    </Button>
-  </Link>
-);
+}: BackButtonProps) => {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
+  return (
+    <Link sx={{ textDecoration: 'none' }} onClick={goBack}>
+      <Button
+        variant="text"
+        color={color}
+        startIcon={isNotArrow ? '' : <ArrowBackIos />}
+        style={{ textTransform: 'none' }}
+      >
+        {isNotArrow ? BACK_TEXT_ERROR : BACK_TEXT}
+      </Button>
+    </Link>
+  );
+};
