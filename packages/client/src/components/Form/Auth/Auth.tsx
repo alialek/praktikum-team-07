@@ -17,7 +17,7 @@ import {
 } from '@/сonstants/text';
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { getUserInfo, signin } from '@/store/user/user.actions';
+import { signin } from '@/store/user/user.actions';
 import { AppDispatch, RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
@@ -48,7 +48,6 @@ export const Auth = () => {
     if (isLoggedIn) {
       localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
-      dispatch(getUserInfo());
     }
   }, [dispatch, isLoggedIn, navigate]);
 

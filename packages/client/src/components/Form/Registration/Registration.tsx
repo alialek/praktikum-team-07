@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { v4 } from 'uuid';
 import { signupFormValidationSchema } from '@/utils/formValidation';
 import { RootPath, SigninPagePath } from '@/router/paths';
 import { SignupInputModel } from '@/models/auth.model';
@@ -18,13 +19,18 @@ import {
   PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { getUserInfo, signup } from '@/store/user/user.actions';
+import { signup } from '@/store/user/user.actions';
 import { AppDispatch, RootState } from '@/store/store';
+import { Notification } from '@/store/Alert/alert.slice';
+import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/Alert/alert.actions';
 
 export const Registration = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const enqueueSnackbar = (args: Notification) =>
+    dispatch(enqueueSnackbarAction({ ...args }));
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
+  const notification = useSelector((state: RootState) => state.user.signUpErrorMessage);
 
   const {
     register,
@@ -41,13 +47,23 @@ export const Registration = () => {
     if (isLoggedIn) {
       localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
-      dispatch(getUserInfo());
     }
   }, [dispatch, isLoggedIn, navigate]);
 
-  const onSubmit = (data: SignupInputModel) => {
-    // @ts-ignore
-    dispatch(signup(data));
+  const onSubmit = (formData: SignupInputModel) => {
+    const { data } = notification;
+    const { reason } = data as { reason: string };
+
+    dispatch(signup(formData)).then(() =>
+      enqueueSnackbar({
+        key: v4(),
+        message: reason,
+        options: {
+          key: v4(),
+          variant: 'error',
+        },
+      }),
+    );
   };
 
   return (

@@ -9,6 +9,7 @@ export interface UserState {
   profile: UserModel;
   error: any;
   signInErrorMessage: Record<string, any>;
+  signUpErrorMessage: Record<string, any>;
 }
 
 const initialState: UserState = {
@@ -26,6 +27,7 @@ const initialState: UserState = {
   },
   error: '',
   signInErrorMessage: {},
+  signUpErrorMessage: {},
 };
 
 export const userSlice = createSlice({
@@ -61,10 +63,12 @@ export const userSlice = createSlice({
     builder.addCase(signup.fulfilled, (state) => {
       state.loading = false;
       state.isAuth = true;
+      state.signInErrorMessage = {};
     });
     builder.addCase(signup.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      // @ts-ignore
+      state.signUpErrorMessage = action.payload;
     });
 
     builder.addCase(getUserInfo.pending, (state) => {
