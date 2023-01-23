@@ -37,7 +37,7 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { profile: user } = useAppSelector(showUserData);
-  const { display_name, avatar } = user;
+  const { display_name, avatar, login } = user;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -78,7 +78,7 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
       };
       render();
       const data: object = {
-        user_name: display_name,
+        user_name: display_name || login,
         avatar,
         score: parseInt(localStorage.getItem('bestScore') || '0', 10),
       };

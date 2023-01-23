@@ -32,7 +32,7 @@ export const LeaderBoard = () => {
 
   useEffect(() => {
     dispatch(getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }));
-  });
+  }, []);
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,

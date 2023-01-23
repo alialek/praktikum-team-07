@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SigninPagePath } from '@/router/paths';
 import { getUserInfo, oauthSignIn } from '@/store/user/user.actions';
@@ -14,22 +14,29 @@ export const useAuthGuard = () => {
   const { profile: user } = useAppSelector(showUserData);
   const isLoggedIn = Boolean(localStorage.getItem('user_in'));
 
-  const fetchUserData = useCallback(async () => {
+  const fetchUserData = async () => {
     const resultAction = await dispatch(getUserInfo());
     if (getUserInfo.fulfilled.match(resultAction)) {
       const { payload } = resultAction;
       return payload;
     }
     return null;
-  }, [dispatch]);
+  };
+  // const [dispatch];
 
-  useEffect(() => {
+  const handleUserInfo = () => {
     fetchUserData().then((payload) => {
       if (!payload) {
         localStorage.clear();
         navigate('/auth/login', { replace: true });
       }
     });
+  };
+
+  useEffect(() => {
+    if (!user?.id) {
+      handleUserInfo();
+    }
   }, [user.id]);
 
   useEffect(() => {
@@ -39,9 +46,13 @@ export const useAuthGuard = () => {
       }
       if (window.location.search.includes('code')) {
         const yaCode: string = window.location.search.split('=')[1];
-        // @ts-ignore
-        dispatch(oauthSignIn({ code: yaCode, redirect_uri: REDIRECT_URI }));
-        navigate(SigninPagePath.path);
+
+        const authorize = async () => {
+          await dispatch(oauthSignIn({ code: yaCode, redirect_uri: REDIRECT_URI }));
+          handleUserInfo();
+        };
+
+        authorize();
       }
     }
   }, [user.id]);
