@@ -37,7 +37,7 @@ export const useAuthGuard = () => {
     if (loggedIn) {
       setIsLoggedIn(true);
     }
-  }, [isLoggedIn]);
+  }, []);
 
   useEffect(() => {
     if (!pathname.includes('/auth')) {
