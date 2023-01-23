@@ -23,6 +23,7 @@ const Notifier = () => {
   };
 
   React.useEffect(() => {
+    console.log(notifications);
     notifications.forEach(({ key, message, options = {} }) => {
       if (displayed.includes(key)) return;
       enqueueSnackbar(message, {
@@ -31,13 +32,13 @@ const Notifier = () => {
         autoHideDuration: 1500,
         onExited: (event, myKey) => {
           // remove this snackbar from redux store
-          console.log(`removing ${myKey}`);
           dispatch(removeSnackbar(myKey));
           removeDisplayed(myKey as string);
         },
         action: () => {
           const onClick = () => {
             closeSnackbar();
+            dispatch(removeSnackbar(options.key));
           };
 
           return (

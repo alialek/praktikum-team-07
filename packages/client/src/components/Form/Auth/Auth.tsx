@@ -31,7 +31,7 @@ export const Auth = () => {
     dispatch(enqueueSnackbarAction({ ...args }));
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
-  const notification = useSelector((state: RootState) => state.user.error);
+  const notification = useSelector((state: RootState) => state.user.signInErrorMessage);
 
   const {
     register,
