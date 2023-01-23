@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import type { RootState } from '../store';
 import { getUserInfo, signin, signup } from './user.actions';
 import { UserModel } from '@/models/user.model';
@@ -8,7 +7,7 @@ export interface UserState {
   isAuth: boolean;
   loading: boolean;
   profile: UserModel;
-  error: string;
+  error: any;
 }
 
 const initialState: UserState = {

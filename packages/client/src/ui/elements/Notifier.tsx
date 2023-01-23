@@ -1,55 +1,59 @@
-import React, { useEffect } from 'react';
-import { Close } from '@mui/icons-material';
-import IconButton from '@mui/material/IconButton';
+import React from 'react';
 import { useSnackbar } from 'notistack';
-import notificationService, { NotificationService } from '@/global/Notification.service';
+import IconButton from '@mui/material/IconButton';
+import { Close } from '@mui/icons-material';
+import { removeSnackbar } from '@/store/Alert/alert.actions';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
+let displayed: string[] = [];
 
 const Notifier = () => {
-  const notifications: NotificationService = notificationService;
-  let displayed: string[] = [];
+  const dispatch = useAppDispatch();
+  const notifications = useAppSelector(
+    (store) => store.notifications.notifications || [],
+  );
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const { enqueueSnackbar } = useSnackbar();
-
-  const displayedNotifications = (key: string) => {
-    displayed = [...displayed, key];
+  const storeDisplayed = (id: string) => {
+    displayed = [...displayed, id];
   };
 
-  useEffect(() => {
-    const { notifications: _notifications } = notifications;
-    console.log(_notifications);
-    _notifications.forEach((notification) => {
-      if (displayed.includes(notification.key)) return;
+  const removeDisplayed = (id: string) => {
+    displayed = [...displayed.filter((key) => id !== key)];
+  };
 
-      enqueueSnackbar(notification.message, {
-        key: notification.key,
-        variant: notification.variant,
-        autoHideDuration: 59 * 1000,
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        action: (key: string) => notificationAction(key),
+  React.useEffect(() => {
+    notifications.forEach(({ key, message, options = {} }) => {
+      if (displayed.includes(key)) return;
+      enqueueSnackbar(message, {
+        key,
+        ...options,
+        autoHideDuration: 1500,
+        onExited: (event, myKey) => {
+          // remove this snackbar from redux store
+          console.log(`removing ${myKey}`);
+          dispatch(removeSnackbar(myKey));
+          removeDisplayed(myKey as string);
+        },
+        action: () => {
+          const onClick = () => {
+            closeSnackbar();
+          };
+
+          return (
+            <IconButton onClick={onClick}>
+              <Close sx={{ color: '#fff' }} />
+            </IconButton>
+          );
+        },
       });
 
-      displayedNotifications(notification.key);
+      // keep track of snackbars that we've displayed
+      storeDisplayed(key);
     });
-  }, [notifications, enqueueSnackbar]);
+  }, [notifications, closeSnackbar, enqueueSnackbar, dispatch]);
 
   return null;
 };
 
-function notificationAction(key: string) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { closeSnackbar } = useSnackbar();
-
-  const onClick = () => {
-    closeSnackbar(key);
-    notificationService.removeNotification(key);
-  };
-
-  return (
-    <IconButton onClick={onClick}>
-      <Close sx={{ color: '#fff' }} />
-    </IconButton>
-  );
-}
-
-// export default withSnackbar(Notifier);
 export default Notifier;

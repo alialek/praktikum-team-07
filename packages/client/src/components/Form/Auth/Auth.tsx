@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { v4 } from 'uuid';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
 import {
@@ -21,11 +22,16 @@ import { AppDispatch, RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
+import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/Alert/alert.actions';
+import { Notification } from '@/store/Alert/alert.slice';
 
 export const Auth = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const enqueueSnackbar = (args: Notification) =>
+    dispatch(enqueueSnackbarAction({ ...args }));
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
+  const notification = useSelector((state: RootState) => state.user.error);
 
   const {
     register,
@@ -46,12 +52,22 @@ export const Auth = () => {
     }
   }, [dispatch, isLoggedIn, navigate]);
 
-  const onSubmit = (data: SigninInputModel) => {
-    // @ts-ignore
-    dispatch(signin(data));
+  const onSubmit = (formData: SigninInputModel) => {
+    const { data } = notification;
+    const { reason } = data as { reason: string };
+
+    dispatch(signin(formData)).then(() =>
+      enqueueSnackbar({
+        message: reason,
+        options: {
+          key: v4(),
+          variant: 'error',
+        },
+      }),
+    );
   };
 
-  const takeOauthAunthification = async () => {
+  const takeOauthAuthentication = async () => {
     try {
       const response = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
@@ -112,7 +128,7 @@ export const Auth = () => {
           fullWidth
           sx={loginFormStyles.yaButton}
           startIcon={<img src={YandexIcon} alt="YandexIcon" />}
-          onClick={takeOauthAunthification}
+          onClick={takeOauthAuthentication}
         >
           {AUTH_BUTTON_YANDEX}
         </Button>
