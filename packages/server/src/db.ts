@@ -1,6 +1,8 @@
 import { Client } from 'pg';
 
-import type { SequelizeOptions } from 'sequelize-typescript';
+import { Sequelize } from 'sequelize-typescript';
+import { MessageModel } from './models/messages';
+import { ThreadModel } from './models/threads';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
 
@@ -28,13 +30,25 @@ export const createClientAndConnect = async (): Promise<Client | null> => {
   return null;
 };
 
-export const sequelizeOptions: SequelizeOptions = {
+// Инстанс Sequelize
+export const sequelize = new Sequelize({
   host: 'localhost',
   port: Number(POSTGRES_PORT),
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
   dialect: 'postgres',
-};
+  models: [MessageModel, ThreadModel],
+});
 
-// const sequelize = new Sequelize(sequelizeOptions);
+// Подключение к БД
+export const dbConnect = async () => {
+  try {
+    await sequelize.authenticate(); // Проверка коннекта к бд
+    await sequelize.sync(); // Синхронизация БД
+
+    console.log('Sequelize connecnted');
+  } catch (error) {
+    console.error('Sequelize unable to connect:', error);
+  }
+};

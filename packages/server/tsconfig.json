@@ -2,6 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "target": "es2019",
+    "strictPropertyInitialization": false,
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
