@@ -1,11 +1,13 @@
 import { window } from '@/utils/ssrWindow';
 
+const { VITE_DEV_API_URL, VITE_API_URL, VITE_API_PATH } = import.meta.env;
+
 export const IS_DEV = process.env.NODE_ENV !== 'production';
 
 export const YANDEX_API_URL = 'https://ya-praktikum.tech/api/v2';
 export const API_URL = IS_DEV
-  ? import.meta.env.VITE_DEV_API_URL
-  : import.meta.env.VITE_API_URL || '/api/v1';
+  ? `${VITE_DEV_API_URL}${VITE_API_PATH}`
+  : `${VITE_API_URL}${VITE_API_PATH}` || '/api/v1';
 
 export const UPDATE_PROFILE_URL = '/user/profile';
 export const GET_AVATAR_URL = `${YANDEX_API_URL}/resources`;
