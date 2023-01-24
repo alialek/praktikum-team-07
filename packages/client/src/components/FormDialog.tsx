@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { FormState, useForm, UseFormRegister, FieldValues } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,10 +21,16 @@ export function FormDialog<T extends FieldValues>({
   validationSchema,
   children,
 }: FormDialogProps<T>) {
-  const { register, handleSubmit, formState } = useForm<T>({
+  const { register, handleSubmit, formState, reset } = useForm<T>({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    if (!open) {
+      reset();
+    }
+  }, [open, reset]);
 
   const handleClose = () => {
     onClose(false);
