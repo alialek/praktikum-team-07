@@ -7,6 +7,7 @@ import { Enemy } from './Enemy';
 import { Player } from './Player';
 import { UI } from './UI';
 import { InputHandler } from '@/game/InputHandler';
+import { window } from '@/utils/ssrWindow';
 
 /**
  * @class Game
@@ -70,10 +71,22 @@ export class Game {
     this._width = context.canvas.width;
     this._height = context.canvas.height;
     this.input = new InputHandler();
-    this._gameSpeed = parseInt(JSON.parse(localStorage.getItem('gameSpeed') || '1'), 10); // 1
-    this._gameFrame = parseInt(JSON.parse(localStorage.getItem('gameFrame') || '0'), 10); // 0
-    this._gameScore = parseInt(JSON.parse(localStorage.getItem('gameScore') || '0'), 10); // 0
-    this._bestScore = parseInt(JSON.parse(localStorage.getItem('bestScore') || '0'), 10); // 0
+    this._gameSpeed = parseInt(
+      JSON.parse(window.localStorage.getItem('gameSpeed') || '1'),
+      10,
+    ); // 1
+    this._gameFrame = parseInt(
+      JSON.parse(window.localStorage.getItem('gameFrame') || '0'),
+      10,
+    ); // 0
+    this._gameScore = parseInt(
+      JSON.parse(window.localStorage.getItem('gameScore') || '0'),
+      10,
+    ); // 0
+    this._bestScore = parseInt(
+      JSON.parse(window.localStorage.getItem('bestScore') || '0'),
+      10,
+    ); // 0
 
     this.background = new Background(this, backgroundImagePng);
     this.ui = new UI(this);
@@ -239,16 +252,16 @@ export class Game {
         this.background.update();
         this.player.update(this.input.keys);
         this.enemy.update();
-        localStorage.setItem('gameSpeed', this.gameSpeed.toString());
-        localStorage.setItem('gameScore', this.gameScore.toString());
-        localStorage.setItem('gameFrame', this.gameFrame.toString());
+        window.localStorage.setItem('gameSpeed', this.gameSpeed.toString());
+        window.localStorage.setItem('gameScore', this.gameScore.toString());
+        window.localStorage.setItem('gameFrame', this.gameFrame.toString());
         if (this._gameScore > this._bestScore) {
           this._bestScore = this._gameScore;
-          localStorage.setItem('bestScore', this._bestScore.toString());
+          window.localStorage.setItem('bestScore', this._bestScore.toString());
         }
       }
     } else {
-      localStorage.setItem('isPaused', 'true');
+      window.localStorage.setItem('isPaused', 'true');
     }
   }
 }

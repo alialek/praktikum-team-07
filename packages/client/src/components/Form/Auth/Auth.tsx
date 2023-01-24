@@ -20,6 +20,7 @@ import { AppDispatch, RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
+import { window } from '@/utils/ssrWindow';
 
 export const Auth = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +38,7 @@ export const Auth = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
+      window.localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
       dispatch(getUserInfo());
     }

@@ -21,6 +21,7 @@ import { loginFormStyles } from '@/components/Form/Styles';
 import { signup } from '@/store/user/user.actions';
 import { RootState } from '@/store/store';
 import { useAppDispatch } from '@/hooks';
+import { window } from '@/utils/ssrWindow';
 
 export const Registration = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +39,7 @@ export const Registration = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
+      window.localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
     }
   }, [isLoggedIn, navigate]);

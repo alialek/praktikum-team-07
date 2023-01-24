@@ -19,6 +19,7 @@ import { addNewLeader, getAllLeaders } from '@/store/leaders/leaders.action';
 import { useAppSelector } from '@/hooks';
 import { showUserData } from '@/store/user/user.slice';
 import { Leader } from '@/models/leader.model';
+import { window } from '@/utils/ssrWindow';
 
 interface UseCanvasProps {
   GameClass: GameType;
@@ -63,7 +64,7 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
       render();
     }
 
-    if (context && !isRunning && localStorage.isReload !== 'true') {
+    if (context && !isRunning && window.localStorage.isReload !== 'true') {
       const boom = new Boom({
         context,
         boomImageSrc,
@@ -81,15 +82,15 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
       const data: Leader = {
         user_name: display_name || login,
         avatar,
-        score: parseInt(localStorage.getItem('bestScore') || '0', 10),
+        score: parseInt(window.localStorage.getItem('bestScore') || '0', 10),
       };
       dispatch(
         addNewLeader({ ratingFieldName: 'score', data, teamName: 'atom_dream_team' }),
       );
       dispatch(getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }));
       setTimeout(() => {
-        localStorage.removeItem('gameSpeed');
-        localStorage.removeItem('gameFrame');
+        window.localStorage.removeItem('gameSpeed');
+        window.localStorage.removeItem('gameFrame');
         navigate(EndGamePagePath.path);
       }, 2000);
     }

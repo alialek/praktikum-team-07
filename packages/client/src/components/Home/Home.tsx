@@ -7,6 +7,7 @@ import { PLAY_GAME } from '@/сonstants/game';
 import { CONTROL_TEXT, WELCOME_TEXT } from '@/сonstants/text';
 import { EndGamePagePath } from '@/router/paths';
 import { homeStyles } from './Styles';
+import { window } from '@/utils/ssrWindow';
 
 export const Home = () => {
   const { state: locationState } = useLocation();
@@ -16,9 +17,9 @@ export const Home = () => {
 
   const handleStart = () => {
     setStarted(!isStarted);
-    Object.entries(localStorage).forEach(([key]) => {
+    Object.entries(window.localStorage).forEach(([key]) => {
       if (!key.includes('bestScore') && !key.includes('user_in'))
-        localStorage.removeItem(key);
+        window.localStorage.removeItem(key);
     });
   };
   return (
