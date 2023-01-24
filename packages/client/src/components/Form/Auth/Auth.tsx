@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
@@ -37,8 +36,6 @@ export const Auth = () => {
   });
 
   useEffect(() => {
-    // @ts-ignore
-    dispatch(signin());
     if (isLoggedIn) {
       localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
       navigate(RootPath.path, { replace: true });
@@ -47,7 +44,6 @@ export const Auth = () => {
   }, [dispatch, isLoggedIn, navigate]);
 
   const onSubmit = (data: SigninInputModel) => {
-    // @ts-ignore
     dispatch(signin(data));
   };
 
@@ -57,13 +53,13 @@ export const Auth = () => {
       const yapServiceId = response.data.service_id;
       window.open(
         `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yapServiceId}&redirect_uri=${REDIRECT_URI}`,
+        '_self',
       );
     } catch (error) {
       console.log(error);
     }
   };
 
-  // eslint-disable-next-line no-return-assign
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent>

@@ -7,7 +7,7 @@ export interface LeaderBoardColumn {
 
 export interface LeaderBoardRow {
   id: number;
-  avatar: string;
-  name: string;
+  avatar?: string;
+  display_name: string;
   score: number;
 }

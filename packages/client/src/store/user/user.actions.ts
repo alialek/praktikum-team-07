@@ -12,7 +12,7 @@ export const signin = createAsyncThunk(
       const { data } = await AuthService.signin(payload);
       return data;
     } catch (e) {
-      const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+      const hasErrResponse = (e as { response: { [key: string]: string } }).response.data;
 
       if (!hasErrResponse) {
         throw e;
@@ -30,7 +30,7 @@ export const signup = createAsyncThunk(
       const { data } = await AuthService.signup(payload);
       return data;
     } catch (e) {
-      const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+      const hasErrResponse = (e as { response: { [key: string]: string } }).response.data;
 
       if (!hasErrResponse) {
         throw e;
@@ -48,7 +48,7 @@ export const getUserInfo = createAsyncThunk<UserModel, void>(
       const { data } = await AuthService.getUserInfo();
       return data;
     } catch (e) {
-      const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+      const hasErrResponse = (e as { response: { [key: string]: string } }).response.data;
 
       if (!hasErrResponse) {
         throw e;
@@ -66,7 +66,7 @@ export const oauthSignIn = createAsyncThunk(
       const { data } = await OauthService.signin(payload);
       return data;
     } catch (e) {
-      const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+      const hasErrResponse = (e as { response: { [key: string]: string } }).response.data;
 
       if (!hasErrResponse) {
         throw e;

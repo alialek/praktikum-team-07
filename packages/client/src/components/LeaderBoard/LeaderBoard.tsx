@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Table,
@@ -10,7 +10,7 @@ import {
   Box,
 } from '@mui/material';
 
-import { HEAD_ROWS, BODY_ROWS } from './utils';
+import { HEAD_ROWS } from './utils';
 import {
   PAGE_TITLE,
   ROW_PER_PAGE_OPTIONS,
@@ -19,10 +19,20 @@ import {
 
 import { LeaderBoardTableHead } from './LeaderBoardTableHead';
 import { LeaderBoardTableRow } from './LeaderBoardTableRow';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { showLeadersData } from '@/store/leaders/leaders.slice';
+import { getAllLeaders } from '@/store/leaders/leaders.action';
 
 export const LeaderBoard = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROW_PER_PAGE);
+
+  const dispatch = useAppDispatch();
+  const { leaders } = useAppSelector(showLeadersData);
+
+  useEffect(() => {
+    dispatch(getAllLeaders({ ratingFieldName: 'score', cursor: 0, limit: 10 }));
+  }, []);
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
@@ -37,7 +47,7 @@ export const LeaderBoard = () => {
   };
   return (
     <Box sx={{ py: '40px', px: '50px' }}>
-      <Typography color="primary" variant="h2" sx={{ pb: 6 }}>
+      <Typography color="primary" variant="h1" fontWeight={400} sx={{ pb: 6 }}>
         {PAGE_TITLE}
       </Typography>
       <TableContainer sx={{ maxHeight: 400 }}>
@@ -46,14 +56,14 @@ export const LeaderBoard = () => {
             <LeaderBoardTableHead columns={HEAD_ROWS} />
           </TableHead>
           <TableBody>
-            <LeaderBoardTableRow rows={BODY_ROWS} />
+            <LeaderBoardTableRow rows={leaders} />
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={ROW_PER_PAGE_OPTIONS}
         component="div"
-        count={BODY_ROWS.length}
+        count={leaders.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
