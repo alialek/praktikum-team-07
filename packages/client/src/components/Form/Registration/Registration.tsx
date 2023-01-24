@@ -2,8 +2,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, CardContent, CardActions, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { v4 } from 'uuid';
 import { signupFormValidationSchema } from '@/utils/formValidation';
 import { RootPath, SigninPagePath } from '@/router/paths';
 import { SignupInputModel } from '@/models/auth.model';
@@ -19,12 +20,16 @@ import {
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { signup } from '@/store/user/user.actions';
-import { RootState } from '@/store/store';
-import { useAppDispatch } from '@/hooks';
 import { window } from '@/utils/ssrWindow';
+import { AppDispatch, RootState } from '@/store/store';
+import { Notification } from '@/store/alert/alert.slice';
+import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/alert/alert.actions';
+import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
 
 export const Registration = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const enqueueSnackbar = (args: Notification) =>
+    dispatch(enqueueSnackbarAction({ ...args }));
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
@@ -44,8 +49,23 @@ export const Registration = () => {
     }
   }, [isLoggedIn, navigate]);
 
-  const onSubmit = (data: SignupInputModel) => {
-    dispatch(signup(data));
+  const onSubmit = (formData: SignupInputModel) => {
+    dispatch(signup(formData)).then(({ payload }) => {
+      const {
+        status,
+        data: { reason },
+      } = payload as unknown as KnownError<ErrorNotificationMessage>;
+      if (status === 401) {
+        enqueueSnackbar({
+          key: v4(),
+          message: reason,
+          options: {
+            key: v4(),
+            variant: 'error',
+          },
+        });
+      }
+    });
   };
 
   return (

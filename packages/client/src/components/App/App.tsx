@@ -3,11 +3,14 @@ import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import { SnackbarProvider } from 'notistack';
 import { ToggleColorMode } from '@/components/ToggleColorMode';
 import { router } from '@/router/router';
 import { store } from '@/store/store';
 import { mainStyles } from '../../../StyleMain';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
+import { notistackConfig } from '@/configs/Notistack.config';
+import Notifier from '@/ui/elements/Notifier';
 
 function Main() {
   const routing = useRoutes(router());
@@ -21,7 +24,10 @@ export const App = () => {
     <Provider store={store}>
       <ToggleColorMode>
         <Container sx={mainStyles.main}>
-          <Main />
+          <SnackbarProvider {...notistackConfig}>
+            <Notifier />
+            <Main />
+          </SnackbarProvider>
         </Container>
         <CssBaseline />
       </ToggleColorMode>

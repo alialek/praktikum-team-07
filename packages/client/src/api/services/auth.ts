@@ -1,12 +1,11 @@
 import { yandexApi, ApiResponse } from '../client';
-import { SigninInputModel, SignupInputModel } from '@/models/auth.model';
 import { UserModel } from '@/models/user.model';
 
 export const AuthService = {
-  signin(data: SigninInputModel): Promise<ApiResponse> {
+  signin<T>(data: T): Promise<ApiResponse<T>> {
     return yandexApi.post('/auth/signin', data);
   },
-  signup(data: SignupInputModel): Promise<ApiResponse> {
+  signup<T>(data: T): Promise<ApiResponse<T>> {
     return yandexApi.post('/auth/signup', data);
   },
   logout() {
