@@ -1,9 +1,6 @@
 import type { AppConfig } from '@/types';
-import { YA_API_URL } from '@/constants/main';
+import { CLIENT_PORT, SERVER_PORT, YANDEX_API_URL, API_URL } from '@/constants/main';
 import { developmentPresets } from './csp/development';
-import { SERVER_PORT } from './default';
-
-export const CLIENT_PORT = Number(process.env.CLIENT_PORT) || 3000;
 
 export const developmentConfig: AppConfig = {
   csp: {
@@ -13,7 +10,8 @@ export const developmentConfig: AppConfig = {
     allowedOrigins: [
       `http://localhost:${SERVER_PORT}`,
       `http://localhost:${CLIENT_PORT}`,
-      YA_API_URL,
+      YANDEX_API_URL,
+      API_URL,
     ],
   },
   logger: {

@@ -17,12 +17,12 @@ const app = express();
 
 app.use(cors);
 app.use(logger);
-app.use(express.static(cfg.static.staticDir));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(appRouter);
 app.use(errorHandler);
+app.use(express.static(cfg.static.staticDir));
 app.use('*', notFoundErrorHandler);
 
 app.listen(cfg.server.port, () => {

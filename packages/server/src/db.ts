@@ -50,7 +50,6 @@ export const dbConnect = async () => {
     await sequelize.sync(); // Синхронизация БД
 
     console.log('Sequelize connecnted');
-    console.log('----------------------', cfg.database);
   } catch (error) {
     console.error('Sequelize unable to connect:', error);
   }
