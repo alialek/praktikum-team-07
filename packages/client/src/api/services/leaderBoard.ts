@@ -3,14 +3,14 @@ import {
   LeaderboardNewLeaderRequest,
   LeaderboardRequest,
 } from '@/models/leader.model';
-import { api, ApiResponse } from '../client';
+import { yandexApi, ApiResponse } from '../client';
 
 export const LeaderBoardService = {
   getAllLeaders(data: LeaderboardRequest): Promise<ApiResponse<LeaderboardDataResponse>> {
-    return api.post('/leaderboard/atom_dream_team', data);
+    return yandexApi.post('/leaderboard/atom_dream_team', data);
   },
 
   addNewLeader(data: LeaderboardNewLeaderRequest): Promise<ApiResponse> {
-    return api.post('/leaderboard', data);
+    return yandexApi.post('/leaderboard', data);
   },
 };
