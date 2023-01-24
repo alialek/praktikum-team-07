@@ -38,4 +38,7 @@ export const defaultConfig: AppConfig = {
     database: POSTGRES_DB,
     password: POSTGRES_PASSWORD,
   },
+  helmet: {
+    crossOriginEmbedderPolicy: false,
+  },
 };
