@@ -8,8 +8,8 @@ export interface UserState {
   loading: boolean;
   profile: UserModel;
   error: any;
-  signInErrorMessage: Record<string, any>;
-  signUpErrorMessage: Record<string, any>;
+  signInErrorMessage?: Record<string, any>;
+  signUpErrorMessage?: Record<string, any>;
 }
 
 const initialState: UserState = {
@@ -53,7 +53,6 @@ export const userSlice = createSlice({
     });
     builder.addCase(signin.rejected, (state, action) => {
       state.loading = false;
-      // @ts-ignore
       state.signInErrorMessage = action.payload;
     });
 
@@ -67,7 +66,6 @@ export const userSlice = createSlice({
     });
     builder.addCase(signup.rejected, (state, action) => {
       state.loading = false;
-      // @ts-ignore
       state.signUpErrorMessage = action.payload;
     });
 

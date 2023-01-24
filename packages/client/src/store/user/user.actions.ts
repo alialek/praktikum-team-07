@@ -5,41 +5,43 @@ import { AuthService } from '@/api/services/auth';
 import { OauthSingInModel } from '@/models/oauth.model';
 import { OauthService } from '@/api/services/oauth';
 
-export const signin = createAsyncThunk(
-  'user/signin',
-  async (payload: SigninInputModel, thunkApi) => {
-    try {
-      const { data } = await AuthService.signin(payload);
-      return data;
-    } catch (e) {
-      const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+export const signin = createAsyncThunk<
+  SigninInputModel,
+  SigninInputModel,
+  { rejectValue: Record<string, any> }
+>('user/signin', async (payload: SigninInputModel, thunkApi) => {
+  try {
+    const { data } = await AuthService.signin(payload);
+    return data;
+  } catch (e) {
+    const hasErrResponse = (e as { response: { [key: string]: string } }).response;
 
-      if (!hasErrResponse) {
-        throw e;
-      }
-
-      return thunkApi.rejectWithValue(hasErrResponse);
+    if (!hasErrResponse) {
+      throw e;
     }
-  },
-);
 
-export const signup = createAsyncThunk(
-  'user/signup',
-  async (payload: SignupInputModel, thunkApi) => {
-    try {
-      const { data } = await AuthService.signup(payload);
-      return data;
-    } catch (e) {
-      const hasErrResponse = (e as { response: { [key: string]: string } }).response;
+    return thunkApi.rejectWithValue(hasErrResponse);
+  }
+});
 
-      if (!hasErrResponse) {
-        throw e;
-      }
+export const signup = createAsyncThunk<
+  SignupInputModel,
+  SignupInputModel,
+  { rejectValue: Record<string, any> }
+>('user/signup', async (payload: SignupInputModel, thunkApi) => {
+  try {
+    const { data } = await AuthService.signup(payload);
+    return data;
+  } catch (e) {
+    const hasErrResponse = (e as { response: { [key: string]: string } }).response;
 
-      return thunkApi.rejectWithValue(hasErrResponse);
+    if (!hasErrResponse) {
+      throw e;
     }
-  },
-);
+
+    return thunkApi.rejectWithValue(hasErrResponse);
+  }
+});
 
 export const getUserInfo = createAsyncThunk<UserModel, void>(
   'user/getInfo',

@@ -3,10 +3,10 @@ import { SigninInputModel, SignupInputModel } from '@/models/auth.model';
 import { UserModel } from '@/models/user.model';
 
 export const AuthService = {
-  signin(data: SigninInputModel): Promise<ApiResponse> {
+  signin(data: SigninInputModel): Promise<ApiResponse<SigninInputModel>> {
     return api.post('/auth/signin', data);
   },
-  signup(data: SignupInputModel): Promise<ApiResponse> {
+  signup(data: SignupInputModel): Promise<ApiResponse<SignupInputModel>> {
     return api.post('/auth/signup', data);
   },
   logout() {
