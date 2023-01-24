@@ -1,15 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { AxiosRequestConfig, AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios';
 import type { RootState } from '../store';
 import { getUserInfo, signin, signup } from './user.actions';
 import { UserModel } from '@/models/user.model';
-
-export interface UserState {
-  isAuth: boolean;
-  loading: boolean;
-  profile: UserModel;
-  error: string;
-}
 
 const initialState: UserState = {
   isAuth: false,
@@ -24,7 +17,6 @@ const initialState: UserState = {
     email: '',
     phone: '',
   },
-  error: '',
 };
 
 export const userSlice = createSlice({
@@ -49,7 +41,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(signin.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.signInErrorMessage = action.payload;
     });
 
     builder.addCase(signup.pending, (state) => {
@@ -61,7 +53,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(signup.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.signUpErrorMessage = action.payload;
     });
 
     builder.addCase(getUserInfo.pending, (state) => {
@@ -74,7 +66,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(getUserInfo.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = action.payload;
     });
   },
 });
@@ -84,3 +76,26 @@ const { actions, reducer } = userSlice;
 export const showUserData = (state: RootState) => state.user;
 export const { setIsLoggedIn, fetchUser } = actions;
 export default reducer;
+
+export interface ErrorNotificationMessage {
+  reason: string;
+  error: string;
+}
+
+export interface UserState {
+  isAuth: boolean;
+  loading: boolean;
+  profile: UserModel;
+  error?: KnownError<ErrorNotificationMessage>;
+  signInErrorMessage?: KnownError<ErrorNotificationMessage>;
+  signUpErrorMessage?: KnownError<ErrorNotificationMessage>;
+}
+
+export interface KnownError<T, D = any> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: RawAxiosResponseHeaders | AxiosResponseHeaders;
+  config: AxiosRequestConfig<D>;
+  request?: any;
+}

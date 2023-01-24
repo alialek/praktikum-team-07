@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { v4 } from 'uuid';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
 import {
@@ -20,11 +21,16 @@ import { AppDispatch, RootState } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
+import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/alert/alert.actions';
 import { window } from '@/utils/ssrWindow';
+import { Notification } from '@/store/alert/alert.slice';
+import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
 
 export const Auth = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const enqueueSnackbar = (args: Notification) =>
+    dispatch(enqueueSnackbarAction({ ...args }));
   const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
   const {
@@ -44,11 +50,26 @@ export const Auth = () => {
     }
   }, [dispatch, isLoggedIn, navigate]);
 
-  const onSubmit = (data: SigninInputModel) => {
-    dispatch(signin(data));
+  const onSubmit = (formData: SigninInputModel) => {
+    dispatch(signin(formData)).then(({ payload }) => {
+      const {
+        status,
+        data: { reason },
+      } = payload as unknown as KnownError<ErrorNotificationMessage>;
+      if (status === 401) {
+        enqueueSnackbar({
+          key: v4(),
+          message: reason,
+          options: {
+            key: v4(),
+            variant: 'error',
+          },
+        });
+      }
+    });
   };
 
-  const takeOauthAunthification = async () => {
+  const takeOauthAuthentication = async () => {
     try {
       const response = await OauthService.getServiceId();
       const yapServiceId = response.data.service_id;
@@ -109,7 +130,7 @@ export const Auth = () => {
           fullWidth
           sx={loginFormStyles.yaButton}
           startIcon={<img src={YandexIcon} alt="YandexIcon" />}
-          onClick={takeOauthAunthification}
+          onClick={takeOauthAuthentication}
         >
           {AUTH_BUTTON_YANDEX}
         </Button>
