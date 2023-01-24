@@ -8,13 +8,17 @@ import {
   Table,
   Unique,
   HasMany,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
-
 import type { Optional } from 'sequelize';
+
 import { MessageModel } from './messages';
+import { ForumModel } from './forums';
 
 export interface IThread {
   id: number;
+  forumId: number;
   name: string;
   description: string;
 }
@@ -31,6 +35,13 @@ export class ThreadModel extends Model<IThread, CreationThread> {
   @PrimaryKey
   @Column(DataType.INTEGER)
   override id: number;
+
+  @ForeignKey(() => ForumModel)
+  @Column
+  forumId: number;
+
+  @BelongsTo(() => ForumModel)
+  forum: ForumModel;
 
   @AllowNull(false)
   @Column(DataType.STRING)

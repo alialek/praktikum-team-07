@@ -22,8 +22,16 @@ export const ChangePasswordPagePath = {
   path: '/change_password',
 };
 
+export const ThreadPagePath = {
+  path: '/thread',
+};
+
 export const ForumPagePath = {
   path: '/forum',
+};
+
+export const ForumsPagePath = {
+  path: '/forums',
 };
 
 export const EndGamePagePath = {

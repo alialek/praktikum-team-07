@@ -14,15 +14,15 @@ import { Link } from 'react-router-dom';
 
 import { Loader } from '@/components/Loader';
 import { NoResults } from '@/components/NoResults';
-import { ThreadPagePath } from '@/router/paths';
-import { ThreadModel } from '@/models/forum.model';
+import { ForumPagePath } from '@/router/paths';
+import { ForumModel } from '@/models/forum.model';
 
-interface ForumItemsProps {
-  items: ThreadModel[];
+interface ForumsItemsProps {
+  items: ForumModel[];
   loading: boolean;
 }
 
-export const Forum: React.FC<ForumItemsProps> = ({ items, loading }) => {
+export const Forums: React.FC<ForumsItemsProps> = ({ items, loading }) => {
   if (loading) {
     return <Loader />;
   }
@@ -45,10 +45,10 @@ export const Forum: React.FC<ForumItemsProps> = ({ items, loading }) => {
                     </Avatar>
                   </ListItemAvatar>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={9}>
                   <Link
                     style={{ textDecoration: 'none' }}
-                    to={`${ThreadPagePath.path}/${value.id}`}
+                    to={`${ForumPagePath.path}/${value.id}`}
                   >
                     <ListItemText
                       disableTypography
@@ -58,7 +58,7 @@ export const Forum: React.FC<ForumItemsProps> = ({ items, loading }) => {
                           variant="body2"
                           color="text.secondary"
                         >
-                          {value.name}
+                          {value.title}
                         </Typography>
                       }
                       secondary={
@@ -69,7 +69,12 @@ export const Forum: React.FC<ForumItemsProps> = ({ items, loading }) => {
                     />
                   </Link>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={1}>
+                  <Typography variant="body2" component="div">
+                    {value.threadCount}
+                  </Typography>
+                </Grid>
+                <Grid item xs={1}>
                   <Typography variant="body2" component="div">
                     {value.messageCount}
                   </Typography>

@@ -2,23 +2,23 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '@/hooks';
-import { ForumPageCard } from '@/components/Forum';
+import { ThreadPageCard } from '@/components/Thread';
 import { PageWithBackButton } from '@/components/PageWithBackButton';
-import { getForumById } from '@/store/forum/forum.actions';
+import { getThreadById } from '@/store/forum/forum.actions';
 
-export const ForumPage = () => {
-  const { forumId } = useParams();
+export const ThreadPage = () => {
+  const { threadId } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (forumId) {
-      dispatch(getForumById(Number(forumId)));
+    if (threadId) {
+      dispatch(getThreadById(Number(threadId)));
     }
-  }, [dispatch, forumId]);
+  }, [dispatch, threadId]);
 
   return (
     <PageWithBackButton>
-      <ForumPageCard />
+      <ThreadPageCard />
     </PageWithBackButton>
   );
 };
