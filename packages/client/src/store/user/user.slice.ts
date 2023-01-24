@@ -3,15 +3,6 @@ import type { RootState } from '../store';
 import { getUserInfo, signin, signup } from './user.actions';
 import { UserModel } from '@/models/user.model';
 
-export interface UserState {
-  isAuth: boolean;
-  loading: boolean;
-  profile: UserModel;
-  error: any;
-  signInErrorMessage?: Record<string, any>;
-  signUpErrorMessage?: Record<string, any>;
-}
-
 const initialState: UserState = {
   isAuth: false,
   loading: false,
@@ -25,9 +16,9 @@ const initialState: UserState = {
     email: '',
     phone: '',
   },
-  error: '',
-  signInErrorMessage: {},
-  signUpErrorMessage: {},
+  error: { reason: '', error: '' },
+  signInErrorMessage: { reason: '', error: '' },
+  signUpErrorMessage: { reason: '', error: '' },
 };
 
 export const userSlice = createSlice({
@@ -49,7 +40,7 @@ export const userSlice = createSlice({
     builder.addCase(signin.fulfilled, (state) => {
       state.loading = false;
       state.isAuth = true;
-      state.signInErrorMessage = {};
+      state.signInErrorMessage = { reason: '', error: '' };
     });
     builder.addCase(signin.rejected, (state, action) => {
       state.loading = false;
@@ -62,7 +53,7 @@ export const userSlice = createSlice({
     builder.addCase(signup.fulfilled, (state) => {
       state.loading = false;
       state.isAuth = true;
-      state.signInErrorMessage = {};
+      state.signInErrorMessage = { reason: '', error: '' };
     });
     builder.addCase(signup.rejected, (state, action) => {
       state.loading = false;
@@ -79,7 +70,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(getUserInfo.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = action.payload;
     });
   },
 });
@@ -89,3 +80,17 @@ const { actions, reducer } = userSlice;
 export const showUserData = (state: RootState) => state.user;
 export const { setIsLoggedIn, fetchUser } = actions;
 export default reducer;
+
+export interface ErrorNotificationMessage {
+  reason: string;
+  error: string;
+}
+
+export interface UserState {
+  isAuth: boolean;
+  loading: boolean;
+  profile: UserModel;
+  error?: ErrorNotificationMessage;
+  signInErrorMessage?: ErrorNotificationMessage;
+  signUpErrorMessage?: ErrorNotificationMessage;
+}

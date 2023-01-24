@@ -51,8 +51,7 @@ export const Registration = () => {
   }, [dispatch, isLoggedIn, navigate]);
 
   const onSubmit = (formData: SignupInputModel) => {
-    const { data } = notification;
-    const { reason } = data as { reason: string };
+    const { reason } = notification || { reason: '', error: '' };
 
     dispatch(signup(formData)).then(() =>
       enqueueSnackbar({

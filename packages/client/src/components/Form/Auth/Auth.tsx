@@ -52,8 +52,7 @@ export const Auth = () => {
   }, [dispatch, isLoggedIn, navigate]);
 
   const onSubmit = (formData: SigninInputModel) => {
-    const { data } = notification;
-    const { reason } = data as { reason: string };
+    const { reason } = notification || { reason: '', error: '' };
 
     dispatch(signin(formData)).then(() =>
       enqueueSnackbar({
