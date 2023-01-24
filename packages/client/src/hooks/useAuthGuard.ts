@@ -5,6 +5,7 @@ import { getUserInfo, oauthSignIn } from '@/store/user/user.actions';
 import { REDIRECT_URI } from '@/сonstants/main';
 import { useAppDispatch, useAppSelector } from '@/hooks/index';
 import { showUserData } from '@/store/user/user.slice';
+import { window } from '@/utils/ssrWindow';
 
 export const useAuthGuard = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export const useAuthGuard = () => {
   const handleUserInfo = () => {
     fetchUserData().then((payload) => {
       if (!payload) {
-        localStorage.clear();
+        window.localStorage.clear();
         navigate('/auth/login', { replace: true });
       }
     });
@@ -39,7 +40,7 @@ export const useAuthGuard = () => {
   }, [user.id]);
 
   useEffect(() => {
-    const loggedIn = Boolean(localStorage.getItem('user_in'));
+    const loggedIn = Boolean(window.localStorage.getItem('user_in'));
 
     if (loggedIn) {
       setIsLoggedIn(true);

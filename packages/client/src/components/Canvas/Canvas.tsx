@@ -13,6 +13,7 @@ import { useAppSelector } from '@/hooks';
 import { showUserData } from '@/store/user/user.slice';
 import { addNewLeader, getAllLeaders } from '@/store/leaders/leaders.action';
 import { Leader } from '@/models/leader.model';
+import { window } from '@/utils/ssrWindow';
 
 export const Canvas = () => {
   const [canvasRef, isRunning, isPaused, setIsRunning, setIsPaused] = useCanvas({
@@ -25,10 +26,10 @@ export const Canvas = () => {
   const { display_name, avatar } = user;
 
   function handlePause() {
-    const _isPaused = localStorage.getItem('isPaused');
+    const _isPaused = window.localStorage.getItem('isPaused');
     if (_isPaused === 'true') {
       setIsPaused(false);
-      localStorage.setItem('isPaused', 'false');
+      window.localStorage.setItem('isPaused', 'false');
     } else {
       setIsPaused(true);
     }
@@ -36,15 +37,15 @@ export const Canvas = () => {
 
   const handlePlayAgain = () => {
     setIsRunning(!isRunning);
-    localStorage.setItem('isReload', 'true');
+    window.localStorage.setItem('isReload', 'true');
 
     setTimeout(() => {
-      Object.entries(localStorage).forEach(([key]) => {
+      Object.entries(window.localStorage).forEach(([key]) => {
         if (!key.includes('bestScore') && !key.includes('user_in'))
-          localStorage.removeItem(key);
+          window.localStorage.removeItem(key);
       });
       setIsRunning(true);
-      localStorage.setItem('isReload', 'false');
+      window.localStorage.setItem('isReload', 'false');
     }, 0);
   };
 
@@ -53,7 +54,7 @@ export const Canvas = () => {
     const data: Leader = {
       user_name: display_name,
       avatar,
-      score: parseInt(localStorage.getItem('bestScore') || '0', 10),
+      score: parseInt(window.localStorage.getItem('bestScore') || '0', 10),
     };
     dispatch(
       addNewLeader({ ratingFieldName: 'score', data, teamName: 'atom_dream_team' }),

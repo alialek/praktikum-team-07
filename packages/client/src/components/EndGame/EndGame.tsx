@@ -5,6 +5,7 @@ import { PlayArrow } from '@mui/icons-material';
 import { RootPath } from '@/router/paths';
 import { endGameStyles } from './Styles';
 import { PLAY_GAME_AGAIN, END_TEXT, RECORD_TEXT, COUNT_TEXT } from '@/сonstants/game';
+import { window } from '@/utils/ssrWindow';
 
 export const EndGame = () => {
   return (
@@ -12,10 +13,10 @@ export const EndGame = () => {
       <Box sx={endGameStyles.welcomeBox}>
         <Grid sx={endGameStyles.wrapperCount}>
           <Typography variant="h6">
-            {COUNT_TEXT} {localStorage.getItem('gameScore')}
+            {COUNT_TEXT} {window.localStorage.getItem('gameScore')}
           </Typography>
           <Typography variant="h6">
-            {RECORD_TEXT} {localStorage.getItem('bestScore')}
+            {RECORD_TEXT} {window.localStorage.getItem('bestScore')}
           </Typography>
         </Grid>
         <Grid sx={endGameStyles.wrapperTitle}>

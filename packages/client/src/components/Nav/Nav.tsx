@@ -12,10 +12,11 @@ import { headerStyles } from '@/components/Header/Styles';
 import { AppDispatch } from '@/store/store';
 import colors from '@/colors';
 import { SETTINGS } from '@/components/Nav/settings';
+import { window } from '@/utils/ssrWindow';
 
 export const Nav = () => {
   const dispatch = useDispatch<ThunkDispatch<AppDispatch, Promise<AxiosResponse>, any>>();
-  const isLoggedIn = Boolean(localStorage.getItem('user_in'));
+  const isLoggedIn = Boolean(window.localStorage.getItem('user_in'));
 
   const handleClickLogout = () => dispatch(AuthService.logout());
 

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "rimraf ./dist ./*.tsbuildinfo && tsc --p ./tsconfig.prod.json",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/index.js",
+    "build": "rimraf ./dist ./*.tsbuildinfo && cross-env NODE_ENV=production tsc --p ./tsconfig.prod.json",
+    "start": "cross-env NODE_ENV=production node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/index.js",
     "start:docker": "cross-env CURRENT_USER=$(id -u):$(id -g) docker compose -f ../../docker-compose.yml up -d",
     "preview": "yarn start",
     "dev": "yarn dev:postgres && yarn dev:server",

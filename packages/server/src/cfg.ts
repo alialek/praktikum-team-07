@@ -3,17 +3,16 @@ import { defaultConfig } from '@/configs/default';
 import { developmentConfig } from '@/configs/development';
 import { productionConfig } from '@/configs/production';
 import type { AppConfig, Config } from '@/types';
-
-const ENV = process.env.NODE_ENV;
+import { NODE_ENV } from '@/constants/main';
 
 let config: AppConfig = {};
 
-if (ENV === 'development') {
+if (NODE_ENV === 'development') {
   config = developmentConfig;
 }
 
-if (ENV === 'production') {
+if (NODE_ENV === 'production') {
   config = productionConfig;
 }
 
-export const cfg: Config = mergeOptions({ environment: ENV }, defaultConfig, config);
+export const cfg: Config = mergeOptions({ environment: NODE_ENV }, defaultConfig, config);

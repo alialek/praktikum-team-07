@@ -8,6 +8,7 @@ import {
   SECOND_LINE_DISTANCE,
 } from '@/сonstants/game';
 import { Game } from './Game';
+import { window } from '@/utils/ssrWindow';
 
 /**
  * @class Player
@@ -65,22 +66,28 @@ export class Player {
     this._width = width;
     this._height = height;
     this._frame = 0;
-    this._x = parseInt(JSON.parse(localStorage.getItem('playerXCord') || '0'), 10);
+    this._x = parseInt(JSON.parse(window.localStorage.getItem('playerXCord') || '0'), 10);
     this._y = parseInt(
       JSON.parse(
-        localStorage.getItem('playerYCord') ||
+        window.localStorage.getItem('playerYCord') ||
           String(this.game.height - this._height - FIRST_LINE_DISTANCE),
       ),
       10,
     );
-    this._vy = parseInt(JSON.parse(localStorage.getItem('playerVYCord') || '0'), 10);
+    this._vy = parseInt(
+      JSON.parse(window.localStorage.getItem('playerVYCord') || '0'),
+      10,
+    );
     this._weight = 1;
     this._speed = 0;
     this._maxSpeed = 10;
 
     this.image = new Image();
     this.image.src = playerImageSrc;
-    this._position = parseInt(JSON.parse(localStorage.getItem('position') || '0'), 10);
+    this._position = parseInt(
+      JSON.parse(window.localStorage.getItem('position') || '0'),
+      10,
+    );
     this._leftRoadLine = this.game.height - this._height - FIRST_LINE_DISTANCE;
     this._rightRoadLine =
       this.game.height - this._height - FIRST_LINE_DISTANCE - SECOND_LINE_DISTANCE;
@@ -217,10 +224,10 @@ export class Player {
       }
     }
 
-    localStorage.setItem('playerXCord', this.x.toString());
-    localStorage.setItem('playerYCord', this.y.toString());
-    localStorage.setItem('playerVYCord', this.vy.toString());
-    localStorage.setItem('position', this.position.toString());
+    window.localStorage.setItem('playerXCord', this.x.toString());
+    window.localStorage.setItem('playerYCord', this.y.toString());
+    window.localStorage.setItem('playerVYCord', this.vy.toString());
+    window.localStorage.setItem('position', this.position.toString());
   }
 
   /**

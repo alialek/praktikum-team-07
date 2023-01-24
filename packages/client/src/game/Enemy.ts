@@ -1,5 +1,6 @@
 import { FIRST_LINE_DISTANCE, SECOND_LINE_DISTANCE } from '@/сonstants/game';
 import { Game } from './Game';
+import { window } from '@/utils/ssrWindow';
 
 /**
  * @class Enemy
@@ -52,7 +53,7 @@ export class Enemy {
     this.spriteWidth = this.width;
     this.spriteHeight = this.height;
     this._x = parseInt(
-      JSON.parse(localStorage.getItem('positionX') || this.game.width.toString()),
+      JSON.parse(window.localStorage.getItem('positionX') || this.game.width.toString()),
       10,
     );
     this._y = 0;
@@ -60,7 +61,8 @@ export class Enemy {
     this.image.src = enemyImageSrc;
     this._position = parseInt(
       JSON.parse(
-        localStorage.getItem('positionY') || Math.floor(Math.random() * 2).toString(),
+        window.localStorage.getItem('positionY') ||
+          Math.floor(Math.random() * 2).toString(),
       ),
       10,
     );
@@ -159,7 +161,7 @@ export class Enemy {
     }
 
     this.x -= this.game.gameSpeed;
-    localStorage.setItem('positionX', this.x.toString());
-    localStorage.setItem('positionY', this.position.toString());
+    window.localStorage.setItem('positionX', this.x.toString());
+    window.localStorage.setItem('positionY', this.position.toString());
   }
 }
