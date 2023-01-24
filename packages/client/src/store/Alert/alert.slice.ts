@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
 
 export const ENQUEUE_SNACKBAR = 'enqueueSnackbar';
@@ -8,6 +8,7 @@ export const REMOVE_SNACKBAR = 'removeSnackbar';
 export interface Notification {
   key: string;
   message: string;
+  dismissAll?: boolean;
   options: {
     key: string;
     variant: 'success' | 'error' | 'warning';
@@ -36,10 +37,9 @@ const snackbarSlice = createSlice({
   initialState,
   reducers: {
     [ENQUEUE_SNACKBAR]: {
-      reducer: (state, { payload }) => {
-        state.notifications.push(payload);
+      reducer: (state, action: PayloadAction<Notification>) => {
+        state.notifications.push(action.payload);
       },
-      // @ts-ignore
       prepare(notification: Notification) {
         const payload = {
           ...notification,
@@ -49,7 +49,7 @@ const snackbarSlice = createSlice({
       },
     },
     [CLOSE_SNACKBAR]: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<Notification>) => {
         const { payload } = action;
         state.notifications = state.notifications.map((notification) => {
           const shouldDismiss =
@@ -59,8 +59,14 @@ const snackbarSlice = createSlice({
             : { ...notification };
         });
       },
-      // @ts-ignore
-      prepare: (key) => ({ payload: { key, dismissAll: !key } }),
+      prepare: (notification: Notification) => {
+        const payload = {
+          ...notification,
+          key: notification.key,
+          dismissAll: !notification.key,
+        };
+        return { payload };
+      },
     },
     [REMOVE_SNACKBAR]: (state, { payload }) => {
       state.notifications = state.notifications.filter(
