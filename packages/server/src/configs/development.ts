@@ -19,4 +19,7 @@ export const developmentConfig: AppConfig = {
   logger: {
     format: 'dev',
   },
+  database: {
+    host: 'localhost',
+  },
 };

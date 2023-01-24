@@ -24,6 +24,14 @@ export interface Config {
   server: {
     port: number;
   };
+
+  database: {
+    host: string;
+    port: number;
+    user: string;
+    database: string;
+    password: string;
+  };
 }
 
 type RecursivePartial<T> = {

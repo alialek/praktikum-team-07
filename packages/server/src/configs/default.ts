@@ -4,6 +4,9 @@ import { defaultPresets } from './csp/default';
 
 export const SERVER_PORT = Number(process.env.SERVER_PORT) || 3001;
 
+const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } =
+  process.env;
+
 export const defaultConfig: AppConfig = {
   csp: {
     presets: defaultPresets,
@@ -24,5 +27,12 @@ export const defaultConfig: AppConfig = {
   },
   server: {
     port: SERVER_PORT,
+  },
+  database: {
+    host: POSTGRES_HOST,
+    port: Number(POSTGRES_PORT),
+    user: POSTGRES_USER,
+    database: POSTGRES_DB,
+    password: POSTGRES_PASSWORD,
   },
 };
