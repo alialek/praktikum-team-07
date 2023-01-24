@@ -18,14 +18,14 @@ export const Home = () => {
     setStarted(!isStarted);
     Object.entries(localStorage).forEach(([key]) => {
       if (!key.includes('bestScore') && !key.includes('user_in'))
-        delete localStorage[key];
+        localStorage.removeItem(key);
     });
   };
   return (
     <Box>
       <Grid item xs={12}>
         {isStarted ? (
-          <Canvas onStop={handleStart} />
+          <Canvas />
         ) : (
           <Box sx={homeStyles.welcomeBox}>
             <Typography variant="h5" component="div" gutterBottom>

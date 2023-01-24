@@ -12,11 +12,9 @@ import { AppDispatch } from '@/store/store';
 import { useAppSelector } from '@/hooks';
 import { showUserData } from '@/store/user/user.slice';
 import { addNewLeader, getAllLeaders } from '@/store/leaders/leaders.action';
+import { Leader } from '@/models/leader.model';
 
-interface CanvasProps {
-  onStop: () => void;
-}
-export const Canvas: React.FC<CanvasProps> = () => {
+export const Canvas = () => {
   const [canvasRef, isRunning, isPaused, setIsRunning, setIsPaused] = useCanvas({
     GameClass: Game,
   });
@@ -43,7 +41,7 @@ export const Canvas: React.FC<CanvasProps> = () => {
     setTimeout(() => {
       Object.entries(localStorage).forEach(([key]) => {
         if (!key.includes('bestScore') && !key.includes('user_in'))
-          delete localStorage[key];
+          localStorage.removeItem(key);
       });
       setIsRunning(true);
       localStorage.setItem('isReload', 'false');
@@ -51,9 +49,8 @@ export const Canvas: React.FC<CanvasProps> = () => {
   };
 
   const handleStop = () => {
-    // eslint-disable-next-line no-unused-expressions
     setIsRunning(!isRunning);
-    const data: object = {
+    const data: Leader = {
       user_name: display_name,
       avatar,
       score: parseInt(localStorage.getItem('bestScore') || '0', 10),

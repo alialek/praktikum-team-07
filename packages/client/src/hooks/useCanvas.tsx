@@ -18,6 +18,7 @@ import { addNewLeader, getAllLeaders } from '@/store/leaders/leaders.action';
 
 import { useAppSelector } from '@/hooks';
 import { showUserData } from '@/store/user/user.slice';
+import { Leader } from '@/models/leader.model';
 
 interface UseCanvasProps {
   GameClass: GameType;
@@ -77,7 +78,7 @@ export const useCanvas = ({ GameClass }: UseCanvasProps) => {
         animationFrameIdBoom = requestAnimationFrame(render);
       };
       render();
-      const data: object = {
+      const data: Leader = {
         user_name: display_name || login,
         avatar,
         score: parseInt(localStorage.getItem('bestScore') || '0', 10),

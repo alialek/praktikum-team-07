@@ -1,5 +1,5 @@
 export interface LeaderboardNewLeaderRequest {
-  data: object;
+  data: Leader;
   ratingFieldName: string;
   teamName?: string;
 }

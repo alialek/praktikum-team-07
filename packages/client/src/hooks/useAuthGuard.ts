@@ -22,7 +22,6 @@ export const useAuthGuard = () => {
     }
     return null;
   };
-  // const [dispatch];
 
   const handleUserInfo = () => {
     fetchUserData().then((payload) => {

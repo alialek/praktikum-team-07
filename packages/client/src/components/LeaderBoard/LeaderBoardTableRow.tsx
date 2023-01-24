@@ -1,6 +1,5 @@
 import React from 'react';
 import { Avatar, TableCell, TableRow } from '@mui/material';
-// import { LeaderBoardRow } from './types';
 import { LeaderboardData } from '@/models/leader.model';
 
 interface LeaderBoardTableRowProps {
