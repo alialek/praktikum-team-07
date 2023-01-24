@@ -10,7 +10,8 @@ services:
       SERVER_PORT: ${SERVER_PORT}
     depends_on:
       - postgres
-
+    networks:
+      - awesome
   postgres:
     image: postgres:14
     ports:
