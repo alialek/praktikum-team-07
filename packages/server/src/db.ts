@@ -3,6 +3,7 @@ import { Client } from 'pg';
 import { Sequelize } from 'sequelize-typescript';
 import { MessageModel } from './models/messages';
 import { ThreadModel } from './models/threads';
+import { ForumModel } from './models/forums';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
 
@@ -38,7 +39,7 @@ export const sequelize = new Sequelize({
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
   dialect: 'postgres',
-  models: [MessageModel, ThreadModel],
+  models: [MessageModel, ThreadModel, ForumModel],
 });
 
 // Подключение к БД

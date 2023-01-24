@@ -18,7 +18,9 @@ const paths = [
   '/auth/register',
   '/profile',
   '/change_password',
-  '/forum',
+  '/thread/:threadId',
+  '/forum/:forumId',
+  '/forums',
   '/end',
   '/leaders',
 ];

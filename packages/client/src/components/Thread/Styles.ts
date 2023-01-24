@@ -1,9 +1,14 @@
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
 
-type ClassName = 'boxWrapper' | 'title' | 'cardWrapper' | 'mainTitle';
+type ClassName =
+  | 'boxWrapper'
+  | 'title'
+  | 'cardWrapper'
+  | 'mainTitle'
+  | 'mainTitleWrapper';
 
-export const forumStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
+export const threadStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties> = {
   boxWrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -21,7 +26,9 @@ export const forumStyles: Record<ClassName, SxProps<Theme> | React.CSSProperties
   },
   mainTitle: {
     fontWeight: '500',
-    padding: '0 0 56px 0',
-    textAlign: 'left',
+  },
+  mainTitleWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 };

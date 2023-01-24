@@ -2,6 +2,7 @@
 export const PROFILE_TEXT = 'Профиль';
 export const LEADERS_TEXT = 'Лидеры';
 export const FORUM_TEXT = 'Форум';
+export const THREAD_TEXT = 'Тема';
 export const LOGOUT_TEXT = 'Выйти';
 export const LOGIN_TEXT = 'Войти';
 
@@ -44,3 +45,6 @@ export const PASSWORD_FIELD_LABEL = 'Пароль';
 // Back Button
 export const BACK_TEXT = 'Назад';
 export const BACK_TEXT_ERROR = 'Вернуться назад';
+
+// No Results
+export const NO_RESULTS = 'Ничего не найдено';

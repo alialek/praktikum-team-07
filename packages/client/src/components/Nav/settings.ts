@@ -1,6 +1,6 @@
 import { FORUM_TEXT, LEADERS_TEXT, LOGOUT_TEXT, PROFILE_TEXT } from '@/сonstants/text';
 import {
-  ForumPagePath,
+  ForumsPagePath,
   LeadersPagePath,
   ProfilePagePath,
   SigninPagePath,
@@ -17,7 +17,7 @@ export const SETTINGS = [
   },
   {
     title: FORUM_TEXT,
-    link: ForumPagePath.path,
+    link: ForumsPagePath.path,
   },
   {
     title: LOGOUT_TEXT,

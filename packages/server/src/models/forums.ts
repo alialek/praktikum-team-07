@@ -3,48 +3,42 @@ import {
   AutoIncrement,
   Column,
   DataType,
-  ForeignKey,
-  BelongsTo,
   Model,
   PrimaryKey,
   Table,
   Unique,
+  HasMany,
 } from 'sequelize-typescript';
 import type { Optional } from 'sequelize';
 
 import { ThreadModel } from './threads';
 
-export interface IMessage {
+export interface IForum {
   id: number;
-  threadId: number;
-  nickname: string;
-  message: string;
+  title: string;
+  description: string;
 }
 
-export type CreationMessage = Optional<IMessage, 'id'>;
+export type CreationForum = Optional<IForum, 'id'>;
 
 /* eslint indent: "off" */
 @Table({
-  tableName: 'messages',
+  tableName: 'forums',
 })
-export class MessageModel extends Model<IMessage, CreationMessage> {
+export class ForumModel extends Model<IForum, CreationForum> {
   @Unique
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
   override id: number;
 
-  @ForeignKey(() => ThreadModel)
-  @Column
-  threadId: number;
-
-  @BelongsTo(() => ThreadModel)
-  thread: ThreadModel;
-
   @AllowNull(false)
   @Column(DataType.STRING)
-  nickname: string;
+  title: string;
 
   @Column(DataType.STRING)
-  message: string;
+  description: string;
+
+  @HasMany(() => ThreadModel)
+  threads: ThreadModel[];
 }

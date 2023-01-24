@@ -80,3 +80,17 @@ export const passwordValidationSchema = Yup.object({
     .required(REPEATE_PASSWORD_MESSAGE)
     .oneOf([Yup.ref('newPassword')], NOTMUTCH_PASSWORD_MESSAGE),
 });
+
+export const createForumValidationSchema = Yup.object({
+  title: Yup.string().required(REQUIRED_VALUE_MESSAGE),
+  description: Yup.string(),
+});
+
+export const createThreadValidationSchema = Yup.object({
+  name: Yup.string().required(REQUIRED_VALUE_MESSAGE),
+  description: Yup.string(),
+});
+
+export const createMessageValidationSchema = Yup.object({
+  message: Yup.string().required(REQUIRED_VALUE_MESSAGE),
+});

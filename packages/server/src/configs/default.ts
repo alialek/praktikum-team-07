@@ -2,7 +2,7 @@ import { join } from 'path';
 import type { AppConfig } from '@/types';
 import { defaultPresets } from './csp/default';
 
-export const PORT = Number(process.env.SERVER_PORT) || 3001;
+export const SERVER_PORT = Number(process.env.SERVER_PORT) || 3001;
 
 export const defaultConfig: AppConfig = {
   csp: {
@@ -23,6 +23,6 @@ export const defaultConfig: AppConfig = {
     format: 'combined',
   },
   server: {
-    port: PORT,
+    port: SERVER_PORT,
   },
 };

@@ -6,9 +6,12 @@ import { ThreadModel } from '@/models/threads';
 import { NotFoundError, ValidationError } from '@/models/error';
 
 const getMessages: RequestHandler = async (_, res) => {
-  const messages = await MessageModel.findAll({ attributes: { exclude: ['updatedAt'] } });
+  const messages = await MessageModel.findAll({
+    attributes: { exclude: ['updatedAt'] },
+    order: [['id', 'ASC']],
+  });
 
-  res.json({ status: 'ok', data: messages });
+  res.json(messages);
 };
 
 const getMessageById: RequestHandler = async (req, res) => {
@@ -19,14 +22,18 @@ const getMessageById: RequestHandler = async (req, res) => {
     attributes: { exclude: ['updatedAt'] },
   });
 
-  res.json({ status: 'ok', data: message });
+  res.json(message);
 };
 
 const createMessage: RequestHandler = async (req, res) => {
   const { message, nickname } = req.body;
   const threadId = req.body.threadId ? Number(req.body.threadId) : null;
 
-  if (!threadId || Number.isNaN(threadId)) {
+  if (!threadId) {
+    throw new ValidationError('threadId is required');
+  }
+
+  if (threadId && Number.isNaN(threadId)) {
     throw new ValidationError('threadId is invalid');
   }
 
@@ -42,7 +49,7 @@ const createMessage: RequestHandler = async (req, res) => {
   });
 
   res.status(StatusCodes.CREATED);
-  res.json({ status: 'ok', data: createdMessage });
+  res.json(createdMessage);
 };
 
 const updateMessage: RequestHandler = async (req, res) => {
@@ -69,7 +76,7 @@ const updateMessage: RequestHandler = async (req, res) => {
     { where: { id: existingMessage.id } },
   );
 
-  res.json({ status: 'ok' });
+  res.sendStatus(StatusCodes.OK);
 };
 
 const deleteMessage: RequestHandler = async (req, res) => {
@@ -82,7 +89,7 @@ const deleteMessage: RequestHandler = async (req, res) => {
 
   await MessageModel.destroy({ where: { id: existingMessage.id } });
 
-  res.json({ status: 'ok' });
+  res.sendStatus(StatusCodes.OK);
 };
 
 export const messagesController = {

@@ -1,0 +1,1 @@
+export { ThreadPageCard } from './ThreadPageCard';
