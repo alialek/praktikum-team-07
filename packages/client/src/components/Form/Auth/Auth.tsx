@@ -41,8 +41,6 @@ export const Auth = () => {
 
   const onSubmit = (formData: SigninInputModel) => {
     dispatch(signin(formData)).then(({ payload }) => {
-      console.log(payload);
-
       if (payload && payload.status === 401) {
         enqueueSnackbar({
           key: v4(),
