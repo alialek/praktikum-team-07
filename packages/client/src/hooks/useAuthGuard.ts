@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SigninPagePath } from '@/router/paths';
 import { getUserInfo, oauthSignIn } from '@/store/user/user.actions';
@@ -13,7 +13,7 @@ export const useAuthGuard = () => {
   const dispatch = useAppDispatch();
 
   const { profile: user } = useAppSelector(showUserData);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const isLoggedIn = Boolean(window.localStorage.getItem('user_in'));
 
   const fetchUserData = async () => {
     const resultAction = await dispatch(getUserInfo());
@@ -34,16 +34,8 @@ export const useAuthGuard = () => {
   };
 
   useEffect(() => {
-    if (!user?.id) {
+    if (!isLoggedIn) {
       handleUserInfo();
-    }
-  }, [user.id]);
-
-  useEffect(() => {
-    const loggedIn = Boolean(window.localStorage.getItem('user_in'));
-
-    if (loggedIn) {
-      setIsLoggedIn(true);
     }
   }, []);
 
