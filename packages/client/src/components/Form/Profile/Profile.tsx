@@ -17,6 +17,7 @@ import Switch, { SwitchProps } from '@mui/material/Switch';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import { profileValidationSchema } from '@/utils/formValidation';
 import { ChangePasswordPagePath } from '@/router/paths';
 import { AvatarModel, UserModel } from '@/models/user.model';
@@ -37,6 +38,8 @@ import { showUserData, fetchUser } from '@/store/user/user.slice';
 import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 import { ProfileService } from '@/api/services/profile';
+import { Notification } from '@/store/alert/alert.slice';
+import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/alert/alert.actions';
 
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -91,6 +94,8 @@ const IOSSwitch = styled((props: SwitchProps) => (
 
 export const Profile = () => {
   const dispatch = useAppDispatch();
+  const enqueueSnackbar = (args: Notification) =>
+    dispatch(enqueueSnackbarAction({ ...args }));
   const { profile: user } = useAppSelector(showUserData);
   const { first_name, second_name, email, phone, login, display_name, avatar } = user;
   const { updateProfile, updateAvatar } = ProfileService;
@@ -145,6 +150,18 @@ export const Profile = () => {
         .then(() => setToggleData(!toggle));
     } else {
       updateProfile(data)
+        .then(({ status }) => {
+          if (status === 200) {
+            enqueueSnackbar({
+              key: v4(),
+              message: 'Профиль отредактирован 💾',
+              options: {
+                key: v4(),
+                variant: 'success',
+              },
+            });
+          }
+        })
         .then(() => {
           dispatch(fetchUser(data));
         })
@@ -169,7 +186,7 @@ export const Profile = () => {
   };
 
   return (
-    <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <form style={{ width: '60%' }} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Paper sx={{ p: 4, m: 2, borderRadius: '16px' }}>
@@ -179,7 +196,7 @@ export const Profile = () => {
               textAlign="left"
               sx={{ textTransform: 'uppercase', fontWeight: '700' }}
             >
-              Аватар 🤳
+              Аватар
             </Typography>
             <Avatar
               register={register}
