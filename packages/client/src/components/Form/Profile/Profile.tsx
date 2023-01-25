@@ -97,7 +97,7 @@ export const Profile = () => {
   const enqueueSnackbar = (args: Notification) =>
     dispatch(enqueueSnackbarAction({ ...args }));
   const { profile: user } = useAppSelector(showUserData);
-  const { first_name, second_name, email, phone, login, display_name, avatar } = user;
+  const { first_name, second_name, email, phone, login, display_name, avatar, id } = user;
   const { updateProfile, updateAvatar } = ProfileService;
 
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
@@ -113,6 +113,7 @@ export const Profile = () => {
     resolver: yupResolver(profileValidationSchema),
     mode: 'onChange',
     defaultValues: {
+      id,
       first_name,
       second_name,
       email,
