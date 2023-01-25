@@ -45,7 +45,7 @@ export const Auth = () => {
         enqueueSnackbar({
           key: v4(),
           // @ts-ignore
-          message: `😐 ${payload.reason}`,
+          message: `😐 ${payload.data.reason}`,
           options: {
             key: v4(),
             variant: 'error',
