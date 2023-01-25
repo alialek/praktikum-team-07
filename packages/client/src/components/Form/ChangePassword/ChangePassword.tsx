@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Button, Card, CardContent, CardActions, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { v4 } from 'uuid';
+import { AxiosError } from 'axios';
 import { passwordValidationSchema } from '@/utils/formValidation';
 import { ProfilePagePath } from '@/router/paths';
 import {
@@ -15,8 +17,15 @@ import { changePasswordStyles } from '@/components/Form/Styles';
 
 import { ProfileService } from '@/api/services/profile';
 import { ChangePasswordModel } from '@/models/user.model';
+import { Notification } from '@/store/alert/alert.slice';
+import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/alert/alert.actions';
+import { useAppDispatch } from '@/hooks';
+import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
 
 export const ChangePassword = () => {
+  const dispatch = useAppDispatch();
+  const enqueueSnackbar = (args: Notification) =>
+    dispatch(enqueueSnackbarAction({ ...args }));
   const { changePassword } = ProfileService;
   const {
     register,
@@ -32,7 +41,31 @@ export const ChangePassword = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { newPasswordRepeat, ...changePasswordRequest } = data;
 
-    changePassword(changePasswordRequest).then(() => reset());
+    changePassword(changePasswordRequest)
+      .then(() => {
+        enqueueSnackbar({
+          key: v4(),
+          message: 'Пароль изменён 🔑',
+          options: {
+            key: v4(),
+            variant: 'success',
+          },
+        });
+      })
+      .then(() => reset())
+      .catch((e: AxiosError) => {
+        const {
+          data: { reason },
+        } = e.response as unknown as KnownError<ErrorNotificationMessage>;
+        enqueueSnackbar({
+          key: v4(),
+          message: `😐 ${reason}`,
+          options: {
+            key: v4(),
+            variant: 'error',
+          },
+        });
+      });
   };
 
   return (

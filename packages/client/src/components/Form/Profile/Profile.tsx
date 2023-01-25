@@ -190,14 +190,6 @@ export const Profile = () => {
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Paper sx={{ p: 4, m: 2, borderRadius: '16px' }}>
-            <Typography
-              variant="h5"
-              padding="0 0 32px 0"
-              textAlign="left"
-              sx={{ textTransform: 'uppercase', fontWeight: '700' }}
-            >
-              Аватар
-            </Typography>
             <Avatar
               register={register}
               avatar={avatar}
