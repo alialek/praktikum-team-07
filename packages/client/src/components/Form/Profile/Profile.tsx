@@ -5,17 +5,20 @@ import {
   TextField,
   Card,
   CardContent,
-  CardActions,
-  Stack,
   Box,
   CardMedia,
   Typography,
+  FormControlLabel,
+  Grid,
+  Paper,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Switch, { SwitchProps } from '@mui/material/Switch';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { profileValidationSchema } from '@/utils/formValidation';
-import { ChangePasswordPagePath, RootPath } from '@/router/paths';
+import { ChangePasswordPagePath } from '@/router/paths';
 import { AvatarModel, UserModel } from '@/models/user.model';
 import {
   FIRST_NAME_FIELD_LABEL,
@@ -24,7 +27,6 @@ import {
   PHONE_FIELD_LABEL,
   LOGIN_FIELD_LABEL,
   PROFILE_CHANGE_DATA,
-  BACK_TEXT,
   DISPLAY_NAME_FIELD_LABEL,
   EDIT_CHANGE_DATA,
   AVATAR_TEXT,
@@ -36,6 +38,57 @@ import { profileStyles } from '@/components/Form/Styles';
 import { Avatar } from '@/components/Avatar';
 import { ProfileService } from '@/api/services/profile';
 
+const IOSSwitch = styled((props: SwitchProps) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
+  width: 42,
+  height: 26,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    margin: 2,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
+        opacity: 1,
+        border: 0,
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.5,
+      },
+    },
+    '&.Mui-focusVisible .MuiSwitch-thumb': {
+      color: '#33cf4d',
+      border: '6px solid #fff',
+    },
+    '&.Mui-disabled .MuiSwitch-thumb': {
+      color:
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600],
+    },
+    '&.Mui-disabled + .MuiSwitch-track': {
+      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxSizing: 'border-box',
+    width: 22,
+    height: 22,
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 26 / 2,
+    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+    opacity: 1,
+    transition: theme.transitions.create(['background-color'], {
+      duration: 500,
+    }),
+  },
+}));
+
 export const Profile = () => {
   const dispatch = useAppDispatch();
   const { profile: user } = useAppSelector(showUserData);
@@ -43,7 +96,7 @@ export const Profile = () => {
   const { updateProfile, updateAvatar } = ProfileService;
 
   const [selectedFile, setSelectedFile] = useState<Blob | MediaSource>();
-  const [edit, setEdit] = useState<boolean>(false);
+  const [toggle, setToggleData] = useState<boolean>(false);
   const [newAvatar, setNewAvatar] = useState<AvatarModel | null>(null);
   const [preview, setPreview] = useState<string | undefined>();
 
@@ -79,7 +132,7 @@ export const Profile = () => {
   }, [selectedFile]);
 
   const onSubmit = (data: UserModel) => {
-    if (typeof data.avatar[0] === 'object') {
+    if (data.avatar !== null) {
       const formData = new FormData();
       formData.append('avatar', data.avatar[0]);
       updateProfile(data)
@@ -89,13 +142,13 @@ export const Profile = () => {
           dispatch(fetchUser({ ...data, avatar: payload.avatar }));
         })
         .then(() => setNewAvatar(null))
-        .then(() => setEdit(!edit));
+        .then(() => setToggleData(!toggle));
     } else {
       updateProfile(data)
         .then(() => {
           dispatch(fetchUser(data));
         })
-        .then(() => setEdit(!edit));
+        .then(() => setToggleData(!toggle));
     }
   };
 
@@ -112,146 +165,180 @@ export const Profile = () => {
   };
 
   const handleEditProfile = () => {
-    setEdit(true);
+    setToggleData(!toggle);
   };
 
   return (
-    <Card sx={profileStyles.card}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <Avatar
-          register={register}
-          avatar={avatar}
-          disabled={!edit}
-          onChangeAvatar={handleChangeAvatar}
-        />
-        {newAvatar ? (
-          <Box sx={profileStyles.avatarBlock}>
-            <Card variant="outlined">
-              <CardMedia
-                component="img"
-                height="140"
-                src={preview as string}
-                alt="Новый аватар"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {AVATAR_TEXT}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {`${newAvatar.name} - ${(newAvatar.size / (1024 * 1024)).toFixed(
-                    2,
-                  )} MB`}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        ) : null}
-        <CardContent>
-          <Typography variant="h1" padding="0 0 32px 0" textAlign="center">
-            Привет, {first_name} 🤘
-          </Typography>
-          <Stack direction="column" spacing={2}>
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
-              id="profileFirstName"
-              label={FIRST_NAME_FIELD_LABEL}
-              {...register('first_name')}
-              error={!!errors?.first_name}
-              helperText={errors.first_name?.message}
-              fullWidth
-            />
-
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
-              id="profileSecondName"
-              label={SECOND_NAME_FIELD_LABEL}
-              {...register('second_name')}
-              error={!!errors.second_name}
-              helperText={errors.second_name?.message}
-              fullWidth
-            />
-
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
-              id="profileEmail"
-              label={EMAIL_FIELD_LABEL}
-              {...register('email')}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              fullWidth
-            />
-
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
-              id="profilePhone"
-              label={PHONE_FIELD_LABEL}
-              {...register('phone')}
-              error={!!errors.phone}
-              helperText={errors.phone?.message}
-              fullWidth
-            />
-
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
-              id="profileLogin"
-              label={LOGIN_FIELD_LABEL}
-              {...register('login')}
-              error={!!errors.login}
-              helperText={errors.login?.message}
-              fullWidth
-            />
-
-            <TextField
-              disabled={!edit}
-              variant="filled"
-              type="text"
-              id="display_name"
-              label={DISPLAY_NAME_FIELD_LABEL}
-              {...register('display_name')}
-              error={!!errors.display_name}
-              helperText={errors.display_name?.message}
-              fullWidth
-            />
-          </Stack>
-        </CardContent>
-        <CardActions>
-          <Stack sx={profileStyles.btnBlock} direction="column" width="100%">
-            <Button onClick={handleEditProfile} sx={profileStyles.link}>
-              {EDIT_CHANGE_DATA}
-            </Button>
-
-            <Button
-              type="submit"
-              disabled={!isDirty || !isValid}
-              sx={profileStyles.button}
+    <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <Paper sx={{ p: 4, m: 2, borderRadius: '16px' }}>
+            <Typography
+              variant="h5"
+              padding="0 0 32px 0"
+              textAlign="left"
+              sx={{ textTransform: 'uppercase', fontWeight: '700' }}
             >
-              {PROFILE_CHANGE_DATA}
-            </Button>
-
-            <Button
-              component={Link}
-              to={ChangePasswordPagePath.path}
-              sx={profileStyles.button}
+              Аватар 🤳
+            </Typography>
+            <Avatar
+              register={register}
+              avatar={avatar}
+              disabled={!toggle}
+              onChangeAvatar={handleChangeAvatar}
+            />
+            {newAvatar ? (
+              <Box sx={profileStyles.avatarBlock}>
+                <Card variant="outlined">
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    src={preview as string}
+                    alt="Новый аватар"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {AVATAR_TEXT}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {`${newAvatar.name} - ${(newAvatar.size / (1024 * 1024)).toFixed(
+                        2,
+                      )} MB`}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            ) : (
+              <div />
+            )}
+          </Paper>
+        </Grid>
+        <Grid item xs={8}>
+          <Paper sx={{ p: 4, m: 2, borderRadius: '16px' }}>
+            <Typography
+              variant="h4"
+              padding="0 0 32px 0"
+              textAlign="left"
+              sx={{ textTransform: 'uppercase', fontWeight: '700' }}
             >
-              {CHANGE_PASSWORD_TEXT}
-            </Button>
-
-            <Button component={Link} to={RootPath.path} sx={profileStyles.link}>
-              {BACK_TEXT}
-            </Button>
-          </Stack>
-        </CardActions>
-      </form>
-    </Card>
+              Привет, {first_name} 🤘
+            </Typography>
+            <Grid container spacing={2} direction="column">
+              <Grid item xs={12} container>
+                <Grid item xs={4}>
+                  <FormControlLabel
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        checked={toggle}
+                        onChange={handleEditProfile}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                      />
+                    }
+                    label={EDIT_CHANGE_DATA}
+                  />
+                </Grid>
+                <Grid item xs={8} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button
+                    component={Link}
+                    to={ChangePasswordPagePath.path}
+                    sx={profileStyles.button}
+                  >
+                    {CHANGE_PASSWORD_TEXT}
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled={!toggle}
+                  variant="outlined"
+                  type="text"
+                  id="profileFirstName"
+                  label={FIRST_NAME_FIELD_LABEL}
+                  {...register('first_name')}
+                  error={!!errors?.first_name}
+                  helperText={errors.first_name?.message}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled={!toggle}
+                  variant="outlined"
+                  type="text"
+                  id="profileSecondName"
+                  label={SECOND_NAME_FIELD_LABEL}
+                  {...register('second_name')}
+                  error={!!errors.second_name}
+                  helperText={errors.second_name?.message}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled={!toggle}
+                  variant="outlined"
+                  type="text"
+                  id="profileEmail"
+                  label={EMAIL_FIELD_LABEL}
+                  {...register('email')}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled={!toggle}
+                  variant="outlined"
+                  type="text"
+                  id="profilePhone"
+                  label={PHONE_FIELD_LABEL}
+                  {...register('phone')}
+                  error={!!errors.phone}
+                  helperText={errors.phone?.message}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled={!toggle}
+                  variant="outlined"
+                  type="text"
+                  id="profileLogin"
+                  label={LOGIN_FIELD_LABEL}
+                  {...register('login')}
+                  error={!!errors.login}
+                  helperText={errors.login?.message}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  disabled={!toggle}
+                  variant="outlined"
+                  type="text"
+                  id="display_name"
+                  label={DISPLAY_NAME_FIELD_LABEL}
+                  {...register('display_name')}
+                  error={!!errors.display_name}
+                  helperText={errors.display_name?.message}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  disabled={!isDirty || !isValid}
+                  sx={{ opacity: toggle ? '1' : '0' }}
+                >
+                  {PROFILE_CHANGE_DATA}
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
+    </form>
   );
 };
