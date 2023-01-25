@@ -6,16 +6,7 @@ export const CLOSE_SNACKBAR = 'closeSnackbar';
 export const REMOVE_SNACKBAR = 'removeSnackbar';
 
 const initialState: NotificationList = {
-  notifications: [
-    {
-      key: v4(),
-      message: 'Добро пожаловать 🤘',
-      options: {
-        key: v4(),
-        variant: 'success',
-      },
-    },
-  ],
+  notifications: [] as Notification[],
 };
 
 const snackbarSlice = createSlice({

@@ -28,7 +28,7 @@ const Notifier = () => {
       enqueueSnackbar(message, {
         key,
         ...options,
-        autoHideDuration: 1500,
+        autoHideDuration: 2500,
         onExited: (event, myKey) => {
           // remove this snackbar from redux store
           dispatch(removeSnackbar(myKey));

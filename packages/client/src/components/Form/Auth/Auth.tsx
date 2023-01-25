@@ -59,7 +59,7 @@ export const Auth = () => {
       if (status === 401) {
         enqueueSnackbar({
           key: v4(),
-          message: reason,
+          message: `😐 ${reason}`,
           options: {
             key: v4(),
             variant: 'error',
