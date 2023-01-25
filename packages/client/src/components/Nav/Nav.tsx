@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
@@ -9,16 +6,22 @@ import { AccountCircle } from '@mui/icons-material';
 import { LOGOUT_TEXT } from '@/сonstants/text';
 import { AuthService } from '@/api/services/auth';
 import { headerStyles } from '@/components/Header/Styles';
-import { AppDispatch } from '@/store/store';
 import colors from '@/colors';
 import { SETTINGS } from '@/components/Nav/settings';
-import { window } from '@/utils/ssrWindow';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { removeUser, showUserData } from '@/store/user/user.slice';
 
 export const Nav = () => {
-  const dispatch = useDispatch<ThunkDispatch<AppDispatch, Promise<AxiosResponse>, any>>();
-  const isLoggedIn = Boolean(window.localStorage.getItem('user_in'));
+  const { profile: user } = useAppSelector(showUserData);
+  const dispatch = useAppDispatch();
 
-  const handleClickLogout = () => dispatch(AuthService.logout());
+  const isLoggedIn = Boolean(user.id);
+
+  const handleClickLogout = () => {
+    AuthService.logout();
+    localStorage.removeItem('user_in');
+    dispatch(removeUser());
+  };
 
   return isLoggedIn ? (
     <>

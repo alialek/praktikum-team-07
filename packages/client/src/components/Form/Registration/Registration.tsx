@@ -19,12 +19,11 @@ import {
   PASSWORD_FIELD_LABEL,
 } from '@/сonstants/text';
 import { loginFormStyles } from '@/components/Form/Styles';
-import { signup } from '@/store/user/user.actions';
+import { getUserInfo, signup } from '@/store/user/user.actions';
 import { window } from '@/utils/ssrWindow';
 import { AppDispatch, RootState } from '@/store/store';
 import { Notification } from '@/store/alert/alert.slice';
 import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/alert/alert.actions';
-import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
 
 export const Registration = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -51,19 +50,19 @@ export const Registration = () => {
 
   const onSubmit = (formData: SignupInputModel) => {
     dispatch(signup(formData)).then(({ payload }) => {
-      const {
-        status,
-        data: { reason },
-      } = payload as unknown as KnownError<ErrorNotificationMessage>;
-      if (status === 401) {
+      if (payload && payload.status === 401) {
         enqueueSnackbar({
           key: v4(),
-          message: reason,
+          // @ts-ignore
+          message: payload?.reason,
           options: {
             key: v4(),
             variant: 'error',
           },
         });
+      } else if (payload && payload.status === 200) {
+        navigate(RootPath.path, { replace: true });
+        dispatch(getUserInfo());
       }
     });
   };

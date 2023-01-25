@@ -6,14 +6,15 @@ import { AuthService } from '@/api/services/auth';
 import { OauthSingInModel } from '@/models/oauth.model';
 import { OauthService } from '@/api/services/oauth';
 import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
+import { ApiResponse } from '@/api/client';
 
 export const signin = createAsyncThunk<
-  SigninInputModel,
+  ApiResponse<SigninInputModel>,
   SigninInputModel,
   { rejectValue: KnownError<ErrorNotificationMessage> }
 >('user/signin', async (payload: SigninInputModel, thunkApi) => {
   try {
-    const { data } = await AuthService.signin(payload);
+    const data = await AuthService.signin(payload);
     return data;
   } catch (err) {
     const error: AxiosError<ErrorNotificationMessage> = err as any;
@@ -27,12 +28,12 @@ export const signin = createAsyncThunk<
 });
 
 export const signup = createAsyncThunk<
-  SignupInputModel,
+  ApiResponse<SignupInputModel>,
   SignupInputModel,
   { rejectValue: KnownError<ErrorNotificationMessage> }
 >('user/signup', async (payload: SignupInputModel, thunkApi) => {
   try {
-    const { data } = await AuthService.signup(payload);
+    const data = await AuthService.signup(payload);
     return data;
   } catch (err) {
     const error: AxiosError<ErrorNotificationMessage> = err as any;

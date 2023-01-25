@@ -11,13 +11,14 @@ import { mainStyles } from '../../../StyleMain';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { notistackConfig } from '@/configs/Notistack.config';
 import Notifier from '@/ui/elements/Notifier';
+import { AUTH_STATUS } from '@/сonstants/main';
 
 function Main() {
   const routing = useRoutes(router());
 
-  useAuthGuard();
+  const [auth] = useAuthGuard();
 
-  return routing;
+  return auth === AUTH_STATUS.UNKNOWN ? null : routing;
 }
 export const App = () => {
   return (

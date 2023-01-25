@@ -2,8 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Stack, CardContent, CardActions } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 import { SigninInputModel } from '@/models/auth.model';
 import { SignupPagePath, RootPath } from '@/router/paths';
@@ -17,21 +16,19 @@ import {
 import { signinFormValidationSchema } from '@/utils/formValidation';
 import { loginFormStyles } from '@/components/Form/Styles';
 import { getUserInfo, signin } from '@/store/user/user.actions';
-import { AppDispatch, RootState } from '@/store/store';
+import { AppDispatch } from '@/store/store';
 import YandexIcon from '../../../assets/images/Yandex_icon.svg';
 import { OauthService } from '@/api/services/oauth';
 import { REDIRECT_URI } from '@/сonstants/main';
 import { enqueueSnackbar as enqueueSnackbarAction } from '@/store/alert/alert.actions';
 import { window } from '@/utils/ssrWindow';
 import { Notification } from '@/store/alert/alert.slice';
-import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
 
 export const Auth = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const enqueueSnackbar = (args: Notification) =>
     dispatch(enqueueSnackbarAction({ ...args }));
-  const isLoggedIn = useSelector((state: RootState) => state.user.isAuth);
 
   const {
     register,
@@ -42,29 +39,21 @@ export const Auth = () => {
     mode: 'onChange',
   });
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      window.localStorage.setItem('user_in', JSON.stringify(isLoggedIn));
-      navigate(RootPath.path, { replace: true });
-      dispatch(getUserInfo());
-    }
-  }, [dispatch, isLoggedIn, navigate]);
-
   const onSubmit = (formData: SigninInputModel) => {
     dispatch(signin(formData)).then(({ payload }) => {
-      const {
-        status,
-        data: { reason },
-      } = payload as unknown as KnownError<ErrorNotificationMessage>;
-      if (status === 401) {
+      if (payload && payload.status === 401) {
         enqueueSnackbar({
           key: v4(),
-          message: `😐 ${reason}`,
+          // @ts-ignore
+          message: `😐 ${payload.reason}`,
           options: {
             key: v4(),
             variant: 'error',
           },
         });
+      } else if (payload && payload.status === 200) {
+        navigate(RootPath.path, { replace: true });
+        dispatch(getUserInfo());
       }
     });
   };

@@ -25,3 +25,9 @@ export const OAUTH_GET_ACCESS_TOKEN = '/oauth/yandex';
 
 export const PHONE_REGEX =
   /^(\+7|7|8)?[\s\\-]?\(?[489][0-9]{2}\)?[\s\\-]?[0-9]{3}[\s\\-]?[0-9]{2}[\s\\-]?[0-9]{2}$/;
+
+export const AUTH_STATUS = {
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  AUTHORIZED: 'AUTHORIZED',
+  UNKNOWN: 'UNKNOWN',
+};
