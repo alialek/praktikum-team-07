@@ -8,13 +8,19 @@ import { AuthService } from '@/api/services/auth';
 import { headerStyles } from '@/components/Header/Styles';
 import colors from '@/colors';
 import { SETTINGS } from '@/components/Nav/settings';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { removeUser, showUserData } from '@/store/user/user.slice';
 
 export const Nav = () => {
-  const isLoggedIn = Boolean(localStorage.getItem('user_in'));
+  const { profile: user } = useAppSelector(showUserData);
+  const dispatch = useAppDispatch();
+
+  const isLoggedIn = Boolean(user.id);
 
   const handleClickLogout = () => {
     AuthService.logout();
     localStorage.removeItem('user_in');
+    dispatch(removeUser());
   };
 
   return isLoggedIn ? (

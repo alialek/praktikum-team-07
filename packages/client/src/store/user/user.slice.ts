@@ -30,6 +30,9 @@ export const userSlice = createSlice({
       const { payload } = param;
       state.profile = { ...payload };
     },
+    removeUser: (state) => {
+      state.profile = initialState.profile;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signin.pending, (state) => {
@@ -74,7 +77,7 @@ export const userSlice = createSlice({
 const { actions, reducer } = userSlice;
 
 export const showUserData = (state: RootState) => state.user;
-export const { setIsLoggedIn, fetchUser } = actions;
+export const { setIsLoggedIn, fetchUser, removeUser } = actions;
 export default reducer;
 
 export interface ErrorNotificationMessage {
