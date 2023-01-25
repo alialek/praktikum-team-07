@@ -19,21 +19,19 @@ export const Nav = () => {
 
   return isLoggedIn ? (
     <>
-      {SETTINGS.map(({ title, link }) => {
-        return (
-          <Link
-            to={link}
-            underline="none"
-            component={RouterLink}
-            key={title}
-            onClick={title === LOGOUT_TEXT ? handleClickLogout : undefined}
-          >
-            <Typography color="primary" sx={headerStyles.navItem}>
-              {title}
-            </Typography>
-          </Link>
-        );
-      })}
+      {SETTINGS.map(({ title, link }) => (
+        <Link
+          to={link}
+          underline="none"
+          component={RouterLink}
+          key={title}
+          onClick={title === LOGOUT_TEXT ? handleClickLogout : undefined}
+        >
+          <Typography color="primary" sx={headerStyles.navItem}>
+            {title}
+          </Typography>
+        </Link>
+      ))}
       <AccountCircle htmlColor={colors.avaBG} fontSize="large" />
     </>
   ) : (
