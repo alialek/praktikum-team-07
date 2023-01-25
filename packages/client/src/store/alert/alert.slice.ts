@@ -6,7 +6,7 @@ export const CLOSE_SNACKBAR = 'closeSnackbar';
 export const REMOVE_SNACKBAR = 'removeSnackbar';
 
 const initialState: NotificationList = {
-  notifications: [],
+  notifications: [] as Notification[],
 };
 
 const snackbarSlice = createSlice({
@@ -66,5 +66,5 @@ export interface Notification {
 }
 
 interface NotificationList {
-  notifications: Notification[] | any[];
+  notifications: Notification[];
 }

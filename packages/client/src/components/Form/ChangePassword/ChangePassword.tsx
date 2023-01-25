@@ -38,10 +38,9 @@ export const ChangePassword = () => {
   });
 
   const onSubmit = (data: ChangePasswordModel) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { newPasswordRepeat, ...changePasswordRequest } = data;
+    const { oldPassword, newPassword } = data;
 
-    changePassword(changePasswordRequest)
+    changePassword({ oldPassword, newPassword })
       .then(() => {
         enqueueSnackbar({
           key: v4(),
