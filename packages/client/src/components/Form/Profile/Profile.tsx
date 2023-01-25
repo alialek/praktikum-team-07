@@ -142,9 +142,18 @@ export const Profile = () => {
       formData.append('avatar', data.avatar[0]);
       updateProfile(data)
         .then(() => updateAvatar<UserModel>(formData))
-        .then((res) => {
-          const { data: payload } = res;
+        .then(({ data: payload, status }) => {
           dispatch(fetchUser({ ...data, avatar: payload.avatar }));
+          if (status === 200) {
+            enqueueSnackbar({
+              key: v4(),
+              message: 'Профиль отредактирован 💾',
+              options: {
+                key: v4(),
+                variant: 'success',
+              },
+            });
+          }
         })
         .then(() => setNewAvatar(null))
         .then(() => setToggleData(!toggle));
