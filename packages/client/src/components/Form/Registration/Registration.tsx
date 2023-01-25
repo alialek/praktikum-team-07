@@ -50,10 +50,10 @@ export const Registration = () => {
 
   const onSubmit = (formData: SignupInputModel) => {
     dispatch(signup(formData)).then(({ payload }) => {
-      if (payload && 'reason' in payload && payload.status === 401) {
+      if (payload && 'reason' in payload && payload?.status === 401) {
         enqueueSnackbar({
           key: v4(),
-          message: payload.reason as string,
+          message: payload?.reason as string,
           options: {
             key: v4(),
             variant: 'error',
