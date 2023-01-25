@@ -9,7 +9,7 @@ import { ErrorNotificationMessage, KnownError } from '@/store/user/user.slice';
 import { ApiResponse } from '@/api/client';
 
 export const signin = createAsyncThunk<
-  ApiResponse<string>,
+  ApiResponse<SigninInputModel>,
   SigninInputModel,
   { rejectValue: KnownError<ErrorNotificationMessage> }
 >('user/signin', async (payload: SigninInputModel, thunkApi) => {
@@ -28,7 +28,7 @@ export const signin = createAsyncThunk<
 });
 
 export const signup = createAsyncThunk<
-  ApiResponse<string>,
+  ApiResponse<SignupInputModel>,
   SignupInputModel,
   { rejectValue: KnownError<ErrorNotificationMessage> }
 >('user/signup', async (payload: SignupInputModel, thunkApi) => {
